@@ -5,8 +5,9 @@
 * Gimp
 * Box2D
 * LibGDX
+* AndroidStudio
 
-### DescripciÃ³n ###
+### Descripción ###
 
 * Aventura 2d plataformas-puzzle
 * mas tarde cooperativo.
@@ -21,7 +22,7 @@
 * se puede saltar(pero poco).
 * hay limite de tiempo.
 * muerte por caida
-* pero si caes en un compaÃ±ero puede que no mueras matandolo a el.
+* pero si caes en un compañero puede que no mueras matandolo a el.
 * Bonus Stages(Modo deathmatch.(Vasijas))	
 
 ### Elementos ###
