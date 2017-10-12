@@ -16,7 +16,7 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 * Gimp
 * Box2D
 * LibGDX
-* AndroidStudio
+* Android Studio
 * Git / GitKraken
 
 ### Preparación del entorno de desarrollo ###
@@ -32,19 +32,11 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
     * Pulsar el icono de carpeta de la parte superior izquierda de la ventana principal
     * Seleccionar "clone" y veremos todos los repositorios a los que tenemos acceso desde nuestra cuenta de BitBucket. Desde aquí seleccionaremos el repositorio y la carpeta en la que queremos clonarlo
 
-Y en función del IDE que utilicemos:
-
-* Android Studio:
-  * Configurarlo para que conozca la localización del comando"git" Git que tenemos instalado (en Linux en mi caso lo autodetecta bien, en Windows parece que hay que indicarle desde las preferencias del IDE dónde está git.exe)
-    * Importar el proyecto Gradle desde Android Studio pulsando "Import proyect" y seleccionando la carpeta "game" que acabamos de clonar
-  * En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
-  * Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
-
-* IntelliJ IDEA:
-  * Instalar Gradle
-  * Importar proyecto: Seleccionar "Import Project", seleccionamos la carpeta "game", Import proyect from external Gradle model
-  * En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
-  * Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
+Configuramos Android Studio:
+* Si es necesario lo configuramos para que conozca la localización del comando "git" (en Linux por defecto parece que lo autodetecta, en Windows podría ser necesario indicarle desde las preferencias del IDE dónde está git.exe)
+* Importamos el proyecto Gradle desde Android Studio pulsando "Import project" y seleccionando la carpeta "game" que acabamos de clonar
+* En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
+* Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
 
 ### Estructura general del repositorio ###
 
@@ -65,16 +57,18 @@ En la carpeta raiz se encontrará:
 
 ### Elementos ###
 
-Elementos que se pueden encontrar formando parte de los distintos niveles:
+Formando parte de los distintos niveles podremos encontrar distintos tipos de elementos
 
-* Elementos necesarios (en todos los niveles):
-  * Posición de spawn
-  * Meta
+Elementos necesarios (en todos los niveles):
+
+* Posición de spawn
+* Meta
   
-* Elementos opcionales (según nivel):
-  * Bloques que se hunden con el peso
-  * Trampolines
-  * Lava, pinchos
+Elementos opcionales (según nivel):
+
+* Bloques que se hunden con el peso
+* Trampolines
+* Lava, pinchos
 
 ### Brainstorming ###
 
