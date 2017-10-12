@@ -6,7 +6,7 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 * Aventura 2d plataformas-puzzle
 * Gameplay que incentivará la cooperación para resolver cada nivel
 * Fisicas y graficos por tiles
-* Screen 16:9 1920x1080
+* Pantalla 16:9 1920x1080 (aunque durante el desarrollo por comodidad podemos utilizar 1280x720)
 * Niveles sin scroll / one screener
 * Graficos verde monocromo
 
@@ -70,11 +70,11 @@ Elementos que se pueden encontrar formando parte de los distintos niveles:
   
 * Elementos opcionales (según nivel):
   * Bloques que se hunden con el peso
-  * Trampolines.
-  * Lava , pinchos
+  * Trampolines
+  * Lava, pinchos
 
 ### Brainstorming ###
 
-* random generated zone.
-* Quien gane se lleva una corona cosmetica.
-* Editor de niveles online.
+* Generación procedural de niveles (aleatoria)
+* Quien gane se lleva una corona cosmetica
+* Editor de niveles online
