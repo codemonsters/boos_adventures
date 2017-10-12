@@ -14,6 +14,7 @@ import es.codemonsters.boosadventures.screens.MenuScreen;
 
 public class MyGdxGame extends Game {
 	public static final String nombreDelJuego = "Boo's Adventures";
+	public static final String versionDelJuego = "0.1a";
 
 	private SpriteBatch batch;
 	private FreeTypeFontGenerator fontGenerator;
@@ -36,7 +37,7 @@ public class MyGdxGame extends Game {
 		// Configuramos la fuente por defecto
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("monofonto.ttf"));
 		fontGeneratorDefaultParameters = new FreeTypeFontParameter();
-		fontGeneratorDefaultParameters.size = 12;
+		fontGeneratorDefaultParameters.size = 16;
 		//fontGeneratorDefaultParameters.color = Color.GREEN;
 		bitmapFont = fontGenerator.generateFont(fontGeneratorDefaultParameters);
 		bitmapFont.setColor(Color.GREEN);

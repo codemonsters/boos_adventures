@@ -13,6 +13,7 @@ public class MenuScreen implements Screen {
     private MyGdxGame game;
     private OrthographicCamera camera;
     private Viewport viewport;
+    private float tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante;
 
     public MenuScreen(final MyGdxGame game) {
         this.game = game;
@@ -24,6 +25,7 @@ public class MenuScreen implements Screen {
     @Override
     public void show() {
         // TODO Auto-generated method stub
+        tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
 
     }
 
@@ -36,7 +38,20 @@ public class MenuScreen implements Screen {
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         game.getSpriteBatch().begin();
-        game.getBitmapFont().draw(game.getSpriteBatch(), "Welcome", 100, 150);  // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
+        // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
+        game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> PREPARADO", 100, 160);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> INSTALA LA APLICACION ANDROID PARA JUGAR", 100, 130);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESPERANDO CONEXION DE JUGADORES...", 100, 100);
+
+        // Cursor parpadeando
+        tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante += delta;
+        if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante>0.6) {
+            game.getBitmapFont().draw(game.getSpriteBatch(), "_", 390, 102);
+            if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante > 1.2) {
+                tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
+            }
+        }
         game.getSpriteBatch().end();
 
         /*
