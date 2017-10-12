@@ -3,6 +3,7 @@
 ### Descripción ###
 
 Juego cooperativo en 2D con soporte multijugador mediante bluetooth
+
 * Aventura 2d plataformas-puzzle
 * Gameplay que incentivará la cooperación para resolver cada nivel
 * Fisicas y graficos por tiles
@@ -30,18 +31,20 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
       * Accedemos a las preferencias de GitKraken (menú file / preferences) y allí "Authentication" y "BitBucket". Pulsamos "Connect" y se abrirá un navegador para permitirnos autorizar a GitKraken para que acceda a nuestra cuenta de BitBucket
     * Pulsar el icono de carpeta de la parte superior izquierda de la ventana principal
     * Seleccionar "clone" y veremos todos los repositorios a los que tenemos acceso desde nuestra cuenta de BitBucket. Desde aquí seleccionaremos el repositorio y la carpeta en la que queremos clonarlo
-* En función del IDE que utilicemos:
-  * Android Studio:
-    * Configurarlo para que conozca la localización del comando"git" Git que tenemos instalado (en Linux en mi caso lo autodetecta bien, en Windows parece que hay que indicarle desde las preferencias del IDE dónde está git.exe)
-	* Importar el proyecto Gradle desde Android Studio pulsando "Import proyect" y seleccionando la carpeta "game" que acabamos de clonar
-    * En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
-    * Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
-  * IntelliJ IDEA:
-    * Instalar Gradle
-    * Importar proyecto: Seleccionar "Import Proyect", seleccionamos la carpeta "game", Import proyect from external Gradle model
-	* En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
-    * Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
-	* En los settings de los proyectos "desktop" y "core" indicamos el JDK a utilizar (ej: 1.8)
+
+Y en función del IDE que utilicemos:
+
+* Android Studio:
+  * Configurarlo para que conozca la localización del comando"git" Git que tenemos instalado (en Linux en mi caso lo autodetecta bien, en Windows parece que hay que indicarle desde las preferencias del IDE dónde está git.exe)
+    * Importar el proyecto Gradle desde Android Studio pulsando "Import proyect" y seleccionando la carpeta "game" que acabamos de clonar
+  * En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
+  * Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
+
+* IntelliJ IDEA:
+  * Instalar Gradle
+  * Importar proyecto: Seleccionar "Import Project", seleccionamos la carpeta "game", Import proyect from external Gradle model
+  * En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
+  * Creamos una nueva configuración de ejecución (run configuration): Edit configurations / pulsamos el "+" / seleccionamos "Application" y rellenamos: name=desktop, Main class=...DesktopLauncher, Working directory: la carpeta assets dentro del proyecto core, Use classpath of mod: seleccionamos el módulo desktop
 
 ### Estructura general del repositorio ###
 
@@ -78,3 +81,4 @@ Elementos que se pueden encontrar formando parte de los distintos niveles:
 * Generación procedural de niveles (aleatoria)
 * Quien gane se lleva una corona cosmetica
 * Editor de niveles online
+
