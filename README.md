@@ -33,6 +33,7 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
     * Seleccionar "clone" y veremos todos los repositorios a los que tenemos acceso desde nuestra cuenta de BitBucket. Desde aquí seleccionaremos el repositorio y la carpeta en la que queremos clonarlo
 
 Configuramos Android Studio:
+
 * Si es necesario lo configuramos para que conozca la localización del comando "git" (en Linux por defecto parece que lo autodetecta, en Windows podría ser necesario indicarle desde las preferencias del IDE dónde está git.exe)
 * Importamos el proyecto Gradle desde Android Studio pulsando "Import project" y seleccionando la carpeta "game" que acabamos de clonar
 * En la ventana que indica "Unregistered VCS root detected" pulsamos "add root" para que IntelliJ reconozca nuestro repositorio Git
