@@ -41,13 +41,14 @@ public class MenuScreen implements Screen {
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
         game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> PREPARADO", 100, 160);
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> INSTALA LA APLICACION ANDROID PARA JUGAR", 100, 130);
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESPERANDO CONEXION DE JUGADORES...", 100, 100);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> INSTALA LA APLICACION ANDROID PARA CONECTARTE AL JUEGO", 100, 130);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESPERANDO JUGADORES...", 100, 100);
+        game.getBitmapFont().draw(game.getSpriteBatch(), ">", 100, 70);
 
         // Cursor parpadeando
         tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante += delta;
         if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante>0.6) {
-            game.getBitmapFont().draw(game.getSpriteBatch(), "_", 390, 102);
+            game.getBitmapFont().draw(game.getSpriteBatch(), "_", 117, 72);
             if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante > 1.2) {
                 tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
             }
