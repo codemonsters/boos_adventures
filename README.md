@@ -59,21 +59,6 @@ En la carpeta raiz se encontrará:
 * Pero si caes encima de un compañero puede que no mueras pero él sí
 * Bonus stages: Modo deathmatch (Vasijas)
 
-### Elementos ###
-
-Formando parte de los distintos niveles podremos encontrar distintos tipos de elementos
-
-Elementos necesarios (en todos los niveles):
-
-* Posición de spawn
-* Meta
-  
-Elementos opcionales (según nivel):
-
-* Bloques que se hunden con el peso
-* Trampolines
-* Lava, pinchos
-
 ### Brainstorming ###
 
 * Generación procedural de niveles (aleatoria)
