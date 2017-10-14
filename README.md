@@ -49,19 +49,3 @@ En la carpeta raiz se encontrará:
 * README.md (este archivo)
 * game: proyecto LibGDX que contiene el juego principal
 * bluetooth_controller: Aplicación móvil que permite conectarse al juego desde un dispositivo móvil y controlar los movimientos mediante su pantalla táctil
-
-### Mecánica de juego ###
-
-* Objetivo de cada nivel: Los jugadores comienzan desde una posición de spawn y tienen que llegar todos vivos a la meta
-* Los jugadores pueden saltar (pero poco)
-* Hay un limite de tiempo para superar cada nivel
-* Los jugadores podrían perder una vida si al caer sufren un golpe grande (o hacer que pierda otro si le caen encima con suficiente fuerza)
-* Pero si caes encima de un compañero puede que no mueras pero él sí
-* Bonus stages: Modo deathmatch (Vasijas)
-
-### Brainstorming ###
-
-* Generación procedural de niveles (aleatoria)
-* Quien gane se lleva una corona cosmetica
-* Editor de niveles online
-
