@@ -12,6 +12,7 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 * Niveles sin scroll / one screener
 * Graficos verde monocromo
 
+Más información en el [wiki del proyecto](https://bitbucket.org/Code_Monsters/boos_adventures/wiki/)
 ### Herramientas ###
 
 * LibGDX
