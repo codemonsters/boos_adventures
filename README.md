@@ -4,8 +4,9 @@
 
 Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 
-* Aventura 2d plataformas-puzzle
+* Aventura 2D plataformas-puzzle multijudaro
 * Gameplay que incentivará la cooperación para resolver cada nivel
+* Control del juego desde aplicación Android con conexión bluetooth y también a través del teclado (útil durante el desarrollo para controlar dos o tres jugadores)
 * Fisicas y graficos por tiles
 * Pantalla 16:9 1920x1080 (aunque durante el desarrollo por comodidad podemos utilizar 1280x720)
 * Niveles sin scroll / one screener
@@ -13,11 +14,11 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 
 ### Herramientas ###
 
-* Gimp
-* Box2D
 * LibGDX
+* Box2D
 * Android Studio
 * Git / GitKraken
+* Gimp
 
 ### Preparación del entorno de desarrollo ###
 
@@ -32,7 +33,7 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
     * Pulsar el icono de carpeta de la parte superior izquierda de la ventana principal
     * Seleccionar "clone" y veremos todos los repositorios a los que tenemos acceso desde nuestra cuenta de BitBucket. Desde aquí seleccionaremos el repositorio y la carpeta en la que queremos clonarlo
 
-Configuramos Android Studio:
+Configuración de Android Studio:
 
 * Si es necesario lo configuramos para que conozca la localización del comando "git" (en Linux por defecto parece que lo autodetecta, en Windows podría ser necesario indicarle desde las preferencias del IDE dónde está git.exe)
 * Importamos el proyecto Gradle desde Android Studio pulsando "Import project" y seleccionando la carpeta "game" que acabamos de clonar
