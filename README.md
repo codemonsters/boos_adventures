@@ -26,7 +26,8 @@ Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 * Instalar Git y opcionalmente algún frontend gráfico como GitKraken
 * Instalar Android Studio
 * Clonar el repositorio Git localmente dentro de una nueva carpeta (por ejemplo con Git o GitKraken):
-  * Con Git desde la línea de comandos: git clone https://nombre_de_usuario_en_bitbucket@bitbucket.org/Code_Monsters/boos_adventures.git
+  * Con Git desde la línea de comandos:
+    * git clone https://nombre_de_usuario_en_bitbucket@bitbucket.org/Code_Monsters/boos_adventures.git
   * Con GitKraken:
     * Si no lo hemos hecho antes necesitamos dar acceso a GitKraken para acceder a nuestra cuenta de BitBucket:
       * Accedemos a las preferencias de GitKraken (menú file / preferences) y allí "Authentication" y "BitBucket". Pulsamos "Connect" y se abrirá un navegador para permitirnos autorizar a GitKraken para que acceda a nuestra cuenta de BitBucket
