@@ -1,6 +1,6 @@
-package es.codemonsters.boosadventures;
+package es.codemonsters.boosadventures.game;
 
-import es.codemonsters.boosadventures.dispositivosdejuego.DispositivoDeJuego;
+import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJuego;
 
 public class Jugador {
     private String nombre;

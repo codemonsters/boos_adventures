@@ -1,8 +1,8 @@
-package es.codemonsters.boosadventures.desktop;
+package es.codemonsters.boosadventures.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import es.codemonsters.boosadventures.MyGdxGame;
+import es.codemonsters.boosadventures.game.MyGdxGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

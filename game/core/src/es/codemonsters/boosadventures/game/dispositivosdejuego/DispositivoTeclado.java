@@ -1,4 +1,4 @@
-package es.codemonsters.boosadventures.dispositivosdejuego;
+package es.codemonsters.boosadventures.game.dispositivosdejuego;
 
 public class DispositivoTeclado implements DispositivoDeJuego {
     private int key_code_up, key_code_down, key_code_left, key_code_right, key_code_action, key_code_cancel;

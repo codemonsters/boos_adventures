@@ -1,4 +1,4 @@
-package es.codemonsters.boosadventures.dispositivosdejuego;
+package es.codemonsters.boosadventures.game.dispositivosdejuego;
 
 import com.badlogic.gdx.Input;
 
