@@ -13,16 +13,18 @@ import com.badlogic.gdx.utils.Array;
 
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJuego;
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoTeclado;
+import es.codemonsters.boosadventures.game.dispositivosdejuego.GestorDispositivosDeJuego;
 import es.codemonsters.boosadventures.game.screens.MenuScreen;
 
 public class MyGdxGame extends Game {
 	public static final String nombreDelJuego = "Boo's Adventures";
 	public static final String versionDelJuego = "0.1a";
-	private Array<DispositivoDeJuego> dispositivosDeJuego;
+	//private Array<DispositivoDeJuego> dispositivosDeJuego;
 	private SpriteBatch batch;
 	private FreeTypeFontGenerator fontGenerator;
 	private FreeTypeFontParameter fontGeneratorDefaultParameters;
 	private BitmapFont bitmapFont;
+    private GestorDispositivosDeJuego gestorDispositivosDeJuego = new GestorDispositivosDeJuego();
 
 	public SpriteBatch getSpriteBatch() {
 		return batch;
@@ -31,6 +33,8 @@ public class MyGdxGame extends Game {
 	public BitmapFont getBitmapFont() {
 		return bitmapFont;
 	}
+
+	public GestorDispositivosDeJuego getGestorDispositivosDeJuego() { return gestorDispositivosDeJuego; }
 
 	@Override
 	public void create() {
@@ -45,15 +49,13 @@ public class MyGdxGame extends Game {
 		bitmapFont = fontGenerator.generateFont(fontGeneratorDefaultParameters);
 		bitmapFont.setColor(Color.GREEN);
 
-		// Preparamos la lista que contiene los dispositivos de juego conectados
-		dispositivosDeJuego = new Array<DispositivoDeJuego>();
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
 		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE);
 		tecladoJugador1.setJugador(new Jugador("Jugador 1"));
-		dispositivosDeJuego.add(tecladoJugador1);
+		getGestorDispositivosDeJuego().conectar(tecladoJugador1);
 		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE);
 		tecladoJugador2.setJugador(new Jugador("Jugador 2"));
-		dispositivosDeJuego.add(tecladoJugador2);
+		getGestorDispositivosDeJuego().conectar(tecladoJugador2);
 
 		// Definimos la pantalla en la que iniciará el juego
 		setScreen(new MenuScreen(this));
@@ -68,6 +70,7 @@ public class MyGdxGame extends Game {
 
 	@Override
 	public void dispose () {
+        gestorDispositivosDeJuego.desconectarTodos();   // TODO: Deberíamos desconectar los dispositivos incluso cuando cerramos la aplicación con el aspa o bruscamente
 		screen.dispose();
 		bitmapFont.dispose();
 		fontGenerator.dispose();

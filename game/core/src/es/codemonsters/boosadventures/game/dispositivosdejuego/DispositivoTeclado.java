@@ -2,7 +2,7 @@ package es.codemonsters.boosadventures.game.dispositivosdejuego;
 
 import es.codemonsters.boosadventures.game.Jugador;
 
-public class DispositivoTeclado implements DispositivoDeJuego {
+public class DispositivoTeclado extends DispositivoDeJuego {
     private int key_code_up, key_code_down, key_code_left, key_code_right, key_code_action, key_code_cancel;
     private Jugador jugador;
 
@@ -16,41 +16,33 @@ public class DispositivoTeclado implements DispositivoDeJuego {
     }
 
     @Override
-    public void setJugador(Jugador jugador) {
-        this.jugador = jugador;
-    }
-
-    @Override
-    public Jugador getJugador() {
-        return jugador;
-    }
-    @Override
     public void arriba() {
-
+        // TODO: Implementar este método
     }
 
     @Override
     public void abajo() {
-
+        // TODO: Implementar este método
     }
 
     @Override
     public void izquierda() {
-
+        // TODO: Implementar este método
     }
 
     @Override
     public void derecha() {
-
+        // TODO: Implementar este método
     }
 
     @Override
     public void accion() {
-
+        // TODO: Implementar este método
     }
 
     @Override
-    public void desconectarDispositivo() {
-
+    public void desconectar() {
+        // Nada que hacer tras desconectar en el caso del teclado
     }
+
 }
