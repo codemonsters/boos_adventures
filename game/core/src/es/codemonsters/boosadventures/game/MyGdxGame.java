@@ -11,8 +11,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.Array;
 
-import java.security.KeyStoreSpi;
-
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJuego;
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoTeclado;
 import es.codemonsters.boosadventures.game.screens.MenuScreen;
@@ -20,7 +18,7 @@ import es.codemonsters.boosadventures.game.screens.MenuScreen;
 public class MyGdxGame extends Game {
 	public static final String nombreDelJuego = "Boo's Adventures";
 	public static final String versionDelJuego = "0.1a";
-	private Array<Jugador> jugadores;
+	private Array<DispositivoDeJuego> dispositivosDeJuego;
 	private SpriteBatch batch;
 	private FreeTypeFontGenerator fontGenerator;
 	private FreeTypeFontParameter fontGeneratorDefaultParameters;
@@ -47,13 +45,17 @@ public class MyGdxGame extends Game {
 		bitmapFont = fontGenerator.generateFont(fontGeneratorDefaultParameters);
 		bitmapFont.setColor(Color.GREEN);
 
-		// Preparamos la lista que contiene los jugadores conectados (cada uno con su dispositivo de juego)
-		Jugador jugador1 = new Jugador("Jugador 1", new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE));
-		Jugador jugador2 = new Jugador("Jugador 2", new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE));
-		jugadores = new Array<Jugador>();
-		jugadores.add(jugador1);
-		jugadores.add(jugador2);
+		// Preparamos la lista que contiene los dispositivos de juego conectados
+		dispositivosDeJuego = new Array<DispositivoDeJuego>();
+		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
+		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE);
+		tecladoJugador1.setJugador(new Jugador("Jugador 1"));
+		dispositivosDeJuego.add(tecladoJugador1);
+		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE);
+		tecladoJugador2.setJugador(new Jugador("Jugador 2"));
+		dispositivosDeJuego.add(tecladoJugador2);
 
+		// Definimos la pantalla en la que iniciará el juego
 		setScreen(new MenuScreen(this));
 	}
 

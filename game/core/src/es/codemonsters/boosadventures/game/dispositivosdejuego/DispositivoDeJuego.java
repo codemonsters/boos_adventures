@@ -1,8 +1,10 @@
 package es.codemonsters.boosadventures.game.dispositivosdejuego;
 
-import com.badlogic.gdx.Input;
+import es.codemonsters.boosadventures.game.Jugador;
 
 public interface DispositivoDeJuego {
+    public void setJugador(Jugador jugador);
+    public Jugador getJugador();
     public void arriba();
     public void abajo();
     public void izquierda();

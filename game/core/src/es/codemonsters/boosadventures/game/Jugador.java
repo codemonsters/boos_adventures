@@ -4,10 +4,7 @@ import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJueg
 
 public class Jugador {
     private String nombre;
-    private DispositivoDeJuego dispositivoDeJuego;
-
-    public Jugador(String nombre, DispositivoDeJuego dispositivoDeJuego) {
+    public Jugador(String nombre) {
         this.nombre = nombre;
-        this.dispositivoDeJuego = dispositivoDeJuego;
     }
 }
