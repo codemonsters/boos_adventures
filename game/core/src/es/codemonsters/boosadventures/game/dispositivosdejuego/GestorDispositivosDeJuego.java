@@ -31,7 +31,7 @@ public class GestorDispositivosDeJuego {
         }
         dispositivoDeJuego.setId(idNuevoDispositivo);   // Asignamos el id al dispositivo recientemente conectado
         dispositivosDeJuegoConectados.add(dispositivoDeJuego);     // Y lo añadimos a la lista de dispositivos activos
-        Gdx.app.debug("GestorDispositivosDeJuego", "Nuevo dispositivo de juego conectado: " + dispositivoDeJuego);
+        Gdx.app.debug("GestorDispositivosDeJuego", "Nuevo dispositivo de juego conectado (id = " + dispositivoDeJuego.getId() + ")");
         return dispositivoDeJuego.getId();
     }
 

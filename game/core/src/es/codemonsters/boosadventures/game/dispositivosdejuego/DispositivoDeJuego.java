@@ -1,5 +1,7 @@
 package es.codemonsters.boosadventures.game.dispositivosdejuego;
 
+import com.badlogic.gdx.Gdx;
+
 import es.codemonsters.boosadventures.game.Jugador;
 
 public abstract class DispositivoDeJuego {
@@ -22,17 +24,29 @@ public abstract class DispositivoDeJuego {
         return jugador;
     }
 
-    public abstract void arriba();
+    public abstract void accionaArriba();
 
-    public abstract void abajo();
+    public abstract void liberaArriba();
 
-    public abstract void izquierda();
+    public abstract void accionaAbajo();
 
-    public abstract void derecha();
+    public abstract void liberaAbajo();
 
-    public abstract void accion();
+    public abstract void accionaIzquierda();
 
-    public abstract void desconectar();
+    public abstract void liberaIzquierda();
+
+    public abstract void accionaDerecha();
+
+    public abstract void liberaDerecha();
+
+    public abstract void accionaBoton1();
+
+    public abstract void liberaBoton1();
+
+    public void desconectar() {
+        Gdx.app.debug("DispoaitivoDeJuego", "Desconectando dispositivo de juego (id = " + getId() + ")");
+    }
 
     @Override
     public String toString() {
