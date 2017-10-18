@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,7 @@ public class MyGdxGame extends Game {
 	private FreeTypeFontParameter fontGeneratorDefaultParameters;
 	private BitmapFont bitmapFont;
     private GestorDispositivosDeJuego gestorDispositivosDeJuego = new GestorDispositivosDeJuego();
+    private InputMultiplexer inputMultiplexer;  // La lista de InputProcessors que utlizaremos
 
 	public SpriteBatch getSpriteBatch() {
 		return batch;
@@ -34,7 +36,9 @@ public class MyGdxGame extends Game {
 		return bitmapFont;
 	}
 
-	public GestorDispositivosDeJuego getGestorDispositivosDeJuego() { return gestorDispositivosDeJuego; }
+	protected GestorDispositivosDeJuego getGestorDispositivosDeJuego() { return gestorDispositivosDeJuego; }
+
+    protected InputMultiplexer getInputMultiplexer() { return inputMultiplexer; }
 
 	@Override
 	public void create() {
@@ -49,11 +53,13 @@ public class MyGdxGame extends Game {
 		bitmapFont = fontGenerator.generateFont(fontGeneratorDefaultParameters);
 		bitmapFont.setColor(Color.GREEN);
 
+        inputMultiplexer = new InputMultiplexer();  // Contenedor donde colocaremos todos los InputProcessor que necesitemos
+
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
-		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE);
+		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE, getInputMultiplexer());
 		tecladoJugador1.setJugador(new Jugador("Jugador 1"));
 		getGestorDispositivosDeJuego().conectar(tecladoJugador1);
-		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE);
+		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE, getInputMultiplexer());
 		tecladoJugador2.setJugador(new Jugador("Jugador 2"));
 		getGestorDispositivosDeJuego().conectar(tecladoJugador2);
 

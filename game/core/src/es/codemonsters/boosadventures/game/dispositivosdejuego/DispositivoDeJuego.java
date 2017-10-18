@@ -24,28 +24,12 @@ public abstract class DispositivoDeJuego {
         return jugador;
     }
 
-    public abstract void accionaArriba();
-
-    public abstract void liberaArriba();
-
-    public abstract void accionaAbajo();
-
-    public abstract void liberaAbajo();
-
-    public abstract void accionaIzquierda();
-
-    public abstract void liberaIzquierda();
-
-    public abstract void accionaDerecha();
-
-    public abstract void liberaDerecha();
-
-    public abstract void accionaBoton1();
-
-    public abstract void liberaBoton1();
+    public void trasConectar() {
+        Gdx.app.debug("DispositivoDeJuego", "Dispositivo de juego conectado (id = " + getId() + ")");
+    }
 
     public void desconectar() {
-        Gdx.app.debug("DispoaitivoDeJuego", "Desconectando dispositivo de juego (id = " + getId() + ")");
+        Gdx.app.debug("DispositivoDeJuego", "Dispositivo de juego desconectado (id = " + getId() + ")");
     }
 
     @Override

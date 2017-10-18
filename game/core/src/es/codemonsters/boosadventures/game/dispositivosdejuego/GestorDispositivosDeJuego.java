@@ -31,7 +31,7 @@ public class GestorDispositivosDeJuego {
         }
         dispositivoDeJuego.setId(idNuevoDispositivo);   // Asignamos el id al dispositivo recientemente conectado
         dispositivosDeJuegoConectados.add(dispositivoDeJuego);     // Y lo añadimos a la lista de dispositivos activos
-        Gdx.app.debug("GestorDispositivosDeJuego", "Nuevo dispositivo de juego conectado (id = " + dispositivoDeJuego.getId() + ")");
+        dispositivoDeJuego.trasConectar();
         return dispositivoDeJuego.getId();
     }
 
@@ -42,6 +42,7 @@ public class GestorDispositivosDeJuego {
         for (DispositivoDeJuego dispositivo: dispositivosDeJuegoConectados) {
             dispositivo.desconectar();
             dispositivosDeJuegoConectados.removeValue(dispositivo, false);
+            // FIXME: Teniendo dos dispositivos teclado conectados no se está desconectando uno de ellos (comprobar viendo log)
         }
 
     }
