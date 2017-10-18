@@ -50,6 +50,6 @@ public abstract class DispositivoDeJuego {
 
     @Override
     public String toString() {
-        return "Id = " + getId() + " Jugador = " + getJugador();
+        return "id = " + getId();
     }
 }

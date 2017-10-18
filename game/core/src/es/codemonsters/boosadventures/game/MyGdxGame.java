@@ -19,7 +19,7 @@ import es.codemonsters.boosadventures.game.screens.MenuScreen;
 public class MyGdxGame extends Game {
 	public static final String nombreDelJuego = "Boo's Adventures";
 	public static final String versionDelJuego = "0.1a";
-	//private Array<DispositivoDeJuego> dispositivosDeJuego;
+
 	private SpriteBatch batch;
 	private FreeTypeFontGenerator fontGenerator;
 	private FreeTypeFontParameter fontGeneratorDefaultParameters;
