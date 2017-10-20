@@ -13,12 +13,6 @@ public class Jugador {
         return nombre;
     }
 
-    public void alAccionarBoton1() {
-    }
-
-    public void alLiberarBoton1() {
-    }
-
     @Override
     public String toString() {
         return getNombre();

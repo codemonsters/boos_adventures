@@ -39,11 +39,10 @@ public class GestorDispositivosDeJuego {
      * Ejecuta el método desconectar() en cada dispositivo conectado y lo elimina de la lista dispositivosDeJuegoConectados
      */
     public void desconectarTodos() {
+        // Notificamos nuestra intención a todos los dispositivos conectados
         for (DispositivoDeJuego dispositivo: dispositivosDeJuegoConectados) {
             dispositivo.desconectar();
-            dispositivosDeJuegoConectados.removeValue(dispositivo, false);
-            // FIXME: Teniendo dos dispositivos teclado conectados no se está desconectando uno de ellos (comprobar viendo log)
         }
-
+        dispositivosDeJuegoConectados.clear();
     }
 }

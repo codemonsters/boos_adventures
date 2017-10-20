@@ -1,21 +1,21 @@
-package es.codemonsters.boosadventures.game.screens;
+package es.codemonsters.boosadventures.game.pantallas;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 
-public class MenuScreen implements Screen {
+public class PantallaPartida extends Pantalla {
     private MyGdxGame game;
     private OrthographicCamera camera;
     private Viewport viewport;
     private float tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante;
 
-    public MenuScreen(final MyGdxGame game) {
+    public PantallaPartida(final MyGdxGame game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -31,6 +31,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -39,11 +40,7 @@ public class MenuScreen implements Screen {
 
         game.getSpriteBatch().begin();
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
-        game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> PREPARADO", 100, 160);
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> INSTALA LA APLICACION ANDROID PARA CONECTARTE AL JUEGO", 100, 130);
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESPERANDO JUGADORES...", 100, 100);
-        game.getBitmapFont().draw(game.getSpriteBatch(), ">", 100, 70);
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
 
         // Cursor parpadeando
         tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante += delta;
@@ -55,11 +52,6 @@ public class MenuScreen implements Screen {
         }
         game.getSpriteBatch().end();
 
-        /*
-        if (Gdx.input.isTouched()) {
-            game.setScreen(new GameScreen(game));
-            dispose();
-        }*/
     }
 
     @Override
@@ -86,4 +78,57 @@ public class MenuScreen implements Screen {
     public void dispose() {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public void alPresionarArriba(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alLiberarArriba(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alPresionarAbajo(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alLiberarAbajo(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alPresionarIzquierda(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alLiberarIzquierda(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alPresionarDerecha(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alLiberarDerecha(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alPresionarBoton1(Jugador jugador) {
+        // TODO Auto-generated method stub
+        Gdx.app.debug("PantallaPartida", "Uno de los jugadores ha presionado su boton1");
+    }
+
+    @Override
+    public void alLiberarBoton1(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+
 }
