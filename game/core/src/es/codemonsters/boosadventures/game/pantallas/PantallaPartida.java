@@ -3,30 +3,35 @@ package es.codemonsters.boosadventures.game.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
+import es.codemonsters.boosadventures.game.Nivel;
 
 public class PantallaPartida extends Pantalla {
     private MyGdxGame game;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private float tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante;
+    private Array<Nivel> todosLosNiveles;
+    private boolean nivelEnCurso;
 
     public PantallaPartida(final MyGdxGame game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+
+        nivelEnCurso = false;
+        todosLosNiveles = new Array<Nivel>();
+        todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
     }
 
     @Override
     public void show() {
         // TODO Auto-generated method stub
-        tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
-
     }
 
     @Override
@@ -42,16 +47,17 @@ public class PantallaPartida extends Pantalla {
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
         game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
 
-        // Cursor parpadeando
-        tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante += delta;
-        if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante>0.6) {
-            game.getBitmapFont().draw(game.getSpriteBatch(), "_", 117, 72);
-            if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante > 1.2) {
-                tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
-            }
-        }
         game.getSpriteBatch().end();
 
+    }
+
+    /**
+     * Reiniciamos el nivel, comenzando de nuevo con todos los jugadores (incluyendo tanto a los activos como a los que estaban en espera)
+     */
+    public void reiniciarNivel() {
+        nivelEnCurso = false;
+        game.incorporaJugadoresEnEspera();
+        nivelEnCurso = true;
     }
 
     @Override
@@ -77,6 +83,12 @@ public class PantallaPartida extends Pantalla {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void conectaJugador(Jugador jugador) {
+        // FIXME: En función de si la partida dentro de este nivel está en marcha deberíamos decidir si el jugador se añadido a la lista de jugadores activos o bien a la de jugadores en espera
+        game.agregaJugadorEnEspera(jugador);
     }
 
     @Override

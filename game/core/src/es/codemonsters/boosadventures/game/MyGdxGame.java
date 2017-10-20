@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.utils.Array;
 
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJuego;
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoTeclado;
@@ -29,6 +30,8 @@ public class MyGdxGame extends Game {
     private InputMultiplexer inputMultiplexer;  // La lista de InputProcessors que utlizaremos
 	private InputProcessorJugadores inputProcessorJugadores;
 	private Pantalla pantallaActiva;
+    private Array<Jugador> jugadoresEnEspera;   // Lista de jugadores conectados que quieren incorporarse a la partida
+    private Array<Jugador> jugadoresActivos;    // Lista de jugadores conectados que están participando en la partida actual
 
 	public SpriteBatch getSpriteBatch() {
 		return batch;
@@ -52,6 +55,40 @@ public class MyGdxGame extends Game {
         }
 	}
 
+    public void agregaJugadorActivo(Jugador jugador) {
+        synchronized (jugadoresActivos) {
+            if (jugadoresActivos.contains(jugador, false)) {
+                Gdx.app.debug("MyGdxGame", "El jugador ya estaba en la lista de jugadores activos, ignorando esta nueva solicitud");
+            } else {
+                jugadoresActivos.add(jugador);
+                Gdx.app.debug("MyGdxGame", "Nuevo jugador añadido a la lista de jugadores activos (jugador: " + jugador + ")");
+            }
+        }
+    }
+
+    public void agregaJugadorEnEspera(Jugador jugador) {
+        synchronized (jugadoresEnEspera) {
+            if (jugadoresEnEspera.contains(jugador, false)) {
+                Gdx.app.debug("MyGdxGame", "El jugador ya estaba en la lista de jugadores en espera, ignorando esta nueva solicitud");
+            } else {
+                jugadoresEnEspera.add(jugador);
+                Gdx.app.debug("MyGdxGame", "Nuevo jugador añadido a la lista de jugadores en espera (jugador: " + jugador + ")");
+            }
+        }
+    }
+
+    public void incorporaJugadoresEnEspera() {
+		synchronized(jugadoresEnEspera) {
+			for (int i = 0; i < jugadoresEnEspera.size; i++) {
+				Jugador jugadorEnEspera = jugadoresEnEspera.get(i);
+				synchronized(jugadoresActivos) {
+					jugadoresActivos.add(jugadorEnEspera);
+				}
+				jugadoresEnEspera.removeIndex(i);
+			}
+		}
+	}
+
 	public Pantalla getPantalla() { return pantallaActiva; }
 
 	@Override
@@ -69,6 +106,10 @@ public class MyGdxGame extends Game {
 
         inputMultiplexer = new InputMultiplexer();  // Contenedor donde colocaremos todos los InputProcessor que necesitemos
 		Gdx.input.setInputProcessor(inputMultiplexer);
+
+        // Creamos las listas de jugadores activos y jugadores en espera
+        jugadoresActivos = new Array<Jugador>();
+        jugadoresEnEspera = new Array<Jugador>();
 
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
 		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE, this);
