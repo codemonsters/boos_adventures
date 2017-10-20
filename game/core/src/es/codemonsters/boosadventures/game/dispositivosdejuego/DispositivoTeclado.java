@@ -9,10 +9,9 @@ import es.codemonsters.boosadventures.game.MyGdxGame;
 
 public class DispositivoTeclado extends DispositivoDeJuego implements InputProcessor {
     private int key_code_up, key_code_down, key_code_left, key_code_right, key_code_button1, key_code_cancel;
-    private Jugador jugador;
     private MyGdxGame game;
 
-    public DispositivoTeclado(int key_code_up, int key_code_down, int key_code_left, int key_code_right, int key_code_button1, int key_code_cancel, MyGdxGame game) {
+    public DispositivoTeclado(int key_code_up, int key_code_down, int key_code_left, int key_code_right, int key_code_button1, int key_code_cancel, Jugador jugador, MyGdxGame game) {
         this.key_code_up = key_code_up;
         this.key_code_down = key_code_down;
         this.key_code_left = key_code_left;
@@ -20,6 +19,7 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
         this.key_code_button1 = key_code_button1;
         this.key_code_cancel = key_code_cancel;
         this.game = game;
+        this.setJugador(jugador);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == key_code_button1) {
-            game.getPantalla().alPresionarBoton1(jugador);
+            game.getPantalla().alPresionarBoton1(getJugador());
         } else {
             return false;
         }
@@ -47,7 +47,7 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == key_code_button1) {
-            game.getPantalla().alLiberarBoton1(jugador);
+            game.getPantalla().alLiberarBoton1(getJugador());
         } else {
             return false;
         }

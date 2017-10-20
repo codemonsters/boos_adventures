@@ -3,6 +3,9 @@ package es.codemonsters.boosadventures.game.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -10,15 +13,20 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
+import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
-public class PantallaPartida extends Pantalla {
+public class PantallaJuego extends Pantalla {
     private MyGdxGame game;
     private OrthographicCamera camera;
     private Viewport viewport;
     private Array<Nivel> todosLosNiveles;
     private boolean nivelEnCurso;
 
-    public PantallaPartida(final MyGdxGame game) {
+    private World world;
+    private Box2DDebugRenderer box2DDebugRendered;
+    //private Hud hud;
+
+    public PantallaJuego(final MyGdxGame game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -27,6 +35,16 @@ public class PantallaPartida extends Pantalla {
         nivelEnCurso = false;
         todosLosNiveles = new Array<Nivel>();
         todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
+    }
+
+    private void inicializaNivel() {
+        world = new World(new Vector2(0, -9.81f), true);
+        //LocalizacionInicial localizacionInicial = new LocalizacionInicial(5, 5);
+        //LocalizacionMeta localizacionMeta = new LocalizacionMeta(20, 20);
+        Array<Jugador> jugadores = new Array<Jugador>();
+        for (Jugador jugador : game.getJugadoresActivos()) {
+            jugador.setObjetoJugador(new ObjetoJugador(world));
+        }
     }
 
     @Override
@@ -134,7 +152,7 @@ public class PantallaPartida extends Pantalla {
     @Override
     public void alPresionarBoton1(Jugador jugador) {
         // TODO Auto-generated method stub
-        Gdx.app.debug("PantallaPartida", "Uno de los jugadores ha presionado su boton1");
+        Gdx.app.debug("PantallaJuego", "Uno de los jugadores ha presionado su boton1");
     }
 
     @Override

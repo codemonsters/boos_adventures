@@ -16,12 +16,12 @@ public abstract class DispositivoDeJuego {
         return id;
     }
 
-    public void setJugador(Jugador jugador) {
-        this.jugador = jugador;
-    }
-
     public Jugador getJugador() {
         return jugador;
+    }
+
+    protected void setJugador(Jugador jugador) {
+        this.jugador = jugador;
     }
 
     public void trasConectar() {

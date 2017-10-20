@@ -129,7 +129,7 @@ public class PantallaMenu extends Pantalla {
         // Estamos en el menú así que si cualquiera de los jugadores conectados pulsa el botón acción entonces cambiamos de pantalla para empezar el juego
         // TODO: Una idea mejor podría ser poner una cuenta atrás de 5 segundos para que otros jugadores pudiesen pulsar su boton1 e incorporarse todos juntos a la partida desde un inicio
         Gdx.app.debug("PantallaMenu", "Uno de los jugadores quiere empezar el juego");
-        game.setPantalla(new PantallaPartida(game));
+        game.setPantalla(new PantallaJuego(game));
 
     }
 

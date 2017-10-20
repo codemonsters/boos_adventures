@@ -89,6 +89,10 @@ public class MyGdxGame extends Game {
 		}
 	}
 
+	public Array<Jugador> getJugadoresActivos() {
+		return jugadoresActivos;
+	}
+
 	public Pantalla getPantalla() { return pantallaActiva; }
 
 	@Override
@@ -112,11 +116,10 @@ public class MyGdxGame extends Game {
         jugadoresEnEspera = new Array<Jugador>();
 
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
-		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE, this);
-		tecladoJugador1.setJugador(new Jugador("Jugador 1"));
+		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE, new Jugador("Jugador 1"), this);
 		getGestorDispositivosDeJuego().conectar(tecladoJugador1);
-		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE, this);
-		tecladoJugador2.setJugador(new Jugador("Jugador 2"));
+		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE, new Jugador("Jugador 2"), this);
+		//tecladoJugador2.setJugador();
 		getGestorDispositivosDeJuego().conectar(tecladoJugador2);
 
 		// Definimos la pantalla en la que iniciará el juego
