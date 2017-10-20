@@ -1,6 +1,5 @@
 package es.codemonsters.boosadventures.game;
 
-import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
 public class Jugador {

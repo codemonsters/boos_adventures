@@ -1,0 +1,16 @@
+{
+  "cabecera": {
+    "nombre": "El comienzo",
+    "sugerencia": "Todos deben llegar a la meta"
+  },
+  "elementos": {
+    "spawn": {
+      "x": 5,
+      "y": 5
+    },
+    "meta": {
+      "x": 10,
+      "y": 10
+    }
+  }
+}
