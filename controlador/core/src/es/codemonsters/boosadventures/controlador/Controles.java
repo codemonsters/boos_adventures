@@ -6,14 +6,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
-
-
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 public class Controles
@@ -23,6 +24,8 @@ public class Controles
 
     BitmapFont font;
 
+    private Viewport viewport;
+    private OrthographicCamera camera;
     SpriteBatch batch;
     Texture base;
     Texture top;
@@ -47,6 +50,9 @@ public class Controles
         boton1 = new Texture("botonSaltar1.png");
         font = new BitmapFont();
         shapeRenderer = new ShapeRenderer();
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
     }
 
 
@@ -55,13 +61,17 @@ public class Controles
 
     public void render(float delta)
     {
+
+        batch.setTransformMatrix(camera.view);
+        batch.setProjectionMatrix(camera.projection);
+
         if (isPressed != Gdx.input.isButtonPressed(0))
         {
 
-            primerToqueX = (Gdx.input.getX() - 50);
-            primerToqueY = (-Gdx.input.getY() + 420);
-            topX = Gdx.input.getX();
-            topY = (-Gdx.input.getY() + 420);
+            primerToqueX = (Gdx.input.getX()-(Gdx.graphics.getWidth() / 9)/2);
+            primerToqueY = (-Gdx.input.getY()+(Gdx.graphics.getWidth() / 9)*2)+Gdx.graphics.getHeight()/2;
+            topX = Gdx.input.getX()-((Gdx.graphics.getWidth() / 10)/2);
+            topY = (-Gdx.input.getY()+Gdx.graphics.getWidth() / 10)+Gdx.graphics.getHeight()/2;
 
             isPressed = Gdx.input.isButtonPressed(0);
         }
@@ -93,8 +103,8 @@ public class Controles
                     font.draw(batch, String.valueOf(distancia) + " distancia relativa", 10.0F, 40.0F);
 
 
-                    topX = (Gdx.input.getX() - 35);
-                    topY = (-Gdx.input.getY() + 430);
+                    topX = Gdx.input.getX()-((Gdx.graphics.getWidth() / 10)/2);
+                    topY = (-Gdx.input.getY()+Gdx.graphics.getWidth() / 10*2)+Gdx.graphics.getHeight()/2+20;
                 }
             }
 
@@ -120,7 +130,10 @@ public class Controles
 
 
 
-    public void resize(int width, int height) {}
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+        camera.update();
+    }
 
 
 
@@ -139,9 +152,12 @@ public class Controles
 
     public void dispose()
     {
-        batch.dispose();
         top.dispose();
         base.dispose();
         font.dispose();
+        batch.dispose();
+        boton.dispose();
+        boton1.dispose();
+
     }
 }
