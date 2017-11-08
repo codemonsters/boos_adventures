@@ -3,14 +3,26 @@
     "nombre": "El comienzo",
     "sugerencia": "Todos deben llegar a la meta"
   },
-  "elementos": {
-    "spawn": {
+  "objetos": [
+    {
+      "clase": "Spawn",
       "x": 5,
       "y": 5
     },
-    "meta": {
+    {
+      "clase": "Meta",
       "x": 10,
       "y": 10
+    },
+    {
+      "_comentario": "El suelo",
+      "clase": "Bloque",
+      "x": 1,
+      "y": 1,
+      "ancho": 10,
+      "alto": 10,
+      "angulo": 15,
+      "regiontextura": {"x": 23, "y": 45, "ancho": 10, "alto": 20}
     }
-  }
+  ]
 }
