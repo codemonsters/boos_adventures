@@ -17,6 +17,9 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.LimitesNivel;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
 public class PantallaJuego extends Pantalla {
+
+    public static final int ANCHO_DEL_MUNDO = 44;   // Ancho del mundo (en metros)
+    public static final int ALTO_DEL_MUNDO = 27;    // Alto del mundo (en metros)
     private MyGdxGame game;
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -35,9 +38,9 @@ public class PantallaJuego extends Pantalla {
         inicializaNivel();
         camera = new OrthographicCamera();
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setToOrtho(false, 18, 32);
+        camera.setToOrtho(false, ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO);
         //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-        viewport = new FitViewport(18, 32, camera);
+        viewport = new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO, camera);
         box2DDebugRendered = new Box2DDebugRenderer();
         Gdx.gl.glClearColor(0, 0, 0f, 1);
         //todosLosNiveles = new Array<Nivel>();
