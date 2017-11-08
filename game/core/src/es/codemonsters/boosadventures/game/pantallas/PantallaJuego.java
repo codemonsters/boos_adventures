@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
+import es.codemonsters.boosadventures.game.objetosdeljuego.LimitesNivel;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
 public class PantallaJuego extends Pantalla {
@@ -24,49 +25,36 @@ public class PantallaJuego extends Pantalla {
 
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
+    private LimitesNivel limitesNivel;
+
     //private Hud hud;
 
     public PantallaJuego(final MyGdxGame game) {
-        this.game = game;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-
         nivelEnCurso = false;
-        todosLosNiveles = new Array<Nivel>();
-        todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
+        this.game = game;
+        inicializaNivel();
+        camera = new OrthographicCamera();
+        //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, 18, 32);
+        //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        viewport = new FitViewport(18, 32, camera);
+        box2DDebugRendered = new Box2DDebugRenderer();
+        Gdx.gl.glClearColor(0, 0, 0f, 1);
+        //todosLosNiveles = new Array<Nivel>();
+        //todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
+        //world.setContactListener(new GameContactListener());
     }
 
     private void inicializaNivel() {
         world = new World(new Vector2(0, -9.81f), true);
         //LocalizacionInicial localizacionInicial = new LocalizacionInicial(5, 5);
         //LocalizacionMeta localizacionMeta = new LocalizacionMeta(20, 20);
+        limitesNivel = new LimitesNivel(world);
         Array<Jugador> jugadores = new Array<Jugador>();
         for (Jugador jugador : game.getJugadoresActivos()) {
             jugador.setObjetoJugador(new ObjetoJugador(world));
         }
-    }
-
-    @Override
-    public void show() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void render(float delta) {
-
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
-        game.getSpriteBatch().setProjectionMatrix(camera.combined);
-
-        game.getSpriteBatch().begin();
-        // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
-
-        game.getSpriteBatch().end();
-
+        nivelEnCurso = true;
     }
 
     /**
@@ -76,6 +64,33 @@ public class PantallaJuego extends Pantalla {
         nivelEnCurso = false;
         game.incorporaJugadoresEnEspera();
         nivelEnCurso = true;
+    }
+
+    @Override
+    public void show() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void render(float dt) {
+        // Actualizamos los jugadores
+        for (Jugador jugador : game.getJugadoresActivos()) {
+            jugador.getObjetoJugador().update(dt);
+        }
+        // Actualizamos la simulación de box2d
+        world.step(dt, 6, 2);
+        camera.update();
+
+        // Renderizamos
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        box2DDebugRendered.render(world, camera.combined);
+        game.getSpriteBatch().setProjectionMatrix(camera.combined); // Inidicamos al SpriteBatch a dónde está mirando la cámara para sólo renderizar lo que la cámara vé
+        game.getSpriteBatch().begin();
+        // TODO: Componer el frame
+        // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
+        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
+        //hud.getStage().draw();
+        game.getSpriteBatch().end();
     }
 
     @Override
