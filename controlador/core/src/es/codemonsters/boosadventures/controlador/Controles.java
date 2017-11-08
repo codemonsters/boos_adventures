@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -19,6 +20,9 @@ import com.badlogic.gdx.math.Vector2;
 public class Controles
         implements Screen
 {
+    //cambiar para alternar entre el modo analógico o digital
+    public boolean mostrarJoyStick = false;
+
     String nombre = "";
 
     BitmapFont font;
@@ -28,6 +32,8 @@ public class Controles
     Texture top;
     Texture boton;
     Texture boton1;
+    Sprite reticula1;
+    Texture reticula2;
     int primerToqueX;
     int primerToqueY;
     int topX;
@@ -45,6 +51,8 @@ public class Controles
         top = new Texture("stickTop.png");
         boton = new Texture("botonSaltar.png");
         boton1 = new Texture("botonSaltar1.png");
+        reticula1 = new Sprite(new Texture("reticula1.png"));
+        reticula2 = new Texture("reticula2.png");
         font = new BitmapFont();
         shapeRenderer = new ShapeRenderer();
     }
@@ -73,12 +81,16 @@ public class Controles
         dibujarLinea(pos1, pos2, 1, Color.BLACK, Color.BLACK);
 
         batch.begin();
+
+        if (!mostrarJoyStick)
+        dibujarReticula();
+
         batch.draw(boton, Gdx.graphics.getWidth() / 1.5F, Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 20, Gdx.graphics.getWidth() / 9 * 2, Gdx.graphics.getWidth() / 9);
         if (isPressed)
         {
             if (Gdx.input.getX() < Gdx.graphics.getWidth() / 2)
             {
-                if (Vector2.dst(Gdx.input.getX() - 50, -Gdx.input.getY() + 420, primerToqueX, primerToqueY) <= 140.0F)
+                if (Vector2.dst(Gdx.input.getX() - 50, -Gdx.input.getY() + 420, primerToqueX, primerToqueY) <= 140.0F||!mostrarJoyStick)
                 {
                     distancia = (Vector2.dst(Gdx.input.getX() - 50, -Gdx.input.getY() + 420, primerToqueX, primerToqueY) / 140.0F);
 
@@ -98,7 +110,7 @@ public class Controles
                 }
             }
 
-            if (primerToqueX < Gdx.graphics.getWidth() / 2) {
+            if (primerToqueX < Gdx.graphics.getWidth() / 2&&mostrarJoyStick) {
                 batch.draw(base, primerToqueX, primerToqueY, Gdx.graphics.getWidth() / 9, Gdx.graphics.getWidth() / 9);
                 batch.draw(top, topX, topY, Gdx.graphics.getWidth() / 10, Gdx.graphics.getWidth() / 10);
             }
@@ -118,7 +130,34 @@ public class Controles
     }
 
 
+    void dibujarReticula(){
+        if (grados >315 || grados <45)
+            reticula1 = new Sprite(reticula2);
+        if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2)
+            reticula1 = new Sprite(new Texture("reticula1.png"));
+        if (!isPressed)
+            reticula1 = new Sprite(new Texture("reticula1.png"));
+        batch.draw(reticula1, Gdx.graphics.getWidth() / 2.7F, Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 20, Gdx.graphics.getWidth() / 9 /2, Gdx.graphics.getWidth() / 20,reticula1.getRegionWidth(), reticula1.getRegionHeight(), 1.5f, 0.2f,-90, false);
+        reticula1 = new Sprite(new Texture("reticula1.png"));
 
+        if (grados <=315 && grados >205&&isPressed&&Gdx.input.getX() < Gdx.graphics.getWidth() / 2)
+            reticula1 = new Sprite(reticula2);
+
+        batch.draw(reticula1, Gdx.graphics.getWidth() / 4.8F, Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 20, Gdx.graphics.getWidth() / 9 /2, Gdx.graphics.getWidth() / 3.5f,reticula1.getRegionWidth(), reticula1.getRegionHeight(), 1.5f, 0.2f,0, false);
+        reticula1 = new Sprite(new Texture("reticula1.png"));
+
+        if (grados >115 && grados <=205&&isPressed&&Gdx.input.getX() < Gdx.graphics.getWidth() / 2)
+            reticula1 = new Sprite(reticula2);
+
+        batch.draw(reticula1, Gdx.graphics.getWidth() / 30F, Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 20, Gdx.graphics.getWidth() / 9 /2, Gdx.graphics.getWidth() / 17,reticula1.getRegionWidth(), reticula1.getRegionHeight(), 1.5f, 0.2f,90, false);
+        reticula1 = new Sprite(new Texture("reticula1.png"));
+
+        if (grados <=115 && grados >45&&isPressed&&Gdx.input.getX() < Gdx.graphics.getWidth() / 2)
+            reticula1 = new Sprite(reticula2);
+
+        batch.draw(reticula1, Gdx.graphics.getWidth() / 4.8F, Gdx.graphics.getHeight() / 2 - Gdx.graphics.getWidth() / 20, Gdx.graphics.getWidth() / 9 /2, Gdx.graphics.getWidth() - 999,reticula1.getRegionWidth(), reticula1.getRegionHeight(), 1.5f, 0.2f,-180, false);
+        reticula1 = new Sprite(new Texture("reticula1.png"));
+    }
 
     public void resize(int width, int height) {}
 
