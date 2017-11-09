@@ -13,7 +13,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 import es.codemonsters.boosadventures.game.objetosdeljuego.LimitesNivel;
+import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
 public class PantallaJuego extends Pantalla {
@@ -29,6 +31,7 @@ public class PantallaJuego extends Pantalla {
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
     private LimitesNivel limitesNivel;
+    private Array<ObjetoDelJuego> objetosDelJuego;
 
     //private Hud hud;
 
@@ -50,9 +53,11 @@ public class PantallaJuego extends Pantalla {
 
     private void inicializaNivel() {
         world = new World(new Vector2(0, -9.81f), true);
-        //LocalizacionInicial localizacionInicial = new LocalizacionInicial(5, 5);
-        //LocalizacionMeta localizacionMeta = new LocalizacionMeta(20, 20);
-        limitesNivel = new LimitesNivel(world);
+        objetosDelJuego = new Array<ObjetoDelJuego>();
+        objetosDelJuego.add(new Bloque(world, ANCHO_DEL_MUNDO,1,0,0));
+        objetosDelJuego.add(new Bloque(world, 1,1,0,1));
+        //objetosDelJuego.add(new Spawn(world, 2, 11);
+        //objetosDelJuego.add(new Meta(world, 20,23);
         Array<Jugador> jugadores = new Array<Jugador>();
         for (Jugador jugador : game.getJugadoresActivos()) {
             jugador.setObjetoJugador(new ObjetoJugador(world));
@@ -80,6 +85,11 @@ public class PantallaJuego extends Pantalla {
         for (Jugador jugador : game.getJugadoresActivos()) {
             jugador.getObjetoJugador().update(dt);
         }
+        /*
+        for (ObjetoDelJuego objetoDelJuego: objetosDelJuego) {
+            objetoDelJuego.update(dt);
+        }
+        */
         // Actualizamos la simulación de box2d
         world.step(dt, 6, 2);
         camera.update();
@@ -119,11 +129,12 @@ public class PantallaJuego extends Pantalla {
     @Override
     public void dispose() {
         // TODO Auto-generated method stub
+        // TODO: ¿Deberíamos recorrer aquí el array objetosDelJuego para ir llamando al método dispose() de cada objeto?
     }
 
     @Override
     public void conectaJugador(Jugador jugador) {
-        // FIXME: En función de si la partida dentro de este nivel está en marcha deberíamos decidir si el jugador se añadido a la lista de jugadores activos o bien a la de jugadores en espera
+        // FIXME: En función de si la partida dentro de este nivel está en marcha deberíamos decidir si el jugador se debe añadir a la lista de jugadores activos o bien a la de jugadores en espera
         game.agregaJugadorEnEspera(jugador);
     }
 

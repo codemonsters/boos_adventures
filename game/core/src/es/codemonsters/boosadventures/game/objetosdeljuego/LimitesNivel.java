@@ -28,10 +28,10 @@ public class LimitesNivel extends ObjetoEstatico {
     public LimitesNivel(World world) {
         super(world);
         this.world = world;
-        defineBody();
+        definirCuerpo();
     }
 
-    private void defineBody() {
+    private void definirCuerpo() {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(0, 0);
@@ -39,7 +39,7 @@ public class LimitesNivel extends ObjetoEstatico {
         body.setUserData(this);
 
         PolygonShape polygonShape = new PolygonShape();
-        final float floor_density = 10; // TODO: Review floor density and other properties
+        final float floor_density = 10; // TODO: Revisar la densidad que queremos para este tipo de objeto
 
         // Floor
         polygonShape.setAsBox(18, 8);
@@ -69,7 +69,6 @@ public class LimitesNivel extends ObjetoEstatico {
         fixtureDef.isSensor = true; // This is a sensor, it will not collide with other bodies of the world
         fixture = body.createFixture(fixtureDef); // Define "head" as the unique name of this fixture to help us to identify it during collisions
         fixture.setUserData("goal");
-
     }
 
 }

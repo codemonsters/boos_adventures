@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.width = 1280;
 		config.height = 720;
 		config.title = MyGdxGame.nombreDelJuego;
+		//config.fullscreen = true;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

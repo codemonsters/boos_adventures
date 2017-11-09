@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class ObjetoJugador extends ObjetoDinamico {
 
     private Body body;
-
+    // FIXME: Adaptar la clase para que todo se defina mendiante el mismo sistema (tanto lo expresado para box2d como para las texturas)
     public ObjetoJugador(World world) {
         super(world);
         definirCuerpo();
