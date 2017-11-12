@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Bloque extends ObjetoEstatico {
 
     private World world;
-    private float anchoBox2d, altoBox2d, xBox2d, yBox2d;
+    private float anchoBox2d, altoBox2d, xBox2d, yBox2d, angulo;
     // Todo será más fácil si en los objetos del juego definimos todo con el mismo sistema de coordenadas (es decir tanto lo relativo a box2d como a las texturas, etc).
     // Por ejemplo:
     // * Que el punto (0,0) sea la esquina inferior izquierda de la pantalla
@@ -21,7 +21,7 @@ public class Bloque extends ObjetoEstatico {
     // * Poder crearse expresando las cosas e internamente tendremos que traducir esto por ejemplo antes de usar Box2D
     // * Tener los getters y setters que sean necesarios para poder leer y escribir las posiciones y dimensiones "traducidas"
 
-    public Bloque(World world, float ancho, float alto, float x, float y) {
+    public Bloque(World world, float ancho, float alto, float x, float y, float angulo) {
         super(world);
         this.world = world;
         // Trasladamos las coordenadas al sistema de Box2D donde se definen respecto al centro del cuerpo
@@ -30,6 +30,7 @@ public class Bloque extends ObjetoEstatico {
         // Adaptamos el tamaño a Box2D, donde el ancho y el alto de los rectángulos se define como la mitad del que realmente tienen
         this.anchoBox2d = ancho/2;
         this.altoBox2d = alto/2;
+        this.angulo = angulo;
         definirCuerpo();
     }
 
@@ -38,6 +39,10 @@ public class Bloque extends ObjetoEstatico {
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xBox2d, yBox2d);
         Body body = world.createBody(bdef);
+        //calcular angulo
+        final double DEGREES_TO_RADIANS = (double)(Math.PI/180);
+        float angle = (float) (angulo*DEGREES_TO_RADIANS);
+        body.setTransform(body.getWorldCenter(), angle);
         body.setUserData(this);
 
         PolygonShape polygonShape = new PolygonShape();
