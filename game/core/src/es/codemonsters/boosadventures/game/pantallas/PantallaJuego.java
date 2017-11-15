@@ -3,6 +3,7 @@ package es.codemonsters.boosadventures.game.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -30,7 +31,6 @@ public class PantallaJuego extends Pantalla {
 
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
-    private LimitesNivel limitesNivel;
     private Array<ObjetoDelJuego> objetosDelJuego;
 
     //private Hud hud;
@@ -45,7 +45,7 @@ public class PantallaJuego extends Pantalla {
         //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         viewport = new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO, camera);
         box2DDebugRendered = new Box2DDebugRenderer();
-        Gdx.gl.glClearColor(0, 0, 0f, 1);
+        Gdx.gl.glClearColor(0, 0.1f, 0f, 1);
         //todosLosNiveles = new Array<Nivel>();
         //todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
         //world.setContactListener(new GameContactListener());
@@ -174,6 +174,7 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void alPresionarDerecha(Jugador jugador) {
+        Gdx.app.log("PantallaJuego", "Derecha!!!");
         // TODO Auto-generated method stub
     }
 

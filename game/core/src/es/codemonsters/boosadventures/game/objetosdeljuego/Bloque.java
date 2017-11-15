@@ -23,8 +23,8 @@ public class Bloque extends ObjetoEstatico {
     public Bloque(float ancho, float alto, float x, float y, float angulo) {
         super();
         // Trasladamos las coordenadas al sistema de Box2D donde se definen respecto al centro del cuerpo
-        this.xBox2d = x + ancho/2;
-        this.yBox2d = y + alto/2;
+        xBox2d = x + ancho/2;
+        yBox2d = y + alto/2;
         // Adaptamos el tamaño a Box2D, donde el ancho y el alto de los rectángulos se define como la mitad del que realmente tienen
         this.anchoBox2d = ancho/2;
         this.altoBox2d = alto/2;

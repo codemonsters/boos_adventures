@@ -27,7 +27,7 @@ public class MyGdxGame extends Game {
 	private FreeTypeFontParameter fontGeneratorDefaultParameters;
 	private BitmapFont bitmapFont;
     private GestorDispositivosDeJuego gestorDispositivosDeJuego = new GestorDispositivosDeJuego();
-    private InputMultiplexer inputMultiplexer;  // La lista de InputProcessors que utlizaremos
+    private InputMultiplexer inputMultiplexer;  // La lista de InputProcessors que utilizaremos
 	private InputProcessorJugadores inputProcessorJugadores;
 	private Pantalla pantallaActiva;
     private Array<Jugador> jugadoresEnEspera;   // Lista de jugadores conectados que quieren incorporarse a la partida

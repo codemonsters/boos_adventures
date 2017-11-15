@@ -6,10 +6,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class ObjetoJugador extends ObjetoDinamico {
 
+    private static final float ANCHO = 0.6f; // Ancho del jugador (en metros)
+    private static final float ALTO = 1.5f; // Alto del jugador (en metros)
+    private float xBox2d, yBox2d;
     private Body body;
     // FIXME: Adaptar la clase para que todo se defina mendiante el mismo sistema (tanto lo expresado para box2d como para las texturas)
     public ObjetoJugador() {
@@ -34,7 +38,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         fixtureDef.density = 10;
         fixtureDef.friction = 0.5f;
         fixtureDef.shape = circleShape;
-        fixture = body.createFixture(fixtureDef);  // TODO: Review player density and other proterties
+        fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
 
         // Head sensor
@@ -52,6 +56,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData("feet");
+        */
     }
 
     @Override
