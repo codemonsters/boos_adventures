@@ -14,9 +14,10 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Nivel {
-    JsonValue valoresJsonNivel;
+    private JsonValue valoresJsonNivel;
+    private String archivo;
     public Nivel(String archivo) {
-        //TODO: Parsear el archivo JSON que recibe por argumento y a partir de él crear un array interno que contenga toda la inforamción leída
+        this.archivo = archivo;
         JsonReader jsonRe = new JsonReader();
         valoresJsonNivel = jsonRe.parse(Gdx.files.internal("niveles/" + archivo));
     }
@@ -40,7 +41,7 @@ public class Nivel {
                 Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
                 objetosDelJuegos.add(bloque);
             } else {
-                Gdx.app.log("Nivel","Tipo de objeto desconocido: " + clase);
+                Gdx.app.log("Nivel","Tipo de objeto desconocido encontrado en " + archivo + ": " + clase);
             }
         }
         return objetosDelJuegos;

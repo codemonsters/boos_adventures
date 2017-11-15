@@ -56,7 +56,6 @@ public class ObjetoJugador extends ObjetoDinamico {
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData("feet");
-        */
     }
 
     @Override
