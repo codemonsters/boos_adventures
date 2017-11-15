@@ -1,46 +1,46 @@
-[
-  {
-    "clase": "Cabecera",
+{
+  "cabecera": {
     "nombre": "El comienzo",
     "sugerencia": "Todos deben llegar a la meta"
   },
-  {
-    "clase": "Spawn",
-    "x": "5",
-    "y": "5"
-  },
-  {
-    "clase": "Meta",
-    "x": "10",
-    "y": "10"
-  },
-  {
-    //El suelo
-    "clase": "Bloque",
-    "x": "0",
-    "y": "0",
-    "ancho": "50",
-    "alto": "1",
-    "angulo": "0",
-    "regiontextura": "1"
-  },
-  {
-    "clase": "Bloque",
-    "x": "1",
-    "y": "3",
-    "ancho": "16",
-    "alto": "7",
-    "angulo": "15",
-    "regiontextura": "1"
-  },
-  {
-  "clase": "Bloque",
-  "x": "40",
-  "y": "5",
-  "ancho": "8",
-  "alto": "20",
-  "angulo": "45",
-  "regiontextura": "1"
-  }
-]
-
+  "objetos": [
+    {
+      "clase": "spawn",
+      "x": "5",
+      "y": "5"
+    },
+    {
+      "clase": "meta",
+      "x": "10",
+      "y": "10"
+    },
+    {
+      //El suelo
+      "clase": "bloque",
+      "x": "0",
+      "y": "0",
+      "ancho": "50",
+      "alto": "1",
+      "angulo": "0",
+      "regiontextura": "1"
+    },
+    {
+      "clase": "bloque",
+      "x": "1",
+      "y": "3",
+      "ancho": "16",
+      "alto": "7",
+      "angulo": "15",
+      "regiontextura": "1"
+    },
+    {
+      "clase": "bloque",
+      "x": "40",
+      "y": "5",
+      "ancho": "8",
+      "alto": "20",
+      "angulo": "45",
+      "regiontextura": "1"
+    }
+  ]
+}
