@@ -15,11 +15,12 @@ public class ObjetoJugador extends ObjetoDinamico {
     private static final float ALTO = 1.5f; // Alto del jugador (en metros)
     private float xBox2d, yBox2d;
     private Body body;
-    // FIXME: Adaptar la clase para que todo se defina mendiante el mismo sistema (tanto lo expresado para box2d como para las texturas)
+
     public ObjetoJugador() {
         super();
     }
     // Defines the physical body of the player
+
     public void definirCuerpo(World world) {
         // Body
         BodyDef bdef = new BodyDef();

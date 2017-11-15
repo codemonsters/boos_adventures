@@ -1,12 +1,11 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+
+import es.codemonsters.boosadventures.game.Utiles;
 
 public class Bloque extends ObjetoEstatico {
 
@@ -37,10 +36,7 @@ public class Bloque extends ObjetoEstatico {
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xBox2d, yBox2d);
         Body body = world.createBody(bdef);
-        //calcular angulo
-        final double DEGREES_TO_RADIANS = (double)(Math.PI/180);
-        float angle = (float) (angulo*DEGREES_TO_RADIANS);
-        body.setTransform(body.getWorldCenter(), angle);
+        body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
         body.setUserData(this);
 
         PolygonShape polygonShape = new PolygonShape();
