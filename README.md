@@ -4,8 +4,8 @@
 
 Juego cooperativo en 2D con soporte multijugador mediante bluetooth
 
-* Aventura 2D plataformas-puzzle multijudaro
-* Gameplay que incentivará la cooperación para resolver cada nivel
+* Aventura 2D plataformas-puzzle multijudador
+* Gameplay que incentiva la cooperación para resolver cada nivel
 * Control del juego desde aplicación Android con conexión bluetooth y también a través del teclado (útil durante el desarrollo para controlar dos o tres jugadores)
 * Fisicas y graficos por tiles
 * Pantalla 16:9 1920x1080 (aunque durante el desarrollo por comodidad podemos utilizar 1280x720)
