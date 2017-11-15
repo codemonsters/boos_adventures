@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Bloque extends ObjetoEstatico {
 
-    private World world;
     private float anchoBox2d, altoBox2d, xBox2d, yBox2d, angulo;
     // Todo será más fácil si en los objetos del juego definimos todo con el mismo sistema de coordenadas (es decir tanto lo relativo a box2d como a las texturas, etc).
     // Por ejemplo:
@@ -21,9 +20,8 @@ public class Bloque extends ObjetoEstatico {
     // * Poder crearse expresando las cosas e internamente tendremos que traducir esto por ejemplo antes de usar Box2D
     // * Tener los getters y setters que sean necesarios para poder leer y escribir las posiciones y dimensiones "traducidas"
 
-    public Bloque(World world, float ancho, float alto, float x, float y, float angulo) {
-        super(world);
-        this.world = world;
+    public Bloque(float ancho, float alto, float x, float y, float angulo) {
+        super();
         // Trasladamos las coordenadas al sistema de Box2D donde se definen respecto al centro del cuerpo
         this.xBox2d = x + ancho/2;
         this.yBox2d = y + alto/2;
@@ -31,10 +29,10 @@ public class Bloque extends ObjetoEstatico {
         this.anchoBox2d = ancho/2;
         this.altoBox2d = alto/2;
         this.angulo = angulo;
-        definirCuerpo();
     }
 
-    private void definirCuerpo() {
+    @Override
+    public void definirCuerpo(World world) {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xBox2d, yBox2d);
@@ -52,6 +50,5 @@ public class Bloque extends ObjetoEstatico {
         fixture = body.createFixture(polygonShape, floor_density);
         fixture.setUserData(this);
     }
-
 
 }

@@ -53,14 +53,18 @@ public class PantallaJuego extends Pantalla {
 
     private void inicializaNivel() {
         world = new World(new Vector2(0, -9.81f), true);
-        Nivel nivel = new Nivel("001.json",world);
+        Nivel nivel = new Nivel("001.json");
 
         objetosDelJuego = nivel.getObjetosDelJuego();
+        for (ObjetoDelJuego objeto : objetosDelJuego){
+            objeto.definirCuerpo(world);
+        }
         //objetosDelJuego.add(new Spawn(world, 2, 11);
         //objetosDelJuego.add(new Meta(world, 20,23);
         Array<Jugador> jugadores = new Array<Jugador>();
         for (Jugador jugador : game.getJugadoresActivos()) {
-            jugador.setObjetoJugador(new ObjetoJugador(world));
+            jugador.setObjetoJugador(new ObjetoJugador());
+            jugador.getObjetoJugador().definirCuerpo(world);
         }
         nivelEnCurso = true;
     }

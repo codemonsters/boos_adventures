@@ -23,15 +23,12 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class LimitesNivel extends ObjetoEstatico {
 
-    private World world;
-
-    public LimitesNivel(World world) {
-        super(world);
-        this.world = world;
-        definirCuerpo();
+    public LimitesNivel() {
+        super();
     }
 
-    private void definirCuerpo() {
+    @Override
+    public void definirCuerpo(World world) {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(0, 0);

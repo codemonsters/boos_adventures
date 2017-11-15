@@ -12,17 +12,16 @@ public class ObjetoJugador extends ObjetoDinamico {
 
     private Body body;
     // FIXME: Adaptar la clase para que todo se defina mendiante el mismo sistema (tanto lo expresado para box2d como para las texturas)
-    public ObjetoJugador(World world) {
-        super(world);
-        definirCuerpo();
+    public ObjetoJugador() {
+        super();
     }
     // Defines the physical body of the player
-    private void definirCuerpo() {
+    public void definirCuerpo(World world) {
         // Body
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(9, 8.5f);
-        body = getWorld().createBody(bdef);
+        body = world.createBody(bdef);
         body.setFixedRotation(true);
         body.setUserData(this);
 

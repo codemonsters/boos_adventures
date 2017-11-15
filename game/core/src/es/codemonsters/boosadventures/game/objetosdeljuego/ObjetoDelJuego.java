@@ -5,15 +5,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public abstract class ObjetoDelJuego {
 
-    private World world;
     protected Fixture fixture;
 
-    public ObjetoDelJuego(World world) {
-        this.world = world;
+    public ObjetoDelJuego() {
     }
 
-    public World getWorld() {
-        return world;
-    }
-
+    public abstract void definirCuerpo(World world);
 }
