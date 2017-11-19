@@ -84,6 +84,13 @@ public class PantallaMenu extends Pantalla {
     }
 
     @Override
+    public void conectaJugador(Jugador jugador) {
+        // Estamos en el menú, si un jugador se añade entonces pasa directamente a la lista de jugadores activos
+        game.agregaJugadorActivo(jugador);
+    }
+
+
+    @Override
     public void alPresionarArriba(Jugador jugador) {
         // Estamos en el menú, ignoramos esta acción
     }
@@ -130,7 +137,6 @@ public class PantallaMenu extends Pantalla {
         // TODO: Una idea mejor podría ser poner una cuenta atrás de 5 segundos para que otros jugadores pudiesen pulsar su boton1 e incorporarse todos juntos a la partida desde un inicio
         Gdx.app.debug("PantallaMenu", "Uno de los jugadores quiere empezar el juego");
         game.setPantalla(new PantallaJuego(game));
-
     }
 
     @Override
@@ -139,8 +145,14 @@ public class PantallaMenu extends Pantalla {
     }
 
     @Override
-    public void conectaJugador(Jugador jugador) {
-        // Estamos en el menú, si un jugador se añade entonces pasa directamente a la lista de jugadores activos
-        game.agregaJugadorActivo(jugador);
+    public void alPresionarCancelar(Jugador jugador) {
+        // TODO: Estamos en el menú y el jugador a pulsado cancelar. Esto debería hacer que el jugador no se una a la partida o bien que se desconecte del servidor
     }
+
+    @Override
+    public void alLiberarCancelar(Jugador jugador) {
+        // Estamos en el menú, ignoramos esta acción
+    }
+
+
 }

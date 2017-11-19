@@ -58,10 +58,10 @@ public class MyGdxGame extends Game {
     public void agregaJugadorActivo(Jugador jugador) {
         synchronized (jugadoresActivos) {
             if (jugadoresActivos.contains(jugador, false)) {
-                Gdx.app.debug("MyGdxGame", "El jugador ya estaba en la lista de jugadores activos, ignorando esta nueva solicitud");
+                Gdx.app.debug("MyGdxGame", "'" + jugador + "' ya estaba en la lista de jugadores activos, ignorando esta nueva solicitud");
             } else {
                 jugadoresActivos.add(jugador);
-                Gdx.app.debug("MyGdxGame", "Nuevo jugador añadido a la lista de jugadores activos (jugador: " + jugador + ")");
+                Gdx.app.debug("MyGdxGame", "'" + jugador + "' añadido a la lista de jugadores activos");
             }
         }
     }

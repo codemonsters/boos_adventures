@@ -22,4 +22,7 @@ public interface InputProcessorJugadores {
 
     public void alLiberarBoton1(Jugador jugador);
 
+    public void alPresionarCancelar(Jugador jugador);
+
+    public void alLiberarCancelar(Jugador jugador);
 }

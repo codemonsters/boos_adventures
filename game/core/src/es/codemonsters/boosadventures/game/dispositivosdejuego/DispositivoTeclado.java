@@ -38,7 +38,18 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
     public boolean keyDown(int keycode) {
         if (keycode == key_code_button1) {
             game.getPantalla().alPresionarBoton1(getJugador());
+        } else if (keycode == key_code_cancel) {
+            game.getPantalla().alPresionarCancelar(getJugador());
+        } else if (keycode == key_code_up) {
+            game.getPantalla().alPresionarArriba(getJugador());
+        } else if (keycode == key_code_down) {
+            game.getPantalla().alPresionarAbajo(getJugador());
+        } else if (keycode == key_code_left) {
+            game.getPantalla().alPresionarIzquierda(getJugador());
+        } else if (keycode == key_code_right) {
+            game.getPantalla().alPresionarDerecha(getJugador());
         } else {
+            Gdx.app.debug("DispositivoTeclado", "Pulsación de tecla ignorada (keycode=" + keycode + ")" );
             return false;
         }
         return true;
@@ -48,7 +59,18 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
     public boolean keyUp(int keycode) {
         if (keycode == key_code_button1) {
             game.getPantalla().alLiberarBoton1(getJugador());
+        } else if (keycode == key_code_cancel) {
+            game.getPantalla().alLiberarCancelar(getJugador());
+        } else if (keycode == key_code_up) {
+            game.getPantalla().alLiberarArriba(getJugador());
+        } else if (keycode == key_code_down) {
+            game.getPantalla().alLiberarAbajo(getJugador());
+        } else if (keycode == key_code_left) {
+            game.getPantalla().alLiberarIzquierda(getJugador());
+        } else if (keycode == key_code_right) {
+            game.getPantalla().alLiberarDerecha(getJugador());
         } else {
+            Gdx.app.debug("DispositivoTeclado", "Pulsación de tecla ignorada (keycode=" + keycode + ")" );
             return false;
         }
         return true;

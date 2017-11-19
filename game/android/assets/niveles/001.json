@@ -28,8 +28,8 @@
       "clase": "bloque",
       "x": "1",
       "y": "3",
-      "ancho": "16",
-      "alto": "7",
+      "ancho": "3",
+      "alto": "2",
       "angulo": "15",
       "regiontextura": "1"
     },

@@ -1,5 +1,6 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,6 +16,7 @@ public class ObjetoJugador extends ObjetoDinamico {
     private static final float ALTO = 1.5f; // Alto del jugador (en metros)
     private float xBox2d, yBox2d;
     private Body body;
+    private boolean presionandoDerecha, presionandoIzquierda = false;
 
     public ObjetoJugador() {
         super();
@@ -62,6 +64,20 @@ public class ObjetoJugador extends ObjetoDinamico {
     @Override
     public void update(float dt) {
         // TODO: Implementar
+        if (presionandoDerecha) {
+            body.applyForceToCenter(new Vector2(+1 * 8000 * dt, 0), true);
+        }
+
+        if (presionandoIzquierda) {
+            body.applyForceToCenter(new Vector2(-1 * 8000 * dt, 0), true);
+        }
     }
 
+    public void setPresionandoDerecha(boolean presionandoDerecha) {
+        this.presionandoDerecha = presionandoDerecha;
+    }
+
+    public void setPresionandoIzquierda(boolean presionandoIzquierda) {
+        this.presionandoIzquierda = presionandoIzquierda;
+    }
 }

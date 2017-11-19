@@ -164,23 +164,30 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void alPresionarIzquierda(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoIzquierda(true);
+        }
     }
 
     @Override
     public void alLiberarIzquierda(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoIzquierda(false);
+        }
     }
 
     @Override
     public void alPresionarDerecha(Jugador jugador) {
-        Gdx.app.log("PantallaJuego", "Derecha!!!");
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoDerecha(true);
+        }
     }
 
     @Override
     public void alLiberarDerecha(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoDerecha(false);
+        }
     }
 
     @Override
@@ -191,6 +198,16 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void alLiberarBoton1(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alPresionarCancelar(Jugador jugador) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void alLiberarCancelar(Jugador jugador) {
         // TODO Auto-generated method stub
     }
 
