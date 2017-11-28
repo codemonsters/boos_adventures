@@ -1,6 +1,8 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -15,9 +17,11 @@ public class ObjetoJugador extends ObjetoDinamico {
     private static final float ANCHO = 0.6f; // Ancho del jugador (en metros)
     private static final float ALTO = 1.5f; // Alto del jugador (en metros)
     private float xBox2d, yBox2d;
-    private Body body;
+    public Body body;
     private boolean presionandoDerecha, presionandoIzquierda = false;
-
+    public Sprite sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo0.png")),500,600);
+    float deltaTime = 0;
+    int frame = 0;
     public ObjetoJugador() {
         super();
     }
@@ -64,6 +68,18 @@ public class ObjetoJugador extends ObjetoDinamico {
     @Override
     public void update(float dt) {
         // TODO: Implementar
+        deltaTime += dt;
+        if (deltaTime>0.5f){
+            deltaTime =0;
+            if (frame==0){
+                sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo0.png")),500,600);
+            }
+            else{
+                sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo1.png")),500,600);
+                frame = -1;
+            }
+            frame ++;
+        }
         if (presionandoDerecha) {
             body.applyForceToCenter(new Vector2(+1 * 8000 * dt, 0), true);
         }
