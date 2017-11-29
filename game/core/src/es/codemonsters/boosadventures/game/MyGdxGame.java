@@ -43,6 +43,7 @@ public class MyGdxGame extends Game {
 
 	protected GestorDispositivosDeJuego getGestorDispositivosDeJuego() { return gestorDispositivosDeJuego; }
 
+	private float ppm = 0;
     public InputMultiplexer getInputMultiplexer() { return inputMultiplexer; }
 
 	public void setPantalla(Pantalla pantalla) {
@@ -145,12 +146,30 @@ public class MyGdxGame extends Game {
 		setPantalla(new PantallaMenu(this));
 	}
 
+	public float getPpm(){
+		return  ppm;
+	}
+
 	@Override
-	public void dispose () {
+	public void dispose() {
         gestorDispositivosDeJuego.desconectarTodos();   // TODO: Deberíamos desconectar los dispositivos incluso cuando cerramos la aplicación con el aspa o bruscamente
         getPantalla().dispose();
 		bitmapFont.dispose();
 		fontGenerator.dispose();
 		batch.dispose();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		if (Gdx.graphics.getWidth() / Gdx.graphics.getHeight() > 16 / 9 ) {
+			// La pantalla es muy ancha, calculamos los píxeles por metro a partir del alto (suponemos que hay barras en los lados)
+			ppm = Gdx.graphics.getHeight() / 27;
+		}
+		else{
+			//la pantalla es muy alta o exactamente 16 / 9 calculamos los puntos por pulgada basandonos en el ancho
+			ppm = Gdx.graphics.getWidth() / 48;
+		}
+		Gdx.app.debug("MyGdxGame", "Ventana redimensionada. ppm = " + ppm);
+
 	}
 }

@@ -116,7 +116,10 @@ public class PantallaJuego extends Pantalla {
             float ppm = 29.1f;
             Sprite sprite = new Sprite(jugador.getObjetoJugador().sprite);
 
-            sprite.setPosition(jugador.getObjetoJugador().body.getPosition().x* ppm-245,jugador.getObjetoJugador().body.getPosition().y*ppm-290);
+            //sprite.setPosition(jugador.getObjetoJugador().body.getPosition().x* ppm - 254 , jugador.getObjetoJugador().body.getPosition().y*ppm-290);
+            float xSprite = (jugador.getObjetoJugador().body.getPosition().x - 0.75f ) * game.getPpm();
+            float ySprite = (jugador.getObjetoJugador().body.getPosition().y - 0.75f) * game.getPpm();
+            sprite.setPosition(xSprite, ySprite);
             sprite.scale(-0.85f);
             sprite.draw(game.getSpriteBatch());
         }

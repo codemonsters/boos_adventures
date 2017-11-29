@@ -15,4 +15,9 @@ public abstract class ObjetoDelJuego implements Disposable {
 
     @Override
     public abstract void dispose();
+    /* Descomentar para poder girar cualquier objeto!
+    public void Rotate(int angulo){
+        fixture.getBody().setTransform(fixture.getBody().getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
+    }*/
+
 }
