@@ -38,10 +38,8 @@ public class Bloque extends ObjetoEstatico {
         Body body = world.createBody(bdef);
         body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
         body.setUserData(this);
-
         PolygonShape polygonShape = new PolygonShape();
         final float floor_density = 10; // TODO: Revisar si esta es la densidad que queremos para este tipo de objeto
-
         polygonShape.setAsBox(anchoBox2d, altoBox2d);
         fixture = body.createFixture(polygonShape, floor_density);
         fixture.setUserData(this);
@@ -53,3 +51,4 @@ public class Bloque extends ObjetoEstatico {
     }
 
 }
+

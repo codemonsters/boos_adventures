@@ -3,6 +3,7 @@ package es.codemonsters.boosadventures.game.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -27,6 +28,8 @@ public class PantallaJuego extends Pantalla {
     private Array<Nivel> todosLosNiveles;
     private boolean nivelEnCurso;
 
+    private Vector2 spawnPos = new Vector2();
+    Sprite sprite;
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
     private Array<ObjetoDelJuego> objetosDelJuego;
@@ -63,6 +66,8 @@ public class PantallaJuego extends Pantalla {
         for (Jugador jugador : game.getJugadoresActivos()) {
             jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f));
             jugador.getObjetoJugador().definirCuerpo(world);
+            spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
+            spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
         }
         nivelEnCurso = true;
     }
@@ -84,6 +89,7 @@ public class PantallaJuego extends Pantalla {
     @Override
     public void render(float dt) {
         // Actualizamos los jugadores
+
         for (Jugador jugador : game.getJugadoresActivos()) {
             jugador.getObjetoJugador().update(dt);
         }
@@ -99,11 +105,22 @@ public class PantallaJuego extends Pantalla {
         // Renderizamos
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         box2DDebugRendered.render(world, camera.combined);
-        game.getSpriteBatch().setProjectionMatrix(camera.combined); // Inidicamos al SpriteBatch a dónde está mirando la cámara para sólo renderizar lo que la cámara vé
+        //game.getSpriteBatch().setProjectionMatrix(camera.combined); no deja ver sprites
+
         game.getSpriteBatch().begin();
+
+        for (Jugador jugador : game.getJugadoresActivos()) {
+            float ppm = 29.1f;
+            Sprite sprite = new Sprite(jugador.getObjetoJugador().sprite);
+
+            sprite.setPosition(jugador.getObjetoJugador().body.getPosition().x* ppm-245,jugador.getObjetoJugador().body.getPosition().y*ppm-290);
+            sprite.scale(-0.85f);
+            sprite.draw(game.getSpriteBatch());
+        }
+
         // TODO: Componer el frame
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
-        game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
+        //game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
         //hud.getStage().draw();
         game.getSpriteBatch().end();
     }
