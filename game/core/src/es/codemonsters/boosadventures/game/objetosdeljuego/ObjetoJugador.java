@@ -17,11 +17,16 @@ public class ObjetoJugador extends ObjetoDinamico {
     private static final float FUERZA_SALTO = 7200; // Impulso aplicado al jugador para que salte (en newtons)
 
     private float xCentro, yCentro;
-    private Body body;
+    public Body body;   // FIXME: Poner un getter? Revisar esto
     private boolean presionandoDerecha, presionandoIzquierda, presionandoArriba, presionandoAbajo, presionandoBoton1 = false;
     private boolean estaApoyado = false;
     private boolean saltarEnSiguienteUpdate = false;
     private boolean yaEstaSaltando = false;
+    public Sprite sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo0.png")),500,600);    // FIXME: Intetar que esto no sea público
+    float deltaTime = 0;    // FIXME: Renombrar a algo más significativo
+    int frame = 0;
+
+
 
     public ObjetoJugador(float xCentro, float yCentro) {
         super();
@@ -106,6 +111,21 @@ public class ObjetoJugador extends ObjetoDinamico {
                 }
             }
         }
+
+        // Actualizar el sprite
+        deltaTime += dt;
+        if (deltaTime>0.5f){
+            deltaTime =0;
+            if (frame==0){
+                sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo0.png")),500,600);
+            }
+            else{
+                sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo1.png")),500,600);
+                frame = -1;
+            }
+            frame ++;
+        }
+
     }
 
     public void setPresionandoDerecha(boolean presionandoDerecha) {

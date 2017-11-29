@@ -17,6 +17,9 @@ import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+
 
 public class PantallaJuego extends Pantalla {
 
@@ -105,7 +108,7 @@ public class PantallaJuego extends Pantalla {
         // Renderizamos
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         box2DDebugRendered.render(world, camera.combined);
-        //game.getSpriteBatch().setProjectionMatrix(camera.combined); no deja ver sprites
+        //game.getSpriteBatch().setProjectionMatrix(camera.combined); // FIXME: Comentado porque parece que no deja ver los sprites
 
         game.getSpriteBatch().begin();
 
