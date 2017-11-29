@@ -68,4 +68,9 @@ public class LimitesNivel extends ObjetoEstatico {
         fixture.setUserData("goal");
     }
 
+    @Override
+    public void dispose() {
+        // FIXME: Añadir código para eliminar este objeto
+    }
+
 }

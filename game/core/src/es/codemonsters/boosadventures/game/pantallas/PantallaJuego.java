@@ -3,7 +3,6 @@ package es.codemonsters.boosadventures.game.pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,11 +10,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import es.codemonsters.boosadventures.game.ContactListenerJuego;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
-import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
-import es.codemonsters.boosadventures.game.objetosdeljuego.LimitesNivel;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
@@ -48,7 +46,7 @@ public class PantallaJuego extends Pantalla {
         Gdx.gl.glClearColor(0, 0.1f, 0f, 1);
         //todosLosNiveles = new Array<Nivel>();
         //todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
-        //world.setContactListener(new GameContactListener());
+        world.setContactListener(new ContactListenerJuego());
     }
 
     private void inicializaNivel() {
@@ -63,7 +61,7 @@ public class PantallaJuego extends Pantalla {
         //objetosDelJuego.add(new Meta(world, 20,23);
         Array<Jugador> jugadores = new Array<Jugador>();
         for (Jugador jugador : game.getJugadoresActivos()) {
-            jugador.setObjetoJugador(new ObjetoJugador());
+            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f));
             jugador.getObjetoJugador().definirCuerpo(world);
         }
         nivelEnCurso = true;
@@ -144,22 +142,30 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void alPresionarArriba(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoArriba(true);
+        }
     }
 
     @Override
     public void alLiberarArriba(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoArriba(false);
+        }
     }
 
     @Override
     public void alPresionarAbajo(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoAbajo(true);
+        }
     }
 
     @Override
     public void alLiberarAbajo(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoAbajo(false);
+        }
     }
 
     @Override
@@ -192,23 +198,27 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void alPresionarBoton1(Jugador jugador) {
-        // TODO Auto-generated method stub
-        Gdx.app.debug("PantallaJuego", "Uno de los jugadores ha presionado su boton1");
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoBoton1(true);
+        }
     }
 
     @Override
     public void alLiberarBoton1(Jugador jugador) {
-        // TODO Auto-generated method stub
+        if (jugador.getObjetoJugador() != null) {
+            jugador.getObjetoJugador().setPresionandoBoton1(false);
+        }
     }
 
     @Override
     public void alPresionarCancelar(Jugador jugador) {
-        // TODO Auto-generated method stub
+        // El jugador quiere abandonar la partida
+        game.eliminaJugador(jugador);
     }
 
     @Override
     public void alLiberarCancelar(Jugador jugador) {
-        // TODO Auto-generated method stub
+        // Ignoramos el evento porque ya hemos atendido esto en el método alPresionarCancelar
     }
 
 

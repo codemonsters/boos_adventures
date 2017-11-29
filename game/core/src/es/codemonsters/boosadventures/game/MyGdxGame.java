@@ -77,6 +77,25 @@ public class MyGdxGame extends Game {
         }
     }
 
+    public void eliminaJugador(Jugador jugador) {
+		synchronized (jugadoresActivos){
+			synchronized (jugadoresEnEspera) {
+				if (jugadoresActivos.contains(jugador, false)) {
+					// Debemos eliminar un jugador que está jugando la partida actual
+					jugador.dispose();
+					jugadoresActivos.removeValue(jugador, false);
+				} else if (jugadoresEnEspera.contains(jugador, false)) {
+					// Debemos eliminar un jugador que está en espera
+					jugador.dispose();
+					jugadoresEnEspera.removeValue(jugador, false);
+				} else {
+					// ¡No hemos encontrado el jugador que se quiere eliminar!
+					Gdx.app.error("MyGdxGame", "Esto no debería suceder nunca: se ha intentado eliminar un jugador que no se ha encontrado ni en la lista jugadoresActivos ni en jugadoresEnEspera");
+				}
+			}
+		}
+	}
+
     public void incorporaJugadoresEnEspera() {
 		synchronized(jugadoresEnEspera) {
 			for (int i = 0; i < jugadoresEnEspera.size; i++) {
@@ -116,22 +135,15 @@ public class MyGdxGame extends Game {
         jugadoresEnEspera = new Array<Jugador>();
 
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
-		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.ENTER, Input.Keys.BACKSPACE, new Jugador("Jugador 1"), this);
+		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.CONTROL_RIGHT, Input.Keys.BACKSPACE, new Jugador("Jugador 1"), this);
 		getGestorDispositivosDeJuego().conectar(tecladoJugador1);
-		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.ESCAPE, new Jugador("Jugador 2"), this);
+		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.SPACE, new Jugador("Jugador 2"), this);
 		//tecladoJugador2.setJugador();
 		getGestorDispositivosDeJuego().conectar(tecladoJugador2);
 
 		// Definimos la pantalla en la que iniciará el juego
 		setPantalla(new PantallaMenu(this));
 	}
-
-	/*
-	@Override
-	public void render() {
-		super.render();
-	}
-	*/
 
 	@Override
 	public void dispose () {

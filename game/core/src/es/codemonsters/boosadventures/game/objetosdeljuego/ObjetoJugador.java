@@ -7,32 +7,39 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class ObjetoJugador extends ObjetoDinamico {
 
-    private static final float ANCHO = 0.6f; // Ancho del jugador (en metros)
-    private static final float ALTO = 1.5f; // Alto del jugador (en metros)
-    private float xBox2d, yBox2d;
-    private Body body;
-    private boolean presionandoDerecha, presionandoIzquierda = false;
+    private static final float IMPULSO_MOVIMIENTO = 8000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
+    private static final float FUERZA_SALTO = 7200; // Impulso aplicado al jugador para que salte (en newtons)
 
-    public ObjetoJugador() {
+    private float xCentro, yCentro;
+    private Body body;
+    private boolean presionandoDerecha, presionandoIzquierda, presionandoArriba, presionandoAbajo, presionandoBoton1 = false;
+    private boolean estaApoyado = false;
+    private boolean saltarEnSiguienteUpdate = false;
+    private boolean yaEstaSaltando = false;
+
+    public ObjetoJugador(float xCentro, float yCentro) {
         super();
+        this.xCentro = xCentro;
+        this.yCentro = yCentro;
     }
-    // Defines the physical body of the player
 
     public void definirCuerpo(World world) {
+        // El jugador es un cuerpo circular de 1,5 metros de diámetro
+
         // Body
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(9, 8.5f);
+        //bdef.position.set(9, 8.5f);
+        bdef.position.set(xCentro, yCentro);
         body = world.createBody(bdef);
         body.setFixedRotation(true);
         body.setUserData(this);
 
-        // Main boundary fixture (1,5m diameter circle)
+        // Fixture principal (círculo de 1,5m de diámetro)
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(0.75f);
         FixtureDef fixtureDef = new FixtureDef();
@@ -44,32 +51,58 @@ public class ObjetoJugador extends ObjetoDinamico {
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
 
-        // Head sensor
+        /*
+        // Sensor de la cabeza
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-0.50f, 0.75f), new Vector2(0.50f, 0.75f));
         fixtureDef.shape = head;
-        fixtureDef.isSensor = true; // This is a sensor, it will not collide with other bodies of the world
-        fixture = body.createFixture(fixtureDef); // Define "head" as the unique name of this fixture to help us to identify it during collisions
-        fixture.setUserData("head");
+        fixtureDef.isSensor = true; // Es un sensor, no colisionará con otros cuerpos del mundo
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData("cabezaJugador"); // Definimos un nombre único en el fixture para identificarlo con facilidad cuando contacte con otros cuerpos
+        */
 
-        // Feet sensor
+        // Sensor de los pies
         EdgeShape feet = new EdgeShape();
         feet.set(new Vector2(-0.50f, -0.75f), new Vector2(0.50f, -0.75f));
         fixtureDef.shape = feet;
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
-        fixture.setUserData("feet");
+        fixture.setUserData("piesJugador");
+    }
+
+    @Override
+    public void dispose() {
+        // FIXME: Añadir código para eliminar el objeto
     }
 
     @Override
     public void update(float dt) {
-        // TODO: Implementar
-        if (presionandoDerecha) {
-            body.applyForceToCenter(new Vector2(+1 * 8000 * dt, 0), true);
-        }
-
-        if (presionandoIzquierda) {
-            body.applyForceToCenter(new Vector2(-1 * 8000 * dt, 0), true);
+        if (estaApoyado) {
+            if (saltarEnSiguienteUpdate && !yaEstaSaltando) {
+                yaEstaSaltando = true;
+                Gdx.app.debug("ObjetoJugador", "¡Saltar!");
+                saltarEnSiguienteUpdate = false;
+                if (presionandoDerecha) {
+                    // Salto diagonal derecha
+                    body.applyForceToCenter(new Vector2(body.getLinearVelocity().x, FUERZA_SALTO), true);
+                } else if (presionandoIzquierda) {
+                    // Salto diagonal izquierda
+                    body.applyForceToCenter(new Vector2(body.getLinearVelocity().x, FUERZA_SALTO), true);
+                } else {
+                    // Salto arriba
+                    body.applyForceToCenter(new Vector2(0, FUERZA_SALTO), true);
+                }
+                saltarEnSiguienteUpdate = false;
+            } else {
+                if (presionandoIzquierda) {
+                    // Desplazamiento a la izquierda
+                    body.applyForceToCenter(new Vector2(-1 * IMPULSO_MOVIMIENTO * dt, 0), true);
+                }
+                if (presionandoDerecha) {
+                    // Desplazamiento a la derecha
+                    body.applyForceToCenter(new Vector2(+1 * IMPULSO_MOVIMIENTO * dt, 0), true);
+                }
+            }
         }
     }
 
@@ -79,5 +112,32 @@ public class ObjetoJugador extends ObjetoDinamico {
 
     public void setPresionandoIzquierda(boolean presionandoIzquierda) {
         this.presionandoIzquierda = presionandoIzquierda;
+    }
+
+    public void setPresionandoArriba(boolean presionandoArriba) {
+        this.presionandoArriba = presionandoArriba;
+    }
+
+    public void setPresionandoAbajo(boolean presionandoAbajo) {
+        this.presionandoAbajo = presionandoAbajo;
+    }
+
+    public void setPresionandoBoton1(boolean presionandoBoton1) {
+        Gdx.app.debug("ObjetoJugador", "BOTON PRESIONADO");
+        this.presionandoBoton1 = presionandoBoton1;
+        if (!yaEstaSaltando && presionandoBoton1 == true) {
+            saltarEnSiguienteUpdate = true;
+        }
+    }
+
+    public void onFeetBeginContact() {
+        //Gdx.app.debug("ObjetoJugador", "Pies apoyados");
+        estaApoyado = true;
+        yaEstaSaltando = false;
+    }
+
+    public void onFeetEndContact() {
+        //Gdx.app.debug("ObjetoJugador", "Pies sin apoyo");
+        estaApoyado = false;
     }
 }

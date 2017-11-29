@@ -1,8 +1,10 @@
 package es.codemonsters.boosadventures.game;
 
+import com.badlogic.gdx.utils.Disposable;
+
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
-public class Jugador {
+public class Jugador implements Disposable {
     private String nombre;
     private ObjetoJugador objetoJugador;
 
@@ -27,4 +29,10 @@ public class Jugador {
         return getNombre();
     }
 
+    @Override
+    public void dispose() {
+        if (getObjetoJugador() != null) {
+            getObjetoJugador().dispose();
+        }
+    }
 }

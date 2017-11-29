@@ -70,7 +70,6 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
         } else if (keycode == key_code_right) {
             game.getPantalla().alLiberarDerecha(getJugador());
         } else {
-            Gdx.app.debug("DispositivoTeclado", "Pulsación de tecla ignorada (keycode=" + keycode + ")" );
             return false;
         }
         return true;
