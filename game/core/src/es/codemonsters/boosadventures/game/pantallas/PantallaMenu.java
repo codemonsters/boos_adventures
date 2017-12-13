@@ -1,8 +1,10 @@
 package es.codemonsters.boosadventures.game.pantallas;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -10,6 +12,8 @@ import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 
 public class PantallaMenu extends Pantalla {
+    public static final float ANCHO_VIRTUAL = 160;
+    public static final float ALTO_VIRTUAL = 90;
     private MyGdxGame game;
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -18,8 +22,10 @@ public class PantallaMenu extends Pantalla {
     public PantallaMenu(final MyGdxGame game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+        //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new FitViewport(ALTO_VIRTUAL, ALTO_VIRTUAL, camera);
+        viewport.apply();
+        camera.position.set(camera.viewportWidth/2,camera.viewportHeight,0);
     }
 
     @Override
@@ -39,6 +45,12 @@ public class PantallaMenu extends Pantalla {
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         game.getSpriteBatch().begin();
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.line(0,0,0,ANCHO_VIRTUAL - 1,ALTO_VIRTUAL - 1,0, Color.BLUE,Color.RED);
+        Gdx.gl20.glLineWidth(1/camera.zoom);
+        shapeRenderer.end();
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
         game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> PREPARADO", 100, 160);
@@ -60,7 +72,8 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update((int)width, (int)width);
+        camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
     }
 
     @Override
