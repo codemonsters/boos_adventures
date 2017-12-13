@@ -21,9 +21,9 @@ public class PantallaMenu extends Pantalla {
 
     public PantallaMenu(final MyGdxGame game) {
         this.game = game;
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport = new FitViewport(ALTO_VIRTUAL, ALTO_VIRTUAL, camera);
+        viewport = new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL, camera);
         viewport.apply();
         camera.position.set(camera.viewportWidth/2,camera.viewportHeight,0);
     }
