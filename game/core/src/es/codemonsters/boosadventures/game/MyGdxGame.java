@@ -170,6 +170,7 @@ public class MyGdxGame extends Game {
 			ppm = Gdx.graphics.getWidth() / 48;
 		}
 		Gdx.app.debug("MyGdxGame", "Ventana redimensionada. ppm = " + ppm);
+		getPantalla().resize(width, height);
 
 	}
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.codemonsters.boosadventures.game.Jugador;
@@ -24,33 +25,32 @@ public class PantallaMenu extends Pantalla {
         camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport = new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL, camera);
+        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         viewport.apply();
         camera.position.set(camera.viewportWidth/2,camera.viewportHeight,0);
+        Gdx.gl.glClearColor(0.0f, 0.5f, 0.0f, 1);
     }
 
     @Override
     public void show() {
         // TODO Auto-generated method stub
         tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
-
     }
 
     @Override
     public void render(float delta) {
-
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         camera.update();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
-
         game.getSpriteBatch().begin();
 
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.line(0,0,0,ANCHO_VIRTUAL - 1,ALTO_VIRTUAL - 1,0, Color.BLUE,Color.RED);
+        shapeRenderer.line(0,0,0, ANCHO_VIRTUAL, ALTO_VIRTUAL,0, Color.BLUE,Color.RED);
         Gdx.gl20.glLineWidth(1/camera.zoom);
+                                                                        viewport.apply();
         shapeRenderer.end();
+
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
         game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> PREPARADO", 100, 160);
@@ -72,8 +72,20 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update((int)width, (int)width);
-        camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
+        /*
+        if (Gdx.graphics.getWidth() / Gdx.graphics.getHeight() > 16 / 9 ) {
+            // La pantalla es muy ancha, calculamos los píxeles por metro a partir del alto (suponemos que hay barras en los lados)
+            ppm = Gdx.graphics.getHeight() / 27;
+        }
+        else{
+            //la pantalla es muy alta o exactamente 16 / 9 calculamos los puntos por pulgada basandonos en el ancho
+            ppm = Gdx.graphics.getWidth() / 48;
+        }
+        */
+        viewport.update(width, (int)ALTO_VIRTUAL, true);
+        //viewport.update((int)width, (int)width);
+        //camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
+        Gdx.app.log("PantallaMenu", "AQUI!!!!!!!!!!!!!!");
     }
 
     @Override

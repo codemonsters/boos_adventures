@@ -1,5 +1,6 @@
 package es.codemonsters.boosadventures.controlador.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import es.codemonsters.boosadventures.controlador.MyGdxGame;
