@@ -2,6 +2,7 @@ package es.codemonsters.boosadventures.controlador;
 
 import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -17,7 +18,7 @@ public class AndroidLauncher extends AndroidApplication {
 		game = new MyGdxGame();
 		initialize(game, config);
 
-		if (isBluetoothAvailable()) {
+		if (isBluetoothOn()) {
 			Gdx.app.log("AndroidLauncher", "BLUETOOTH ESTA ENCENDIDO");
 		} else {
 			Gdx.app.log("AndroidLauncher", "BLUETOOTH ESTA APAGADO");
@@ -38,6 +39,15 @@ public class AndroidLauncher extends AndroidApplication {
 			return true;
 	}
 
+	public boolean isBluetoothOn() {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if(mBluetoothAdapter != null) {
+			if(!mBluetoothAdapter.isEnabled()){
+				return false;
+			}
+		}
+		return true;
+	}
 	public void turnBluetoothOn() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if(mBluetoothAdapter != null) {
