@@ -17,17 +17,20 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		game = new MyGdxGame();
 		initialize(game, config);
-
-		if (isBluetoothOn()) {
-			Gdx.app.log("AndroidLauncher", "BLUETOOTH ESTA ENCENDIDO");
-		} else {
-			Gdx.app.log("AndroidLauncher", "BLUETOOTH ESTA APAGADO");
-			turnBluetoothOn();
-			if (isBluetoothAvailable()) {
-				Gdx.app.log("AndroidLauncher", "Ahora está encendido");
+		if (isBluetoothAvailable()) {
+			if (isBluetoothOn()) {
+				Gdx.app.debug("AndroidLauncher", "Bluetooth ya estaba activado");
 			} else {
-				Gdx.app.log("AndroidLauncher", "Y sigue apagado :-(");
+				turnBluetoothOn();
+				if (isBluetoothOn()) {
+					Gdx.app.debug("AndroidLauncher", "Bluetooth activado correctamente");
+				} else {
+					Gdx.app.error("AndroidLauncher", "Error al intentar activar bluetooth");
+				}
 			}
+		} else {
+			// El dispositivo no soporta bluetooth
+			Gdx.app.error("AndroidLauncher", "El dispositivo no soporta bluetooth");
 		}
 	}
 
