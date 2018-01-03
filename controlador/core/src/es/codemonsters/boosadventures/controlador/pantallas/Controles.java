@@ -1,4 +1,4 @@
-package es.codemonsters.boosadventures.controlador;
+package es.codemonsters.boosadventures.controlador.pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import es.codemonsters.boosadventures.controlador.MyGdxGame;
 
 
 public class Controles

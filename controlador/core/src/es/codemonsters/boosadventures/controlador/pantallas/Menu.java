@@ -1,19 +1,17 @@
-package es.codemonsters.boosadventures.controlador;
+package es.codemonsters.boosadventures.controlador.pantallas;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 
+import es.codemonsters.boosadventures.controlador.MyGdxGame;
 
-public class Menu
-        implements Screen
+
+public class Menu implements Screen
 {
     private MyGdxGame game;
     MyInputProcessor processor;
