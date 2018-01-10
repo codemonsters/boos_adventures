@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -26,8 +28,7 @@ public class PantallaJuego extends Pantalla {
     public static final int ANCHO_DEL_MUNDO = 44;   // Ancho del mundo (en metros)
     public static final int ALTO_DEL_MUNDO = 27;    // Alto del mundo (en metros)
     private MyGdxGame game;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    //private OrthographicCamera camera;
     private Array<Nivel> todosLosNiveles;
     private boolean nivelEnCurso;
 
@@ -37,17 +38,29 @@ public class PantallaJuego extends Pantalla {
     private Box2DDebugRenderer box2DDebugRendered;
     private Array<ObjetoDelJuego> objetosDelJuego;
 
+
+    private Stage stage;
+    private Table table;
+
     //private Hud hud;
 
     public PantallaJuego(final MyGdxGame game) {
+        stage = new Stage(new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO));
+
+        table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
+        table.setDebug(true);
+
+
         nivelEnCurso = false;
         this.game = game;
         inicializaNivel();
-        camera = new OrthographicCamera();
+        //camera = new OrthographicCamera();
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setToOrtho(false, ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO);
-        //viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
-        viewport = new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO, camera);
+        //camera.setToOrtho(false, ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO);
+        //viewport = new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO, camera);
         box2DDebugRendered = new Box2DDebugRenderer();
         Gdx.gl.glClearColor(0, 0.1f, 0f, 1);
         //todosLosNiveles = new Array<Nivel>();
@@ -103,11 +116,11 @@ public class PantallaJuego extends Pantalla {
         */
         // Actualizamos la simulación de box2d
         world.step(dt, 6, 2);
-        camera.update();
+        //camera.update();
 
         // Renderizamos
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        box2DDebugRendered.render(world, camera.combined);
+        box2DDebugRendered.render(world, stage.getCamera().combined);
         //game.getSpriteBatch().setProjectionMatrix(camera.combined); // FIXME: Comentado porque parece que no deja ver los sprites
 
         game.getSpriteBatch().begin();
@@ -129,11 +142,15 @@ public class PantallaJuego extends Pantalla {
         //game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
         //hud.getStage().draw();
         game.getSpriteBatch().end();
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

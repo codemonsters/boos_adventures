@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -16,18 +18,31 @@ public class PantallaMenu extends Pantalla {
     public static final float ANCHO_VIRTUAL = 160;
     public static final float ALTO_VIRTUAL = 90;
     private MyGdxGame game;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    //private OrthographicCamera camera;
+    //private Viewport viewport;
+
+    private Stage stage;
+    private Table table;
+
     private float tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante;
 
     public PantallaMenu(final MyGdxGame game) {
         this.game = game;
-        camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
+        stage = new Stage(new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL));
+
+        table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+
+        table.setDebug(true);
+
+        //Gdx.input.setInputProcessor(stage);
+        //camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport = new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL, camera);
-        viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        viewport.apply();
-        camera.position.set(camera.viewportWidth/2,camera.viewportHeight,0);
+        //viewport = new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL, camera);
+        //viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //viewport.apply();
+        //camera.position.set(camera.viewportWidth/2,camera.viewportHeight,0);
         Gdx.gl.glClearColor(0.0f, 0.5f, 0.0f, 1);
     }
 
@@ -39,25 +54,28 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void render(float delta) {
-        camera.update();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.getSpriteBatch().setProjectionMatrix(camera.combined);
-        game.getSpriteBatch().begin();
+
+        /*
+        //camera.update();
+        //game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.line(0,0,0, ANCHO_VIRTUAL, ALTO_VIRTUAL,0, Color.BLUE,Color.RED);
-        Gdx.gl20.glLineWidth(1/camera.zoom);
-                                                                        viewport.apply();
+        //Gdx.gl20.glLineWidth(1/camera.zoom);
+        //                                                                viewport.apply();
         shapeRenderer.end();
-
+        */
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.getSpriteBatch().begin();
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
         game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> PREPARADO", 100, 160);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> INSTALA LA APLICACION ANDROID PARA CONECTARTE AL JUEGO", 100, 130);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> ESPERANDO JUGADORES...", 100, 100);
         game.getBitmapFont().draw(game.getSpriteBatch(), ">", 100, 70);
-
+        game.getSpriteBatch().end();
+/*
         // Cursor parpadeando
         tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante += delta;
         if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante>0.6) {
@@ -66,8 +84,9 @@ public class PantallaMenu extends Pantalla {
                 tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
             }
         }
-        game.getSpriteBatch().end();
-
+        */
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 
     @Override
@@ -82,10 +101,12 @@ public class PantallaMenu extends Pantalla {
             ppm = Gdx.graphics.getWidth() / 48;
         }
         */
-        viewport.update(width, (int)ALTO_VIRTUAL, true);
+        //viewport.update(width, (int)ALTO_VIRTUAL, true);
         //viewport.update((int)width, (int)width);
         //camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
-        Gdx.app.log("PantallaMenu", "AQUI!!!!!!!!!!!!!!");
+
+        stage.getViewport().update(width, height, true);
+        //Gdx.app.log("PantallaMenu", "AQUI!!!!!!!!!!!!!!");
     }
 
     @Override
@@ -105,7 +126,7 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
+        stage.dispose();
     }
 
     @Override
