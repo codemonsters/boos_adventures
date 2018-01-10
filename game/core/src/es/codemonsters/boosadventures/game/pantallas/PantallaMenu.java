@@ -56,8 +56,6 @@ public class PantallaMenu extends Pantalla {
     public void render(float delta) {
 
         /*
-        //camera.update();
-        //game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -74,8 +72,7 @@ public class PantallaMenu extends Pantalla {
         game.getBitmapFont().draw(game.getSpriteBatch(), "> INSTALA LA APLICACION ANDROID PARA CONECTARTE AL JUEGO", 100, 130);
         game.getBitmapFont().draw(game.getSpriteBatch(), "> ESPERANDO JUGADORES...", 100, 100);
         game.getBitmapFont().draw(game.getSpriteBatch(), ">", 100, 70);
-        game.getSpriteBatch().end();
-/*
+
         // Cursor parpadeando
         tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante += delta;
         if (tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante>0.6) {
@@ -84,29 +81,16 @@ public class PantallaMenu extends Pantalla {
                 tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante = 0;
             }
         }
-        */
+
+        game.getSpriteBatch().end();
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        /*
-        if (Gdx.graphics.getWidth() / Gdx.graphics.getHeight() > 16 / 9 ) {
-            // La pantalla es muy ancha, calculamos los píxeles por metro a partir del alto (suponemos que hay barras en los lados)
-            ppm = Gdx.graphics.getHeight() / 27;
-        }
-        else{
-            //la pantalla es muy alta o exactamente 16 / 9 calculamos los puntos por pulgada basandonos en el ancho
-            ppm = Gdx.graphics.getWidth() / 48;
-        }
-        */
-        //viewport.update(width, (int)ALTO_VIRTUAL, true);
-        //viewport.update((int)width, (int)width);
-        //camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
-
         stage.getViewport().update(width, height, true);
-        //Gdx.app.log("PantallaMenu", "AQUI!!!!!!!!!!!!!!");
     }
 
     @Override

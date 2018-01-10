@@ -84,6 +84,7 @@ public class PantallaJuego extends Pantalla {
             jugador.getObjetoJugador().definirCuerpo(world);
             spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
             spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
+            stage.addActor(jugador.getObjetoJugador());
         }
         nivelEnCurso = true;
     }
@@ -123,25 +124,24 @@ public class PantallaJuego extends Pantalla {
         box2DDebugRendered.render(world, stage.getCamera().combined);
         //game.getSpriteBatch().setProjectionMatrix(camera.combined); // FIXME: Comentado porque parece que no deja ver los sprites
 
+        /*
         game.getSpriteBatch().begin();
 
         for (Jugador jugador : game.getJugadoresActivos()) {
-            float ppm = 29.1f;
             Sprite sprite = new Sprite(jugador.getObjetoJugador().sprite);
 
-            //sprite.setPosition(jugador.getObjetoJugador().body.getPosition().x* ppm - 254 , jugador.getObjetoJugador().body.getPosition().y*ppm-290);
-            float xSprite = (jugador.getObjetoJugador().body.getPosition().x - 0.75f ) * game.getPpm();
-            float ySprite = (jugador.getObjetoJugador().body.getPosition().y - 0.75f) * game.getPpm();
+            //float xSprite = (jugador.getObjetoJugador().body.getPosition().x - 0.75f ) * game.getPpm();
+            //float ySprite = (jugador.getObjetoJugador().body.getPosition().y - 0.75f) * game.getPpm();
+            float xSprite = jugador.getObjetoJugador().body.getPosition().x*game.getPpm() - 50;
+            float ySprite = -25;
             sprite.setPosition(xSprite, ySprite);
             sprite.scale(-0.85f);
             sprite.draw(game.getSpriteBatch());
         }
-
+        game.getSpriteBatch().end();
+        */
         // TODO: Componer el frame
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
-        //game.getBitmapFont().draw(game.getSpriteBatch(), "> ESTA ES LA PANTALLA DE JUEGO", 100, 160);
-        //hud.getStage().draw();
-        game.getSpriteBatch().end();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -149,7 +149,6 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void resize(int width, int height) {
-
         stage.getViewport().update(width, height, true);
     }
 
@@ -172,6 +171,7 @@ public class PantallaJuego extends Pantalla {
     public void dispose() {
         // TODO Auto-generated method stub
         // TODO: ¿Deberíamos recorrer aquí el array objetosDelJuego para ir llamando al método dispose() de cada objeto?
+        stage.dispose();
     }
 
     @Override

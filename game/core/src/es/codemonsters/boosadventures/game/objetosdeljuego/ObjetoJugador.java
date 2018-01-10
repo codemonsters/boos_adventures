@@ -2,6 +2,7 @@ package es.codemonsters.boosadventures.game.objetosdeljuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 public class ObjetoJugador extends ObjetoDinamico {
 
@@ -22,16 +24,21 @@ public class ObjetoJugador extends ObjetoDinamico {
     private boolean estaApoyado = false;
     private boolean saltarEnSiguienteUpdate = false;
     private boolean yaEstaSaltando = false;
-    public Sprite sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo0.png")),500,600);    // FIXME: Intetar que esto no sea público
     float deltaTime = 0;    // FIXME: Renombrar a algo más significativo
     int frame = 0;
-
+    private Array<Texture> texturas;
+    private Texture texturaActual;
 
 
     public ObjetoJugador(float xCentro, float yCentro) {
         super();
         this.xCentro = xCentro;
         this.yCentro = yCentro;
+
+        texturas = new Array<Texture>();
+        texturas.add(new Texture(Gdx.files.internal("Boo/Idle/0.png")));
+        texturas.add(new Texture(Gdx.files.internal("Boo/Idle/1.png")));
+        texturaActual = texturas.get(0);    // FIXME: Eliminar esto y sobreescribir el método act() de la clase Actor (posiblemente renombrar el método update() de esta clase a act()
     }
 
     public void definirCuerpo(World world) {
@@ -78,8 +85,15 @@ public class ObjetoJugador extends ObjetoDinamico {
     }
 
     @Override
+    public void draw (Batch batch, float parentAlpha) {
+        batch.draw(texturaActual,0,0);
+    }
+
+    @Override
     public void dispose() {
-        // FIXME: Añadir código para eliminar el objeto
+        for(Texture textura : texturas) {
+            textura.dispose();
+        }
     }
 
     @Override
@@ -111,19 +125,19 @@ public class ObjetoJugador extends ObjetoDinamico {
                 }
             }
         }
-
         // Actualizar el sprite
         deltaTime += dt;
         if (deltaTime>0.5f){
             deltaTime =0;
-            if (frame==0){
-                sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo0.png")),500,600);
+            if (frame == 0){
+                //sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/0.png")),100,100);
             }
             else{
-                sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/IdleBoo1.png")),500,600);
+                //sprite = new Sprite(new Texture(Gdx.files.internal("Boo/Idle/1.png")),100,100);
                 frame = -1;
             }
             frame ++;
+            texturaActual = texturas.get(frame);
         }
 
     }
