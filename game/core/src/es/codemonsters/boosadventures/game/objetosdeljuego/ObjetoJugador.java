@@ -17,7 +17,7 @@ public class ObjetoJugador extends ObjetoDinamico {
 
     private static final float IMPULSO_MOVIMIENTO = 8000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
     private static final float FUERZA_SALTO = 7200; // Impulso aplicado al jugador para que salte (en newtons)
-
+    private static final float RADIO_DEL_CUERPO = 0.75f;    // El radio del círculo que define el cuerpo en Box2D
     private float xCentro, yCentro;
     public Body body;   // FIXME: Poner un getter? Revisar esto
     private boolean presionandoDerecha, presionandoIzquierda, presionandoArriba, presionandoAbajo, presionandoBoton1 = false;
@@ -55,7 +55,7 @@ public class ObjetoJugador extends ObjetoDinamico {
 
         // Fixture principal (círculo de 1,5m de diámetro)
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(0.75f);
+        circleShape.setRadius(RADIO_DEL_CUERPO);
         FixtureDef fixtureDef = new FixtureDef();
         //fixtureDef.restitution = 0.1f;
         fixtureDef.restitution = 0;
@@ -68,7 +68,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         /*
         // Sensor de la cabeza
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-0.50f, 0.75f), new Vector2(0.50f, 0.75f));
+        head.set(new Vector2(-0.50f, RADIO_DEL_CUERPO), new Vector2(0.50f, RADIO_DEL_CUERPO));
         fixtureDef.shape = head;
         fixtureDef.isSensor = true; // Es un sensor, no colisionará con otros cuerpos del mundo
         fixture = body.createFixture(fixtureDef);
@@ -77,7 +77,7 @@ public class ObjetoJugador extends ObjetoDinamico {
 
         // Sensor de los pies
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-0.50f, -0.75f), new Vector2(0.50f, -0.75f));
+        feet.set(new Vector2(-0.50f, -RADIO_DEL_CUERPO), new Vector2(0.50f, -RADIO_DEL_CUERPO));
         fixtureDef.shape = feet;
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
@@ -86,7 +86,7 @@ public class ObjetoJugador extends ObjetoDinamico {
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        batch.draw(texturaActual,0,0);
+        batch.draw(texturaActual,body.getPosition().x - RADIO_DEL_CUERPO,body.getPosition().y - RADIO_DEL_CUERPO,RADIO_DEL_CUERPO*2,RADIO_DEL_CUERPO*2);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ObjetoJugador extends ObjetoDinamico {
     }
 
     @Override
-    public void update(float dt) {
+    public void act(float dt) {
         if (estaApoyado) {
             if (saltarEnSiguienteUpdate && !yaEstaSaltando) {
                 yaEstaSaltando = true;

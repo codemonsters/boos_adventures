@@ -1,5 +1,6 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -71,6 +72,11 @@ public class LimitesNivel extends ObjetoEstatico {
     @Override
     public void dispose() {
         // FIXME: Añadir código para eliminar este objeto
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        // FIXME: Aquí deberíamos dibujar los límites del nivel a partir de un bitmap
     }
 
 }

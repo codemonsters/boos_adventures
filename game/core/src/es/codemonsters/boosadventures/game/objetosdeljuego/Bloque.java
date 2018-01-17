@@ -1,5 +1,9 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -10,6 +14,9 @@ import es.codemonsters.boosadventures.game.Utiles;
 public class Bloque extends ObjetoEstatico {
 
     private float anchoBox2d, altoBox2d, xCentroBox2d, yCentroBox2d, angulo;
+    private Texture textura;
+    private Body body;
+
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:
     // * Que el punto (0,0) sea la esquina inferior izquierda de la pantalla
@@ -28,6 +35,7 @@ public class Bloque extends ObjetoEstatico {
         this.anchoBox2d = ancho/2;
         this.altoBox2d = alto/2;
         this.angulo = angulo;
+        textura = new Texture(Gdx.files.internal("Bloque/0.png"));
     }
 
     @Override
@@ -35,7 +43,7 @@ public class Bloque extends ObjetoEstatico {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xCentroBox2d, yCentroBox2d);
-        Body body = world.createBody(bdef);
+        body = world.createBody(bdef);
         body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
         body.setUserData(this);
         PolygonShape polygonShape = new PolygonShape();
@@ -48,6 +56,14 @@ public class Bloque extends ObjetoEstatico {
     @Override
     public void dispose() {
         // FIXME: Añadir código para eliminar este objeto
+        textura.dispose();
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        // FIXME: Aquí deberíamos dibujar el bloque a partir de un bitmap
+        //anchoBox2d,altoBox2d
+        batch.draw(textura, xCentroBox2d - anchoBox2d / 2, yCentroBox2d - altoBox2d/2, 1, 1, anchoBox2d,altoBox2d, 1, 1, angulo,0, 0, 64, 64, false, false);
     }
 
 }

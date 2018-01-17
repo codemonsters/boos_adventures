@@ -8,6 +8,7 @@ public abstract class ObjetoDinamico extends ObjetoDelJuego {
         super();
     }
 
-    public abstract void update(float dt);
+    @Override
+    public abstract void act(float dt);
 
 }

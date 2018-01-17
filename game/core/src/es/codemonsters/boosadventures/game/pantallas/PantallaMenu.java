@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -33,9 +35,13 @@ public class PantallaMenu extends Pantalla {
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
+        Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+        TextArea texto = new TextArea("PRUEBA\nDOS\nTRES\nCUATRO", uiSkin);
+        texto.setFillParent(true);
 
         table.setDebug(true);
-
+        table.add(texto);
         //Gdx.input.setInputProcessor(stage);
         //camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

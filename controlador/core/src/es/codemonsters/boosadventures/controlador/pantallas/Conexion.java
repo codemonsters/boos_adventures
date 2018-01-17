@@ -39,7 +39,7 @@ public class Conexion implements Screen {
 
         // Añadimos widgets a la tabla
         //TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         TextButton button1 = new TextButton("Button 1", uiSkin);
         table.add(button1);

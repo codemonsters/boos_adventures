@@ -105,24 +105,13 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void render(float dt) {
-        // Actualizamos los jugadores
-
-        for (Jugador jugador : game.getJugadoresActivos()) {
-            jugador.getObjetoJugador().update(dt);
-        }
-        /*
-        for (ObjetoDelJuego objetoDelJuego: objetosDelJuego) {
-            objetoDelJuego.update(dt);
-        }
-        */
         // Actualizamos la simulación de box2d
         world.step(dt, 6, 2);
-        //camera.update();
 
         // Renderizamos
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         box2DDebugRendered.render(world, stage.getCamera().combined);
-        //game.getSpriteBatch().setProjectionMatrix(camera.combined); // FIXME: Comentado porque parece que no deja ver los sprites
+        //game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         /*
         game.getSpriteBatch().begin();
@@ -143,7 +132,7 @@ public class PantallaJuego extends Pantalla {
         // TODO: Componer el frame
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
 
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(dt);
         stage.draw();
     }
 

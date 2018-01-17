@@ -8,5 +8,4 @@ public abstract class ObjetoEstatico extends ObjetoDelJuego {
         super();
     }
 
-
 }
