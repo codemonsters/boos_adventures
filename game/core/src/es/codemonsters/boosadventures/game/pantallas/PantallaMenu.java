@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -32,16 +33,20 @@ public class PantallaMenu extends Pantalla {
         this.game = game;
         stage = new Stage(new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL));
 
-        table = new Table();
+        Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        uiSkin.getFont("commodore-64").getData().setScale(0.5f);
+        table = new Table(uiSkin);
         table.setFillParent(true);
         stage.addActor(table);
-        Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        table.background("dialog");
+        TextArea texto = new TextArea("PRUEBA\nDOS\nTRES\nCUATRO", uiSkin, "nobg");
 
-        TextArea texto = new TextArea("PRUEBA\nDOS\nTRES\nCUATRO", uiSkin);
-        texto.setFillParent(true);
+
 
         table.setDebug(true);
         table.add(texto);
+        texto.setFillParent(true);
+        texto.setPosition(100,100);
         //Gdx.input.setInputProcessor(stage);
         //camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
