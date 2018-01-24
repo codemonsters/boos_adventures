@@ -26,6 +26,15 @@
     },
     {
       "clase": "bloque",
+      "x": "20",
+      "y": "-2.5",
+      "ancho": "5",
+      "alto": "5",
+      "angulo": "45",
+      "regiontextura": "1"
+    },
+    {
+      "clase": "bloque",
       "x": "1",
       "y": "3",
       "ancho": "3",

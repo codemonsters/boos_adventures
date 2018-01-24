@@ -75,6 +75,7 @@ public class PantallaJuego extends Pantalla {
         objetosDelJuego = nivel.getObjetosDelJuego();
         for (ObjetoDelJuego objeto : objetosDelJuego){
             objeto.definirCuerpo(world);
+            stage.addActor(objeto);
         }
         //objetosDelJuego.add(new Spawn(world, 2, 11);
         //objetosDelJuego.add(new Meta(world, 20,23);

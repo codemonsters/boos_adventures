@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -29,11 +31,11 @@ public class Bloque extends ObjetoEstatico {
     public Bloque(float ancho, float alto, float xEsquinaInfIzq, float yEsquinaInfIzq, float angulo) {
         super();
         // Trasladamos las coordenadas al sistema de Box2D donde los objetos tipo Box se definen respecto al centro del cuerpo
-        xCentroBox2d = xEsquinaInfIzq + ancho/2;
-        yCentroBox2d = yEsquinaInfIzq + alto/2;
+        xCentroBox2d = xEsquinaInfIzq + ancho / 2;
+        yCentroBox2d = yEsquinaInfIzq + alto / 2;
         // Adaptamos el tamaño a Box2D, donde el ancho y el alto de los rectángulos se define como la mitad del que realmente tienen
-        this.anchoBox2d = ancho/2;
-        this.altoBox2d = alto/2;
+        this.anchoBox2d = ancho / 2;
+        this.altoBox2d = alto / 2;
         this.angulo = angulo;
         textura = new Texture(Gdx.files.internal("Bloque/0.png"));
     }
@@ -44,13 +46,14 @@ public class Bloque extends ObjetoEstatico {
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xCentroBox2d, yCentroBox2d);
         body = world.createBody(bdef);
-        body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
+        //body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
         body.setUserData(this);
         PolygonShape polygonShape = new PolygonShape();
         final float floor_density = 10; // TODO: Revisar si esta es la densidad que queremos para este tipo de objeto
-        polygonShape.setAsBox(anchoBox2d, altoBox2d);
+        polygonShape.setAsBox(anchoBox2d, altoBox2d, new Vector2(0f,0f),angulo* MathUtils.degreesToRadians);
         fixture = body.createFixture(polygonShape, floor_density);
         fixture.setUserData(this);
+
     }
 
     @Override
@@ -63,8 +66,6 @@ public class Bloque extends ObjetoEstatico {
     public void draw(Batch batch, float parentAlpha) {
         // FIXME: Aquí deberíamos dibujar el bloque a partir de un bitmap
         //anchoBox2d,altoBox2d
-        batch.draw(textura, xCentroBox2d - anchoBox2d / 2, yCentroBox2d - altoBox2d/2, 1, 1, anchoBox2d,altoBox2d, 1, 1, angulo,0, 0, 64, 64, false, false);
+        batch.draw(textura, body.getWorldCenter().x - anchoBox2d, body.getWorldCenter().y - altoBox2d, anchoBox2d, altoBox2d, anchoBox2d * 2, altoBox2d * 2, 1, 1, angulo, 0, 0, 1, 1, false, false);
     }
-
 }
-
