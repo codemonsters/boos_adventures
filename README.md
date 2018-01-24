@@ -49,3 +49,7 @@ En la carpeta raiz se encontrará:
 * README.md (este archivo)
 * game: proyecto LibGDX que contiene el juego principal
 * bluetooth_controller: Aplicación móvil que permite conectarse al juego desde un dispositivo móvil y controlar los movimientos mediante su pantalla táctil
+
+### Recursos ###
+
+* Skin Scene2D UI utilizado como base: Commodore64 ([link](https://github.com/czyzby/gdx-skins))
