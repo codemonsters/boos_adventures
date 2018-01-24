@@ -52,4 +52,4 @@ En la carpeta raiz se encontrará:
 
 ### Recursos ###
 
-* Skin Scene2D UI utilizado como base: Commodore64 ([link](https://github.com/czyzby/gdx-skins) 
+* Skin Scene2D UI utilizado como base: Commodore64 ([link](https://github.com/czyzby/gdx-skins))
