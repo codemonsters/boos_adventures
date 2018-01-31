@@ -1,5 +1,6 @@
 package es.codemonsters.boosadventures.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -14,7 +15,6 @@ public class ContactListenerJuego implements ContactListener {
         //Gdx.app.trace("ContactListenerJuego", "Comienza un contacto");
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
-
         // Comprobamos si son los pies de un jugador tocando algún cuerpo
         if (fixA.getUserData() == "piesJugador" || fixB.getUserData() == "piesJugador") {
             Fixture feet = fixA.getUserData() == "piesJugador" ? fixA : fixB;
@@ -24,10 +24,9 @@ public class ContactListenerJuego implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        //Gdx.app.trace("ContactListenerJuego", "Finaliza un contacto");
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
-
+        Gdx.app.debug("ContactListener", "FIN CONTACTO (fixA = " + fixA.getUserData() + " ; fixB = " + fixB.getUserData());
         // Comprobamos si son los pies de un jugador los que dejan de tocar algún cuerpo
         if (fixA.getUserData() == "piesJugador" || fixB.getUserData() == "piesJugador") {
             Fixture feet = fixA.getUserData() == "piesJugador" ? fixA : fixB;

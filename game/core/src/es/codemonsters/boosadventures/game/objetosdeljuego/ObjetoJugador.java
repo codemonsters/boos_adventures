@@ -3,7 +3,6 @@ package es.codemonsters.boosadventures.game.objetosdeljuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,7 +20,7 @@ public class ObjetoJugador extends ObjetoDinamico {
     private float xCentro, yCentro;
     public Body body;   // FIXME: Poner un getter? Revisar esto
     private boolean presionandoDerecha, presionandoIzquierda, presionandoArriba, presionandoAbajo, presionandoBoton1 = false;
-    private boolean estaApoyado = false;
+    private int numApoyosEnPies = 0;
     private boolean saltarEnSiguienteUpdate = false;
     private boolean yaEstaSaltando = false;
     float deltaTime = 0;    // FIXME: Renombrar a algo más significativo
@@ -98,7 +97,8 @@ public class ObjetoJugador extends ObjetoDinamico {
 
     @Override
     public void act(float dt) {
-        if (estaApoyado) {
+        //Gdx.app.debug("ObjetoJugador", numApoyosEnPies ? "APOYADO" : "NO APOYADO");
+        if (numApoyosEnPies > 0) {
             if (saltarEnSiguienteUpdate && !yaEstaSaltando) {
                 yaEstaSaltando = true;
                 Gdx.app.debug("ObjetoJugador", "¡Saltar!");
@@ -167,13 +167,13 @@ public class ObjetoJugador extends ObjetoDinamico {
     }
 
     public void onFeetBeginContact() {
-        //Gdx.app.debug("ObjetoJugador", "Pies apoyados");
-        estaApoyado = true;
+        Gdx.app.debug("ObjetoJugador", "Pies apoyados");
+        numApoyosEnPies++;
         yaEstaSaltando = false;
     }
 
     public void onFeetEndContact() {
-        //Gdx.app.debug("ObjetoJugador", "Pies sin apoyo");
-        estaApoyado = false;
+        Gdx.app.debug("ObjetoJugador", "Pies sin apoyo");
+        numApoyosEnPies--;
     }
 }
