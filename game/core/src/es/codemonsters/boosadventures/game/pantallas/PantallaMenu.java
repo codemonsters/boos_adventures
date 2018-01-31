@@ -5,11 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,8 +21,9 @@ import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 
 public class PantallaMenu extends Pantalla {
-    public static final float ANCHO_VIRTUAL = 160;
-    public static final float ALTO_VIRTUAL = 90;
+    public static final float FACTOR_ESCALA = 6;
+    public static final float ANCHO_VIRTUAL = 44 * FACTOR_ESCALA;
+    public static final float ALTO_VIRTUAL = 27 * FACTOR_ESCALA;
     private MyGdxGame game;
     //private OrthographicCamera camera;
     //private Viewport viewport;
@@ -31,22 +35,31 @@ public class PantallaMenu extends Pantalla {
 
     public PantallaMenu(final MyGdxGame game) {
         this.game = game;
-        stage = new Stage(new FitViewport(ANCHO_VIRTUAL, ALTO_VIRTUAL));
+        stage = new Stage(new FitViewport(ANCHO_VIRTUAL * FACTOR_ESCALA, ALTO_VIRTUAL * FACTOR_ESCALA));
 
         Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        uiSkin.getFont("commodore-64").getData().setScale(0.5f);
+        uiSkin.getFont("commodore-64").getData().setScale(1f);
         table = new Table(uiSkin);
         table.setFillParent(true);
-        stage.addActor(table);
         table.background("dialog");
-        TextArea texto = new TextArea("PRUEBA\nDOS\nTRES\nCUATRO", uiSkin, "nobg");
 
-
-
+        /*
+        TextArea textArea = new TextArea("HOLA", uiSkin);
+        textArea.setDebug(true);
+        table.add(textArea);
+        table.setFillParent(true);
         table.setDebug(true);
-        table.add(texto);
-        texto.setFillParent(true);
-        texto.setPosition(100,100);
+        table.setPosition(0,0);
+        stage.addActor(table);
+        */
+
+        TextArea textArea = new TextArea("HOLA\nHOLA2", uiSkin,"nobg");
+        textArea.setDebug(true);
+        textArea.setPosition(0 ,0);
+        textArea.setSize(ANCHO_VIRTUAL * FACTOR_ESCALA, ALTO_VIRTUAL * FACTOR_ESCALA);
+        textArea.setAlignment(Align.bottomLeft);
+        stage.addActor(textArea);
+
         //Gdx.input.setInputProcessor(stage);
         //camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -76,6 +89,9 @@ public class PantallaMenu extends Pantalla {
         shapeRenderer.end();
         */
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
+        /*
         game.getSpriteBatch().begin();
         // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
         game.getBitmapFont().draw(game.getSpriteBatch(), "**** " + MyGdxGame.nombreDelJuego.toUpperCase() + " VERSION " + MyGdxGame.versionDelJuego + " ****", 100, 190);
@@ -97,6 +113,7 @@ public class PantallaMenu extends Pantalla {
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+        */
     }
 
     @Override

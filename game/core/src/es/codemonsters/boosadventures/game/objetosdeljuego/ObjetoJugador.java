@@ -167,13 +167,13 @@ public class ObjetoJugador extends ObjetoDinamico {
     }
 
     public void onFeetBeginContact() {
-        Gdx.app.debug("ObjetoJugador", "Pies apoyados");
+        //Gdx.app.debug("ObjetoJugador", "Pies apoyados");
         numApoyosEnPies++;
         yaEstaSaltando = false;
     }
 
     public void onFeetEndContact() {
-        Gdx.app.debug("ObjetoJugador", "Pies sin apoyo");
+        //Gdx.app.debug("ObjetoJugador", "Pies sin apoyo");
         numApoyosEnPies--;
     }
 }

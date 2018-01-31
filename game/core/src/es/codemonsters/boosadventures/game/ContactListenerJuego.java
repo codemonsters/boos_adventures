@@ -26,7 +26,6 @@ public class ContactListenerJuego implements ContactListener {
     public void endContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
-        Gdx.app.debug("ContactListener", "FIN CONTACTO (fixA = " + fixA.getUserData() + " ; fixB = " + fixB.getUserData());
         // Comprobamos si son los pies de un jugador los que dejan de tocar algún cuerpo
         if (fixA.getUserData() == "piesJugador" || fixB.getUserData() == "piesJugador") {
             Fixture feet = fixA.getUserData() == "piesJugador" ? fixA : fixB;
