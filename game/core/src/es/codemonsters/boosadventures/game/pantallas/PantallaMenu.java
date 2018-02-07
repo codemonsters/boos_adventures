@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
+import es.codemonsters.boosadventures.game.Terminal;
 
 public class PantallaMenu extends Pantalla {
     public static final float FACTOR_ESCALA = 6;
@@ -27,10 +28,10 @@ public class PantallaMenu extends Pantalla {
     private MyGdxGame game;
     //private OrthographicCamera camera;
     //private Viewport viewport;
-
+    float tiempo = 0;
     private Stage stage;
     private Table table;
-
+    Terminal terminal;
     private float tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante;
 
     public PantallaMenu(final MyGdxGame game) {
@@ -53,12 +54,13 @@ public class PantallaMenu extends Pantalla {
         stage.addActor(table);
         */
 
-        TextArea textArea = new TextArea("HOLA\nHOLA2", uiSkin,"nobg");
-        textArea.setDebug(true);
-        textArea.setPosition(0 ,0);
-        textArea.setSize(ANCHO_VIRTUAL * FACTOR_ESCALA, ALTO_VIRTUAL * FACTOR_ESCALA);
-        textArea.setAlignment(Align.bottomLeft);
-        stage.addActor(textArea);
+        terminal = new Terminal(uiSkin);
+
+        terminal.setPosition(0 ,0);
+        terminal.setSize(ANCHO_VIRTUAL * FACTOR_ESCALA, ALTO_VIRTUAL * FACTOR_ESCALA);
+        terminal.setAlignment(Align.bottomLeft);
+
+        stage.addActor(terminal);
 
         //Gdx.input.setInputProcessor(stage);
         //camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
@@ -78,7 +80,11 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void render(float delta) {
-
+        tiempo += delta;
+        if (tiempo>0.2f){
+            terminal.agregarLinea(""+delta);
+            tiempo = 0;
+        }
         /*
 
         ShapeRenderer shapeRenderer = new ShapeRenderer();
