@@ -2,8 +2,9 @@ package es.codemonsters.boosadventures.game.pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.codemonsters.boosadventures.game.ContactListenerJuego;
 import es.codemonsters.boosadventures.game.Jugador;
@@ -19,8 +19,6 @@ import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-
 
 
 public class PantallaJuego extends Pantalla {
@@ -85,6 +83,7 @@ public class PantallaJuego extends Pantalla {
             jugador.getObjetoJugador().definirCuerpo(world);
             spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
             spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
+            jugador.getObjetoJugador().body.applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
             stage.addActor(jugador.getObjetoJugador());
         }
         nivelEnCurso = true;
@@ -95,7 +94,7 @@ public class PantallaJuego extends Pantalla {
      */
     public void reiniciarNivel() {
         nivelEnCurso = false;
-        game.incorporaJugadoresEnEspera();
+        game.incorporarTodosLosJugadoresEnEspera();
         nivelEnCurso = true;
     }
 

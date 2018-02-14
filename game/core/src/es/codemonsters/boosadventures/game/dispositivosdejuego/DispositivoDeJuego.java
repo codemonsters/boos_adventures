@@ -3,10 +3,12 @@ package es.codemonsters.boosadventures.game.dispositivosdejuego;
 import com.badlogic.gdx.Gdx;
 
 import es.codemonsters.boosadventures.game.Jugador;
+import es.codemonsters.boosadventures.game.MyGdxGame;
 
 public abstract class DispositivoDeJuego {
     private int id;
     private Jugador jugador;
+    private MyGdxGame game;
 
     protected void setId(int id) {
         this.id = id;

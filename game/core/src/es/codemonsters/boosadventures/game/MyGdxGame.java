@@ -97,7 +97,7 @@ public class MyGdxGame extends Game {
 		}
 	}
 
-    public void incorporaJugadoresEnEspera() {
+    public void incorporarTodosLosJugadoresEnEspera() {
 		synchronized(jugadoresEnEspera) {
 			for (int i = 0; i < jugadoresEnEspera.size; i++) {
 				Jugador jugadorEnEspera = jugadoresEnEspera.get(i);
@@ -111,6 +111,25 @@ public class MyGdxGame extends Game {
 
 	public Array<Jugador> getJugadoresActivos() {
 		return jugadoresActivos;
+	}
+
+	public Array<Jugador> getJugadoresEnEspera() {
+		return jugadoresEnEspera;
+	}
+
+
+	// Devuelve la lista de jugadores conectados (tanto activos como en espera)
+	public Array<Jugador> getTodosLosJugadoresConectados() {
+		Array<Jugador> todosLosJugadoresConectados;
+		synchronized(jugadoresEnEspera) {
+			todosLosJugadoresConectados = getJugadoresEnEspera();
+			synchronized(jugadoresActivos) {
+				for (Jugador jugador : getJugadoresActivos()) {
+					todosLosJugadoresConectados.add(jugador);
+				}
+			}
+		}
+    	return todosLosJugadoresConectados;
 	}
 
 	public Pantalla getPantalla() { return pantallaActiva; }
@@ -136,10 +155,9 @@ public class MyGdxGame extends Game {
         jugadoresEnEspera = new Array<Jugador>();
 
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
-		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.CONTROL_RIGHT, Input.Keys.BACKSPACE, new Jugador("Jugador 1"), this);
+		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.SPACE, new Jugador("Jugador 2"), this);
 		getGestorDispositivosDeJuego().conectar(tecladoJugador1);
-		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.SPACE, new Jugador("Jugador 2"), this);
-		//tecladoJugador2.setJugador();
+		DispositivoDeJuego tecladoJugador2 = new DispositivoTeclado(Input.Keys.UP, Input.Keys.DOWN, Input.Keys.LEFT, Input.Keys.RIGHT, Input.Keys.CONTROL_RIGHT, Input.Keys.BACKSPACE, new Jugador("Jugador 1"), this);
 		getGestorDispositivosDeJuego().conectar(tecladoJugador2);
 
 		// Definimos la pantalla en la que iniciará el juego

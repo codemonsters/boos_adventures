@@ -33,6 +33,8 @@ public class PantallaMenu extends Pantalla {
     private Table table;
     Terminal terminal;
     private float tiempoDesdeUltimaVezQueSeMostroElCursorParpadeante;
+    private Float cuentaAtras = null;
+    private Integer ultimoEnteroDeLaCuentaAtrasMostradoEnPantalla = null;
 
     public PantallaMenu(final MyGdxGame game) {
         this.game = game;
@@ -62,6 +64,11 @@ public class PantallaMenu extends Pantalla {
 
         stage.addActor(terminal);
 
+        for (Jugador jugador: game.getTodosLosJugadoresConectados()) {
+            terminal.agregarLinea("Jugador conectado " + jugador.getNombre());
+        }
+        terminal.agregarLinea("Esperando jugadores...");
+
         //Gdx.input.setInputProcessor(stage);
         //camera = new OrthographicCamera(ANCHO_VIRTUAL,ALTO_VIRTUAL);
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -80,10 +87,16 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void render(float delta) {
-        tiempo += delta;
-        if (tiempo>0.2f){
-            terminal.agregarLinea(""+delta);
-            tiempo = 0;
+        if (cuentaAtras!=null) {
+            cuentaAtras -= delta;
+            if (cuentaAtras > 0) {
+                if (ultimoEnteroDeLaCuentaAtrasMostradoEnPantalla == null || ultimoEnteroDeLaCuentaAtrasMostradoEnPantalla != cuentaAtras.intValue()) {
+                    ultimoEnteroDeLaCuentaAtrasMostradoEnPantalla = cuentaAtras.intValue();
+                    terminal.agregarLinea("" + ultimoEnteroDeLaCuentaAtrasMostradoEnPantalla);
+                }
+            } else {
+                game.setPantalla(new PantallaJuego(game));
+            }
         }
         /*
 
@@ -94,6 +107,7 @@ public class PantallaMenu extends Pantalla {
         //                                                                viewport.apply();
         shapeRenderer.end();
         */
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
@@ -196,11 +210,15 @@ public class PantallaMenu extends Pantalla {
 
     @Override
     public void alPresionarBoton1(Jugador jugador) {
-        conectaJugador(jugador);
-        // Estamos en el menú así que si cualquiera de los jugadores conectados pulsa el botón acción entonces cambiamos de pantalla para empezar el juego
-        // TODO: Una idea mejor podría ser poner una cuenta atrás de 5 segundos para que otros jugadores pudiesen pulsar su boton1 e incorporarse todos juntos a la partida desde un inicio
-        Gdx.app.debug("PantallaMenu", "Uno de los jugadores quiere empezar el juego");
-        game.setPantalla(new PantallaJuego(game));
+        if (cuentaAtras == null) {
+            cuentaAtras = 5f;
+        }
+        if (!game.getJugadoresActivos().contains(jugador,true)) {
+            conectaJugador(jugador);
+            // Estamos en el menú así que si cualquiera de los jugadores conectados pulsa el botón acción entonces cambiamos de pantalla para empezar el juego
+            // TODO: Una idea mejor podría ser poner una cuenta atrás de 5 segundos para que otros jugadores pudiesen pulsar su boton1 e incorporarse todos juntos a la partida desde un inicio
+            terminal.agregarLinea(jugador.getNombre() + " quiere empezar la partida!");
+        }
     }
 
     @Override

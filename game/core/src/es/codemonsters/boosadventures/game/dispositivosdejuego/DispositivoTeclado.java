@@ -35,6 +35,12 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
     }
 
     @Override
+    protected void setJugador(Jugador jugador) {
+        super.setJugador(jugador);
+        game.agregaJugadorEnEspera(jugador);
+    }
+
+    @Override
     public boolean keyDown(int keycode) {
         if (keycode == key_code_button1) {
             game.getPantalla().alPresionarBoton1(getJugador());

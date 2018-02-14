@@ -20,8 +20,6 @@ public class Terminal extends com.badlogic.gdx.scenes.scene2d.ui.TextArea{
             this.getFirstLineShowing();
             int index = getText().indexOf("\n");
             setText(getText().substring(index+1));
-        } else {
-            Gdx.app.debug("Terminal", "Altura bien");
         }
     }
 }
