@@ -38,7 +38,7 @@ public class Nivel {
         for (JsonValue objeto: objetos) {
             String clase = objeto.getString("clase");
             if (clase.equals("bloque")) {
-                Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
+                Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"),objeto.getBoolean("instakill"));
                 objetosDelJuegos.add(bloque);
             } else {
                 Gdx.app.log("Nivel","Tipo de objeto desconocido encontrado en " + archivo + ": " + clase);

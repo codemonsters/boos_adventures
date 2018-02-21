@@ -79,7 +79,7 @@ public class PantallaJuego extends Pantalla {
         //objetosDelJuego.add(new Meta(world, 20,23);
         Array<Jugador> jugadores = new Array<Jugador>();
         for (Jugador jugador : game.getJugadoresActivos()) {
-            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f));
+            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this));
             jugador.getObjetoJugador().definirCuerpo(world);
             spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
             spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;

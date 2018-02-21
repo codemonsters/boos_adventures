@@ -212,6 +212,8 @@ public class PantallaMenu extends Pantalla {
     public void alPresionarBoton1(Jugador jugador) {
         if (cuentaAtras == null) {
             cuentaAtras = 5f;
+        } else {
+            cuentaAtras--;
         }
         if (!game.getJugadoresActivos().contains(jugador,true)) {
             conectaJugador(jugador);

@@ -18,6 +18,7 @@ public class Bloque extends ObjetoEstatico {
     private float anchoBox2d, altoBox2d, xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
     private Body body;
+    private boolean instakill;
 
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:
@@ -28,7 +29,7 @@ public class Bloque extends ObjetoEstatico {
     // * Poder crearse expresando las cosas e internamente tendremos que traducir esto por ejemplo antes de usar Box2D
     // * Tener los getters y setters que sean necesarios para poder leer y escribir las posiciones y dimensiones "traducidas"
 
-    public Bloque(float ancho, float alto, float xEsquinaInfIzq, float yEsquinaInfIzq, float angulo) {
+    public Bloque(float ancho, float alto, float xEsquinaInfIzq, float yEsquinaInfIzq, float angulo, boolean instakill) {
         super();
         // Trasladamos las coordenadas al sistema de Box2D donde los objetos tipo Box se definen respecto al centro del cuerpo
         xCentroBox2d = xEsquinaInfIzq + ancho / 2;
@@ -37,7 +38,16 @@ public class Bloque extends ObjetoEstatico {
         this.anchoBox2d = ancho / 2;
         this.altoBox2d = alto / 2;
         this.angulo = angulo;
-        textura = new Texture(Gdx.files.internal("Bloque/0.png"));
+        this.instakill = instakill;
+        //TODO: Los bloques deberían poder compartir textura
+        if (instakill)
+            textura = new Texture(Gdx.files.internal("Bloque/1.png"));
+        else
+            textura = new Texture(Gdx.files.internal("Bloque/0.png"));
+    }
+
+    public boolean isInstakill() {
+        return instakill;
     }
 
     @Override
@@ -53,7 +63,6 @@ public class Bloque extends ObjetoEstatico {
         polygonShape.setAsBox(anchoBox2d, altoBox2d, new Vector2(0f,0f),angulo* MathUtils.degreesToRadians);
         fixture = body.createFixture(polygonShape, floor_density);
         fixture.setUserData(this);
-
     }
 
     @Override

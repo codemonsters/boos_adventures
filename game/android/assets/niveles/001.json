@@ -22,7 +22,8 @@
       "ancho": "50",
       "alto": "1",
       "angulo": "0",
-      "regiontextura": "1"
+      "regiontextura": "1",
+      "instakill": false
     },
     {
       "clase": "bloque",
@@ -31,7 +32,8 @@
       "ancho": "5",
       "alto": "5",
       "angulo": "45",
-      "regiontextura": "1"
+      "regiontextura": "1",
+      "instakill": false
     },
     {
       "clase": "bloque",
@@ -40,7 +42,8 @@
       "ancho": "3",
       "alto": "2",
       "angulo": "15",
-      "regiontextura": "1"
+      "regiontextura": "1",
+      "instakill": true
     },
     {
       "clase": "bloque",
@@ -49,7 +52,8 @@
       "ancho": "8",
       "alto": "20",
       "angulo": "45",
-      "regiontextura": "1"
+      "regiontextura": "1",
+      "instakill": false
     }
   ]
 }

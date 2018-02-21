@@ -12,12 +12,15 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
+
 public class ObjetoJugador extends ObjetoDinamico {
 
     private static final float IMPULSO_MOVIMIENTO = 8000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
     private static final float FUERZA_SALTO = 7200; // Impulso aplicado al jugador para que salte (en newtons)
     private static final float RADIO_DEL_CUERPO = 0.75f;    // El radio del círculo que define el cuerpo en Box2D
     private float xCentro, yCentro;
+    private PantallaJuego pantallaJuego;
     public Body body;   // FIXME: Poner un getter? Revisar esto
     private boolean presionandoDerecha, presionandoIzquierda, presionandoArriba, presionandoAbajo, presionandoBoton1 = false;
     private int numApoyosEnPies = 0;
@@ -29,11 +32,11 @@ public class ObjetoJugador extends ObjetoDinamico {
     private Texture texturaActual;
 
 
-    public ObjetoJugador(float xCentro, float yCentro) {
+    public ObjetoJugador(float xCentro, float yCentro, PantallaJuego pantallaJuego) {
         super();
         this.xCentro = xCentro;
         this.yCentro = yCentro;
-
+        this.pantallaJuego = pantallaJuego;
         texturas = new Array<Texture>();
         texturas.add(new Texture(Gdx.files.internal("Boo/Idle/0.png")));
         texturas.add(new Texture(Gdx.files.internal("Boo/Idle/1.png")));
@@ -50,7 +53,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         bdef.position.set(xCentro, yCentro);
         body = world.createBody(bdef);
         body.setFixedRotation(true);
-        body.setUserData(this);
+        body.setUserData("ObjetoJugador");
 
         // Fixture principal (círculo de 1,5m de diámetro)
         CircleShape circleShape = new CircleShape();
@@ -62,7 +65,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         fixtureDef.friction = 0.5f;
         fixtureDef.shape = circleShape;
         fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
+        fixture.setUserData("ObjetoJugador");
 
         /*
         // Sensor de la cabeza
@@ -175,5 +178,12 @@ public class ObjetoJugador extends ObjetoDinamico {
     public void onFeetEndContact() {
         //Gdx.app.debug("ObjetoJugador", "Pies sin apoyo");
         numApoyosEnPies--;
+    }
+
+    public void onBloqueBeginContact(Bloque bloque) {
+        if (bloque.isInstakill()) {
+            pantallaJuego.reiniciarNivel();
+        }
+
     }
 }
