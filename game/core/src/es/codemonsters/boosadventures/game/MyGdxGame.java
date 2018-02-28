@@ -61,7 +61,6 @@ public class MyGdxGame extends Game {
             if (jugadoresActivos.contains(jugador, false)) {
                 Gdx.app.debug("MyGdxGame", "'" + jugador + "' ya estaba en la lista de jugadores activos, ignorando esta nueva solicitud");
             } else {
-                jugadoresActivos.add(jugador);
                 Gdx.app.debug("MyGdxGame", "'" + jugador + "' añadido a la lista de jugadores activos");
             }
         }
@@ -83,12 +82,14 @@ public class MyGdxGame extends Game {
 			synchronized (jugadoresEnEspera) {
 				if (jugadoresActivos.contains(jugador, false)) {
 					// Debemos eliminar un jugador que está jugando la partida actual
-					jugador.dispose();
+					Gdx.app.log("MyGdxGame", "Jugador + " + jugador + " eliminado de la lista de jugadores activos");
 					jugadoresActivos.removeValue(jugador, false);
+					jugador.dispose();
 				} else if (jugadoresEnEspera.contains(jugador, false)) {
 					// Debemos eliminar un jugador que está en espera
-					jugador.dispose();
+					Gdx.app.log("MyGdxGame", "Jugador + " + jugador + " eliminado de la lista de jugadores en espera");
 					jugadoresEnEspera.removeValue(jugador, false);
+					jugador.dispose();
 				} else {
 					// ¡No hemos encontrado el jugador que se quiere eliminar!
 					Gdx.app.error("MyGdxGame", "Esto no debería suceder nunca: se ha intentado eliminar un jugador que no se ha encontrado ni en la lista jugadoresActivos ni en jugadoresEnEspera");
@@ -97,15 +98,16 @@ public class MyGdxGame extends Game {
 		}
 	}
 
-    public void incorporarTodosLosJugadoresEnEspera() {
+    public void incorporarJugadoresEnEspera() {
 		synchronized(jugadoresEnEspera) {
 			for (int i = 0; i < jugadoresEnEspera.size; i++) {
 				Jugador jugadorEnEspera = jugadoresEnEspera.get(i);
 				synchronized(jugadoresActivos) {
+					Gdx.app.log("MyGdxGame", "Incorporado juador en espera: " + jugadorEnEspera);
 					jugadoresActivos.add(jugadorEnEspera);
 				}
-				jugadoresEnEspera.removeIndex(i);
 			}
+			jugadoresEnEspera = new Array<Jugador>();	//TODO: Mejor usar RemoveAll() en vez de construir un array nuevo
 		}
 	}
 

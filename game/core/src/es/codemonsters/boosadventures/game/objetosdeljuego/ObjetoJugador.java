@@ -53,7 +53,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         bdef.position.set(xCentro, yCentro);
         body = world.createBody(bdef);
         body.setFixedRotation(true);
-        body.setUserData("ObjetoJugador");
+        body.setUserData(this);
 
         // Fixture principal (círculo de 1,5m de diámetro)
         CircleShape circleShape = new CircleShape();
@@ -65,7 +65,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         fixtureDef.friction = 0.5f;
         fixtureDef.shape = circleShape;
         fixture = body.createFixture(fixtureDef);
-        fixture.setUserData("ObjetoJugador");
+        fixture.setUserData(this);
 
         /*
         // Sensor de la cabeza
@@ -104,7 +104,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         if (numApoyosEnPies > 0) {
             if (saltarEnSiguienteUpdate && !yaEstaSaltando) {
                 yaEstaSaltando = true;
-                Gdx.app.debug("ObjetoJugador", "¡Saltar!");
+                //Gdx.app.debug("ObjetoJugador", "¡Saltar!");
                 saltarEnSiguienteUpdate = false;
                 if (presionandoDerecha) {
                     // Salto diagonal derecha
@@ -162,7 +162,7 @@ public class ObjetoJugador extends ObjetoDinamico {
     }
 
     public void setPresionandoBoton1(boolean presionandoBoton1) {
-        Gdx.app.debug("ObjetoJugador", "BOTON PRESIONADO");
+        //Gdx.app.debug("ObjetoJugador", "BOTON PRESIONADO");
         this.presionandoBoton1 = presionandoBoton1;
         if (!yaEstaSaltando && presionandoBoton1 == true) {
             saltarEnSiguienteUpdate = true;
@@ -182,7 +182,7 @@ public class ObjetoJugador extends ObjetoDinamico {
 
     public void onBloqueBeginContact(Bloque bloque) {
         if (bloque.isInstakill()) {
-            pantallaJuego.reiniciarNivel();
+            pantallaJuego.haMuerto(this);
         }
 
     }

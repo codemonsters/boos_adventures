@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -77,16 +76,7 @@ public class PantallaJuego extends Pantalla {
         }
         //objetosDelJuego.add(new Spawn(world, 2, 11);
         //objetosDelJuego.add(new Meta(world, 20,23);
-        Array<Jugador> jugadores = new Array<Jugador>();
-        for (Jugador jugador : game.getJugadoresActivos()) {
-            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this));
-            jugador.getObjetoJugador().definirCuerpo(world);
-            spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
-            spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
-            jugador.getObjetoJugador().body.applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
-            stage.addActor(jugador.getObjetoJugador());
-        }
-        nivelEnCurso = true;
+        reiniciarNivel();
     }
 
     /**
@@ -94,8 +84,24 @@ public class PantallaJuego extends Pantalla {
      */
     public void reiniciarNivel() {
         nivelEnCurso = false;
-        game.incorporarTodosLosJugadoresEnEspera();
+        game.incorporarJugadoresEnEspera();
+        Array<Jugador> jugadores = new Array<Jugador>();
+        for (Jugador jugador : game.getJugadoresActivos()) {
+            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this));
+            jugador.getObjetoJugador().definirCuerpo(world);
+            spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
+            spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
+            jugador.getObjetoJugador().body.setAngularVelocity(0);
+            jugador.getObjetoJugador().body.setLinearVelocity(new Vector2(0,0));
+            jugador.getObjetoJugador().body.applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
+            stage.addActor(jugador.getObjetoJugador());
+        }
         nivelEnCurso = true;
+    }
+
+
+    public  void haMuerto(ObjetoJugador objetoJugador){
+        reiniciarNivel();
     }
 
     @Override

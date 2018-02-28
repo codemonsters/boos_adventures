@@ -164,7 +164,9 @@ public class PantallaMenu extends Pantalla {
     @Override
     public void conectaJugador(Jugador jugador) {
         // Estamos en el menú, si un jugador se añade entonces pasa directamente a la lista de jugadores activos
-        game.agregaJugadorActivo(jugador);
+        //game.agregaJugadorActivo(jugador);
+        //FIXME: Replantearnos cómo queremos gestionar los jugadores conectados y los que están participando en la partida
+        game.agregaJugadorEnEspera(jugador);
     }
 
 
