@@ -1,21 +1,12 @@
 package es.codemonsters.boosadventures.game.pantallas;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
@@ -64,7 +55,7 @@ public class PantallaMenu extends Pantalla {
 
         stage.addActor(terminal);
 
-        for (Jugador jugador: game.getTodosLosJugadoresConectados()) {
+        for (Jugador jugador: game.getJugadores()) {
             terminal.agregarLinea("Jugador conectado " + jugador.getNombre());
         }
         terminal.agregarLinea("Esperando jugadores...");
@@ -166,7 +157,7 @@ public class PantallaMenu extends Pantalla {
         // Estamos en el menú, si un jugador se añade entonces pasa directamente a la lista de jugadores activos
         //game.agregaJugadorActivo(jugador);
         //FIXME: Replantearnos cómo queremos gestionar los jugadores conectados y los que están participando en la partida
-        game.agregaJugadorEnEspera(jugador);
+        game.agregaJugador(jugador);
     }
 
 
@@ -213,15 +204,10 @@ public class PantallaMenu extends Pantalla {
     @Override
     public void alPresionarBoton1(Jugador jugador) {
         if (cuentaAtras == null) {
+            terminal.agregarLinea(jugador.getNombre() + " quiere empezar la partida!");
             cuentaAtras = 5f;
         } else {
             cuentaAtras--;
-        }
-        if (!game.getJugadoresActivos().contains(jugador,true)) {
-            conectaJugador(jugador);
-            // Estamos en el menú así que si cualquiera de los jugadores conectados pulsa el botón acción entonces cambiamos de pantalla para empezar el juego
-            // TODO: Una idea mejor podría ser poner una cuenta atrás de 5 segundos para que otros jugadores pudiesen pulsar su boton1 e incorporarse todos juntos a la partida desde un inicio
-            terminal.agregarLinea(jugador.getNombre() + " quiere empezar la partida!");
         }
     }
 

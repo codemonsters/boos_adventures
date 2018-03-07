@@ -16,12 +16,20 @@ import es.codemonsters.boosadventures.game.ContactListenerJuego;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
+import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 
 
 public class PantallaJuego extends Pantalla {
 
+    private static enum Estados {
+        NACIENDO,
+        JUGANDO,
+        MURIENDO,
+        GANANDO,
+    }
+    private Estados estado = Estados.NACIENDO;
     public static final int ANCHO_DEL_MUNDO = 44;   // Ancho del mundo (en metros)
     public static final int ALTO_DEL_MUNDO = 27;    // Alto del mundo (en metros)
     private MyGdxGame game;
@@ -34,7 +42,7 @@ public class PantallaJuego extends Pantalla {
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
     private Array<ObjetoDelJuego> objetosDelJuego;
-
+    private boolean queremosResetearNivel = false;
 
     private Stage stage;
     private Table table;
@@ -42,18 +50,16 @@ public class PantallaJuego extends Pantalla {
     //private Hud hud;
 
     public PantallaJuego(final MyGdxGame game) {
-        stage = new Stage(new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO));
 
-        table = new Table();
+        /*table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
         table.setDebug(true);
-
+        */
 
         nivelEnCurso = false;
         this.game = game;
-        inicializaNivel();
         //camera = new OrthographicCamera();
         //camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //camera.setToOrtho(false, ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO);
@@ -62,11 +68,25 @@ public class PantallaJuego extends Pantalla {
         Gdx.gl.glClearColor(0, 0.1f, 0f, 1);
         //todosLosNiveles = new Array<Nivel>();
         //todosLosNiveles.add(new Nivel("test.lvl")); // TODO: Inicializar y declarar los niveles del juego en una sóla línea
-        world.setContactListener(new ContactListenerJuego());
+        queremosResetearNivel = true;
     }
 
-    private void inicializaNivel() {
+    /**
+     * Reiniciamos el nivel, comenzando de nuevo con todos los jugadores (incluyendo tanto a los activos como a los que estaban en espera)
+     */
+    public void resetearNivel() {
+        nivelEnCurso = false;
+        estado = Estados.NACIENDO;
+        if (stage!=null){
+            stage.dispose();
+        }
+        stage = new Stage(new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO));
+
+        if (world!=null){
+            world.dispose();
+        }
         world = new World(new Vector2(0, -9.81f), true);
+
         Nivel nivel = new Nivel("001.json");
 
         objetosDelJuego = nivel.getObjetosDelJuego();
@@ -74,20 +94,14 @@ public class PantallaJuego extends Pantalla {
             objeto.definirCuerpo(world);
             stage.addActor(objeto);
         }
-        //objetosDelJuego.add(new Spawn(world, 2, 11);
-        //objetosDelJuego.add(new Meta(world, 20,23);
-        reiniciarNivel();
-    }
 
-    /**
-     * Reiniciamos el nivel, comenzando de nuevo con todos los jugadores (incluyendo tanto a los activos como a los que estaban en espera)
-     */
-    public void reiniciarNivel() {
-        nivelEnCurso = false;
-        game.incorporarJugadoresEnEspera();
-        Array<Jugador> jugadores = new Array<Jugador>();
-        for (Jugador jugador : game.getJugadoresActivos()) {
+        // Añadimos sensores fuera de los límites del mundo
+        SensoresLimitesMundo sensoresLimitesMundo = new SensoresLimitesMundo();
+        sensoresLimitesMundo.definirCuerpo(world);
+
+        for (Jugador jugador : game.getJugadores()) {
             jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this));
+
             jugador.getObjetoJugador().definirCuerpo(world);
             spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
             spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
@@ -96,12 +110,22 @@ public class PantallaJuego extends Pantalla {
             jugador.getObjetoJugador().body.applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
             stage.addActor(jugador.getObjetoJugador());
         }
+        world.setContactListener(new ContactListenerJuego());
+
         nivelEnCurso = true;
     }
 
 
     public  void haMuerto(ObjetoJugador objetoJugador){
-        reiniciarNivel();
+        for (Jugador jugador : game.getJugadores()){
+            if (jugador.getObjetoJugador() == objetoJugador){
+                Gdx.app.log("PantallaJuego","Jugador " + jugador.getNombre() + " ha muerto");
+                queremosResetearNivel = true;
+                return;
+            }
+        }
+        Gdx.app.error("PantallaJuego", "Esto no debería haber pasado: no hemos encontrado al jugador que acaba de morir");
+        queremosResetearNivel = true;
     }
 
     @Override
@@ -111,40 +135,47 @@ public class PantallaJuego extends Pantalla {
 
     @Override
     public void render(float dt) {
-        // Actualizamos la simulación de box2d
-        world.step(dt, 6, 2);
+        if (queremosResetearNivel) {
+            resetearNivel();
+            queremosResetearNivel = false;
+        } else {
+            // Actualizamos la simulación de box2d
+            world.step(dt, 6, 2);
 
-        // Renderizamos
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        box2DDebugRendered.render(world, stage.getCamera().combined);
-        //game.getSpriteBatch().setProjectionMatrix(camera.combined);
+            // Renderizamos
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            box2DDebugRendered.render(world, stage.getCamera().combined);
+            //game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
-        /*
-        game.getSpriteBatch().begin();
+            /*
+            game.getSpriteBatch().begin();
 
-        for (Jugador jugador : game.getJugadoresActivos()) {
-            Sprite sprite = new Sprite(jugador.getObjetoJugador().sprite);
+            for (Jugador jugador : game.getJugadores()) {
+                Sprite sprite = new Sprite(jugador.getObjetoJugador().sprite);
 
-            //float xSprite = (jugador.getObjetoJugador().body.getPosition().x - 0.75f ) * game.getPpm();
-            //float ySprite = (jugador.getObjetoJugador().body.getPosition().y - 0.75f) * game.getPpm();
-            float xSprite = jugador.getObjetoJugador().body.getPosition().x*game.getPpm() - 50;
-            float ySprite = -25;
-            sprite.setPosition(xSprite, ySprite);
-            sprite.scale(-0.85f);
-            sprite.draw(game.getSpriteBatch());
+                //float xSprite = (jugador.getObjetoJugador().body.getPosition().x - 0.75f ) * game.getPpm();
+                //float ySprite = (jugador.getObjetoJugador().body.getPosition().y - 0.75f) * game.getPpm();
+                float xSprite = jugador.getObjetoJugador().body.getPosition().x*game.getPpm() - 50;
+                float ySprite = -25;
+                sprite.setPosition(xSprite, ySprite);
+                sprite.scale(-0.85f);
+                sprite.draw(game.getSpriteBatch());
+            }
+            game.getSpriteBatch().end();
+            */
+            // TODO: Componer el frame
+            // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
+
+            stage.act(dt);
+            stage.draw();
         }
-        game.getSpriteBatch().end();
-        */
-        // TODO: Componer el frame
-        // Fixme: no es necesario generar una vez por frame el bitmap correspondiente al texto
-
-        stage.act(dt);
-        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        if (stage!=null){
+            stage.getViewport().update(width, height, true);
+        }
     }
 
     @Override
@@ -172,7 +203,7 @@ public class PantallaJuego extends Pantalla {
     @Override
     public void conectaJugador(Jugador jugador) {
         // FIXME: En función de si la partida dentro de este nivel está en marcha deberíamos decidir si el jugador se debe añadir a la lista de jugadores activos o bien a la de jugadores en espera
-        game.agregaJugadorEnEspera(jugador);
+        game.agregaJugador(jugador);
     }
 
     @Override

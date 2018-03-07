@@ -30,8 +30,7 @@ public class MyGdxGame extends Game {
     private InputMultiplexer inputMultiplexer;  // La lista de InputProcessors que utilizaremos
 	private InputProcessorJugadores inputProcessorJugadores;
 	private Pantalla pantallaActiva;
-    private Array<Jugador> jugadoresEnEspera;   // Lista de jugadores conectados que quieren incorporarse a la partida
-    private Array<Jugador> jugadoresActivos;    // Lista de jugadores conectados que están participando en la partida actual
+    private Array<Jugador> jugadores;    // Lista de jugadores conectados
 
 	public SpriteBatch getSpriteBatch() {
 		return batch;
@@ -57,8 +56,8 @@ public class MyGdxGame extends Game {
 	}
 
     public void agregaJugadorActivo(Jugador jugador) {
-        synchronized (jugadoresActivos) {
-            if (jugadoresActivos.contains(jugador, false)) {
+        synchronized (jugadores) {
+            if (jugadores.contains(jugador, false)) {
                 Gdx.app.debug("MyGdxGame", "'" + jugador + "' ya estaba en la lista de jugadores activos, ignorando esta nueva solicitud");
             } else {
                 Gdx.app.debug("MyGdxGame", "'" + jugador + "' añadido a la lista de jugadores activos");
@@ -66,72 +65,33 @@ public class MyGdxGame extends Game {
         }
     }
 
-    public void agregaJugadorEnEspera(Jugador jugador) {
-        synchronized (jugadoresEnEspera) {
-            if (jugadoresEnEspera.contains(jugador, false)) {
-                Gdx.app.debug("MyGdxGame", "El jugador ya estaba en la lista de jugadores en espera, ignorando esta nueva solicitud");
+    public void agregaJugador(Jugador jugador) {
+        synchronized (jugadores) {
+            if (jugadores.contains(jugador, false)) {
+                Gdx.app.debug("MyGdxGame", "El jugador ya estaba en la lista de jugadores, ignorando esta nueva solicitud");
             } else {
-                jugadoresEnEspera.add(jugador);
-                Gdx.app.debug("MyGdxGame", "Nuevo jugador añadido a la lista de jugadores en espera (jugador: " + jugador + ")");
+				jugadores.add(jugador);
+                Gdx.app.debug("MyGdxGame", "Nuevo jugador añadido a la lista de jugadores (jugador: " + jugador + ")");
             }
         }
     }
 
     public void eliminaJugador(Jugador jugador) {
-		synchronized (jugadoresActivos){
-			synchronized (jugadoresEnEspera) {
-				if (jugadoresActivos.contains(jugador, false)) {
-					// Debemos eliminar un jugador que está jugando la partida actual
-					Gdx.app.log("MyGdxGame", "Jugador + " + jugador + " eliminado de la lista de jugadores activos");
-					jugadoresActivos.removeValue(jugador, false);
-					jugador.dispose();
-				} else if (jugadoresEnEspera.contains(jugador, false)) {
-					// Debemos eliminar un jugador que está en espera
-					Gdx.app.log("MyGdxGame", "Jugador + " + jugador + " eliminado de la lista de jugadores en espera");
-					jugadoresEnEspera.removeValue(jugador, false);
-					jugador.dispose();
-				} else {
-					// ¡No hemos encontrado el jugador que se quiere eliminar!
-					Gdx.app.error("MyGdxGame", "Esto no debería suceder nunca: se ha intentado eliminar un jugador que no se ha encontrado ni en la lista jugadoresActivos ni en jugadoresEnEspera");
-				}
+		synchronized (jugadores) {
+			if (jugadores.contains(jugador, false)) {
+				// Debemos eliminar un jugador que está jugando la partida actual
+				Gdx.app.log("MyGdxGame", "Jugador + " + jugador + " eliminado de la lista de jugadores");
+				jugadores.removeValue(jugador, false);
+				jugador.dispose();
+			} else {
+				// ¡No hemos encontrado el jugador que se quiere eliminar!
+				Gdx.app.error("MyGdxGame", "Esto no debería suceder nunca: se ha intentado eliminar un jugador que no se ha encontrado");
 			}
 		}
 	}
 
-    public void incorporarJugadoresEnEspera() {
-		synchronized(jugadoresEnEspera) {
-			for (int i = 0; i < jugadoresEnEspera.size; i++) {
-				Jugador jugadorEnEspera = jugadoresEnEspera.get(i);
-				synchronized(jugadoresActivos) {
-					Gdx.app.log("MyGdxGame", "Incorporado juador en espera: " + jugadorEnEspera);
-					jugadoresActivos.add(jugadorEnEspera);
-				}
-			}
-			jugadoresEnEspera = new Array<Jugador>();	//TODO: Mejor usar RemoveAll() en vez de construir un array nuevo
-		}
-	}
-
-	public Array<Jugador> getJugadoresActivos() {
-		return jugadoresActivos;
-	}
-
-	public Array<Jugador> getJugadoresEnEspera() {
-		return jugadoresEnEspera;
-	}
-
-
-	// Devuelve la lista de jugadores conectados (tanto activos como en espera)
-	public Array<Jugador> getTodosLosJugadoresConectados() {
-		Array<Jugador> todosLosJugadoresConectados;
-		synchronized(jugadoresEnEspera) {
-			todosLosJugadoresConectados = getJugadoresEnEspera();
-			synchronized(jugadoresActivos) {
-				for (Jugador jugador : getJugadoresActivos()) {
-					todosLosJugadoresConectados.add(jugador);
-				}
-			}
-		}
-    	return todosLosJugadoresConectados;
+	public Array<Jugador> getJugadores() {
+		return jugadores;
 	}
 
 	public Pantalla getPantalla() { return pantallaActiva; }
@@ -153,8 +113,7 @@ public class MyGdxGame extends Game {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
         // Creamos las listas de jugadores activos y jugadores en espera
-        jugadoresActivos = new Array<Jugador>();
-        jugadoresEnEspera = new Array<Jugador>();
+        jugadores = new Array<Jugador>();
 
 		// Creamos dos dispositivos de juego teclado para ponder utilizar el juego al menos durante el desarrollo
 		DispositivoDeJuego tecladoJugador1 = new DispositivoTeclado(Input.Keys.W, Input.Keys.S, Input.Keys.A, Input.Keys.D, Input.Keys.SPACE, Input.Keys.SPACE, new Jugador("Jugador 2"), this);

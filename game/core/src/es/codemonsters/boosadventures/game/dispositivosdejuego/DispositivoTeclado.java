@@ -1,7 +1,5 @@
 package es.codemonsters.boosadventures.game.dispositivosdejuego;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
 import es.codemonsters.boosadventures.game.Jugador;
@@ -37,7 +35,7 @@ public class DispositivoTeclado extends DispositivoDeJuego implements InputProce
     @Override
     protected void setJugador(Jugador jugador) {
         super.setJugador(jugador);
-        game.agregaJugadorEnEspera(jugador);
+        game.agregaJugador(jugador);
     }
 
     @Override
