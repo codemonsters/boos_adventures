@@ -53,3 +53,7 @@ En la carpeta raiz se encontrará:
 ### Recursos ###
 
 * Skin Scene2D UI utilizado como base: Commodore64 ([link](https://github.com/czyzby/gdx-skins))
+
+### Problemas en el entorno de desarrollo ###
+
+* En Linux es necesario tener instalado el paquete xorg-xrandr. De lo contrario se podría producir una excepción como esta: java.lang.ArrayIndexOutOfBoundsException: 0at org.lwjgl.opengl.LinuxDisplay.getAvailableDisplayModes(LinuxDisplay.java:954)
