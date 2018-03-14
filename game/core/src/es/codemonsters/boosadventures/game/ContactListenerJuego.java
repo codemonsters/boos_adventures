@@ -11,13 +11,20 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
+import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 
 public class ContactListenerJuego implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
-        if (fixA.getUserData() == "piesJugador" || fixB.getUserData() == "piesJugador") {
+        if (fixA.getUserData() instanceof SensoresLimitesMundo || fixB.getUserData() instanceof SensoresLimitesMundo) {
+            Fixture otro = fixA.getUserData() instanceof SensoresLimitesMundo ? fixB : fixA;
+            if (otro.getUserData() instanceof ObjetoJugador) {
+                // El objeto jugador ha tocado el límite del mundo
+                ((ObjetoJugador)otro.getUserData()).onLimitesMundoBeginContact();
+            }
+        } else if (fixA.getUserData() == "piesJugador" || fixB.getUserData() == "piesJugador") {
             // El sensor de los pies ha tocado con algo
             Fixture feet = fixA.getUserData() == "piesJugador" ? fixA : fixB;
             ((ObjetoJugador)feet.getBody().getUserData()).onFeetBeginContact();

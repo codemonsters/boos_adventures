@@ -1,59 +1,54 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polyline;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class SensoresLimitesMundo extends ObjetoEstatico {
+import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
+public class SensoresLimitesMundo extends ObjetoEstatico {
+    private static final float MARGEN = 10;
     public SensoresLimitesMundo() {
         super();
     }
 
     @Override
     public void definirCuerpo(World world) {
+        // TODO: Sustituir las cuatro líneas por un único polígono
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(0, 0);
         Body body = world.createBody(bdef);
         body.setUserData(this);
 
-        PolygonShape polygonShape = new PolygonShape();
-        final float floor_density = 10; // TODO: Revisar la densidad que queremos para este tipo de objeto
-
+        // Sensores
+        // Pared izquierda
+        creaSensor(-MARGEN, -MARGEN, -MARGEN, PantallaJuego.ALTO_DEL_MUNDO * 2 + MARGEN, body);
+        // Pared derecha
+        creaSensor(PantallaJuego.ANCHO_DEL_MUNDO + MARGEN, -MARGEN, PantallaJuego.ANCHO_DEL_MUNDO + MARGEN,  PantallaJuego.ALTO_DEL_MUNDO * 2 + MARGEN, body);
         // Suelo
-        polygonShape.setAsBox(18, 8);
-        fixture = body.createFixture(polygonShape, floor_density);
-        fixture.setUserData(this);
+        creaSensor(-MARGEN, -MARGEN, PantallaJuego.ANCHO_DEL_MUNDO + MARGEN, -MARGEN, body);
+        // Techo
+        creaSensor(-MARGEN, PantallaJuego.ANCHO_DEL_MUNDO + MARGEN, PantallaJuego.ANCHO_DEL_MUNDO + MARGEN, PantallaJuego.ANCHO_DEL_MUNDO + MARGEN, body);
+    }
 
-        // Muro izquierdo
-        polygonShape.setAsBox(0.25f, 12, new Vector2(0.25f, 20), 0);
-        fixture = body.createFixture(polygonShape, floor_density);
-        fixture.setUserData(this);
-
-        // Muro derecho
-        polygonShape.setAsBox(0.25f, 12, new Vector2(17.75f, 20), 0);
-        fixture = body.createFixture(polygonShape, floor_density);
-        fixture.setUserData(this);
-
-        // Top wall
-        polygonShape.setAsBox(18, 0.25f, new Vector2(18, 31.50f), 0);
-        fixture = body.createFixture(polygonShape, floor_density);
-        fixture.setUserData(this);
-
-        // Top world sensor (it is located 0.5m above the ceiling of the playableworld. When the player touches this sensor he wins and should get to a new level)
-        EdgeShape goal = new EdgeShape();
-        goal.set(new Vector2(-18, 32.5f), new Vector2(18, 32.5f));
+    private void creaSensor(float x1, float y1, float x2, float y2, Body body) {
+        EdgeShape linea = new EdgeShape();
+        linea.set(new Vector2(x1, y1),new Vector2(x2, y2));
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = goal;
-        fixtureDef.isSensor = true; // This is a sensor, it will not collide with other bodies of the world
-        fixture = body.createFixture(fixtureDef); // Define "head" as the unique name of this fixture to help us to identify it during collisions
-        fixture.setUserData("goal");
+        fixtureDef.shape = linea;
+        fixtureDef.isSensor = true;
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
     }
 
     @Override

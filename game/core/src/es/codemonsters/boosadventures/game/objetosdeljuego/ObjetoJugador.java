@@ -184,6 +184,9 @@ public class ObjetoJugador extends ObjetoDinamico {
         if (bloque.isInstakill()) {
             pantallaJuego.haMuerto(this);
         }
+    }
 
+    public void onLimitesMundoBeginContact() {
+        pantallaJuego.haMuerto(this);
     }
 }
