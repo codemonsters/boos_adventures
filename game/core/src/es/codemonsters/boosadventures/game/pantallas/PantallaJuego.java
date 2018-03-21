@@ -100,7 +100,7 @@ public class PantallaJuego extends Pantalla {
         sensoresLimitesMundo.definirCuerpo(world);
 
         for (Jugador jugador : game.getJugadores()) {
-            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this));
+            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this, jugador));
 
             jugador.getObjetoJugador().definirCuerpo(world);
             spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;

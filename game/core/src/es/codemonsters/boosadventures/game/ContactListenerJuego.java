@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 
+import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
@@ -18,14 +19,16 @@ public class ContactListenerJuego implements ContactListener {
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
+
         if (fixA.getUserData() instanceof SensoresLimitesMundo || fixB.getUserData() instanceof SensoresLimitesMundo) {
+            // Algún cuerpo ha llegado al límite del mundo
             Fixture otro = fixA.getUserData() instanceof SensoresLimitesMundo ? fixB : fixA;
             if (otro.getUserData() instanceof ObjetoJugador) {
                 // El objeto jugador ha tocado el límite del mundo
                 ((ObjetoJugador)otro.getUserData()).onLimitesMundoBeginContact();
             }
         } else if (fixA.getUserData() == "piesJugador" || fixB.getUserData() == "piesJugador") {
-            // El sensor de los pies ha tocado con algo
+            // El sensor de los pies del jugador ha tocado con algo
             Fixture feet = fixA.getUserData() == "piesJugador" ? fixA : fixB;
             ((ObjetoJugador)feet.getBody().getUserData()).onFeetBeginContact();
         } else if (fixA.getUserData() instanceof ObjetoJugador || fixB.getUserData() instanceof ObjetoJugador) {
@@ -41,11 +44,14 @@ public class ContactListenerJuego implements ContactListener {
             }
             if (otro.getUserData() instanceof Bloque){
                 objetoJugador.onBloqueBeginContact((Bloque)otro.getUserData());
+            } else if (otro.getUserData() instanceof Meta) {
+                // Un jugador ha llegado a la meta
+                objetoJugador.onMetaBeginContact();
             }
             //Gdx.app.debug("ContactListnerJuego", "El ObjetoJugador ha tocado algo");
         } else {
             Gdx.app.debug("ContactListnerJuego", "Algo a tocado con algo (" + fixA.getUserData() + ", " + fixB.getUserData() + ")");
-         }
+        }
     }
 
     @Override

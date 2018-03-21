@@ -12,13 +12,16 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
 public class ObjetoJugador extends ObjetoDinamico {
 
     private static final float IMPULSO_MOVIMIENTO = 8000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
+    private static final float IMPULSO_MOVIMIENTO_EN_EL_AIRE = 3000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
     private static final float FUERZA_SALTO = 7200; // Impulso aplicado al jugador para que salte (en newtons)
     private static final float RADIO_DEL_CUERPO = 0.75f;    // El radio del círculo que define el cuerpo en Box2D
+    private Jugador jugador;
     private float xCentro, yCentro;
     private PantallaJuego pantallaJuego;
     public Body body;   // FIXME: Poner un getter? Revisar esto
@@ -32,8 +35,9 @@ public class ObjetoJugador extends ObjetoDinamico {
     private Texture texturaActual;
 
 
-    public ObjetoJugador(float xCentro, float yCentro, PantallaJuego pantallaJuego) {
+    public ObjetoJugador(float xCentro, float yCentro, PantallaJuego pantallaJuego, Jugador jugador) {
         super();
+        this.jugador = jugador;
         this.xCentro = xCentro;
         this.yCentro = yCentro;
         this.pantallaJuego = pantallaJuego;
@@ -119,14 +123,25 @@ public class ObjetoJugador extends ObjetoDinamico {
                 saltarEnSiguienteUpdate = false;
             } else {
                 if (presionandoIzquierda) {
-                    // Desplazamiento a la izquierda
+                    // Aplicamos fuerza a la izquierda
                     body.applyForceToCenter(new Vector2(-1 * IMPULSO_MOVIMIENTO * dt, 0), true);
                 }
                 if (presionandoDerecha) {
-                    // Desplazamiento a la derecha
+                    // Aplicamos fuerza a la derecha
                     body.applyForceToCenter(new Vector2(+1 * IMPULSO_MOVIMIENTO * dt, 0), true);
                 }
             }
+        } else {
+            // EStamos en el aire. Aún así...
+            if (presionandoIzquierda) {
+                // Aplicamos un poco de fuerza a la izquierda
+                body.applyForceToCenter(new Vector2(-IMPULSO_MOVIMIENTO_EN_EL_AIRE * dt, 0), true);
+            }
+            if (presionandoDerecha) {
+                // Aplicamos un poco de fuerza a la derecha
+                body.applyForceToCenter(new Vector2(IMPULSO_MOVIMIENTO_EN_EL_AIRE * dt, 0), true);
+            }
+
         }
         // Actualizar el sprite
         deltaTime += dt;
@@ -189,4 +204,10 @@ public class ObjetoJugador extends ObjetoDinamico {
     public void onLimitesMundoBeginContact() {
         pantallaJuego.haMuerto(this);
     }
+
+    public void onMetaBeginContact() {
+        Gdx.app.log("ObjetoJugador", "El jugador '" + jugador + " ha llegado a la meta!");
+        pantallaJuego.haMuerto(this);
+    }
+
 }
