@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Trampolin;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Nivel {
@@ -41,7 +42,10 @@ public class Nivel {
             if (clase.equals("bloque")) {
                 Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"),objeto.getBoolean("instakill"));
                 objetosDelJuegos.add(bloque);
-            } else if (clase.equals("meta")) {
+            } else if (clase.equals("trampolin")) {
+                Trampolin trampolin = new Trampolin(objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
+                objetosDelJuegos.add(trampolin);
+            }else if (clase.equals("meta")) {
                 Meta meta = new Meta(objeto.getFloat("x"),objeto.getFloat("y"));
                 objetosDelJuegos.add(meta);
             }else {

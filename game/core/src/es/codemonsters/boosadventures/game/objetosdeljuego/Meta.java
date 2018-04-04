@@ -62,6 +62,7 @@ public class Meta extends ObjetoEstatico {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        //maneja el alpha y el angulo
         angulo -= Gdx.graphics.getDeltaTime()*50;
         if (transparentando){
             alpha += Gdx.graphics.getDeltaTime();
