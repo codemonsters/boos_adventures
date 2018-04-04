@@ -1,38 +1,34 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-
-import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
 
 public class Meta extends ObjetoEstatico {
-    Array<Texture> texturas;
+    Texture textura;
+    TextureRegion texturaRegion;
     private Body body;
-    private  float index;
+    private  float angulo;
     private float xCentro, yCentro;
     private static final float RADIO_DEL_CUERPO = 1f;
+    private static final float RADIO_DEL_SENSOR = 0.3f;
+    float alpha = 0.2f;
+    boolean transparentando = false;
 
     public Meta(float xCentro, float yCentro) {
         super();
-        texturas = new Array<Texture>();
+        textura = new Texture(Gdx.files.internal("Meta/meta.png"));
+        texturaRegion = new TextureRegion(textura);
         this.xCentro = xCentro;
         this.yCentro = yCentro;
-        for (int i =1; i<= 15; i++) {
-            texturas.add(new Texture(Gdx.files.internal("Meta/meta"+i+".png")));
-        }
     }
 
     @Override
@@ -47,7 +43,7 @@ public class Meta extends ObjetoEstatico {
 
         // Fixture principal (círculo de 1,5m de diámetro)
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(RADIO_DEL_CUERPO);
+        circleShape.setRadius(RADIO_DEL_SENSOR);
         FixtureDef fixtureDef = new FixtureDef();
         //fixtureDef.restitution = 0.1f;
         fixtureDef.restitution = 0;
@@ -61,18 +57,31 @@ public class Meta extends ObjetoEstatico {
 
     @Override
     public void dispose() {
-        for (Texture texture : texturas)
-            texture.dispose();
+        textura.dispose();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        index += Gdx.graphics.getDeltaTime()*25;
-        if (index>14) {
-            index = 0;
+        angulo -= Gdx.graphics.getDeltaTime()*50;
+        if (transparentando){
+            alpha += Gdx.graphics.getDeltaTime();
+            if (alpha>1){
+                alpha = 1;
+                transparentando = false;
+            }
         }
-        batch.draw(texturas.get((int)Math.round(index)),body.getPosition().x - RADIO_DEL_CUERPO,body.getPosition().y - RADIO_DEL_CUERPO,RADIO_DEL_CUERPO*2,RADIO_DEL_CUERPO*2);
+        else{
+            alpha -= Gdx.graphics.getDeltaTime();
+            if (alpha<0.2f){
+                alpha = 0.2f;
+                transparentando = true;
+            }
+        }
+        Color c = batch.getColor();
+        batch.setColor(c.r,c.g,c.b,alpha);
+        batch.draw(texturaRegion,body.getPosition().x - RADIO_DEL_CUERPO, body.getPosition().y - RADIO_DEL_CUERPO, RADIO_DEL_CUERPO, RADIO_DEL_CUERPO, RADIO_DEL_CUERPO*2, RADIO_DEL_CUERPO*2, 1, 1, angulo);
 
+        batch.setColor(c.r,c.g,c.b,1);
     }
 
 }
