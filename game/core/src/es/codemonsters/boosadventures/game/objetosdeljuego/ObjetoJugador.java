@@ -64,7 +64,7 @@ public class ObjetoJugador extends ObjetoDinamico {
         circleShape.setRadius(RADIO_DEL_CUERPO);
         FixtureDef fixtureDef = new FixtureDef();
         //fixtureDef.restitution = 0.1f;
-        fixtureDef.restitution = 0;
+        fixtureDef.restitution = 0.2f;
         fixtureDef.density = 10;
         fixtureDef.friction = 0.5f;
         fixtureDef.shape = circleShape;

@@ -13,8 +13,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Trampolin extends ObjetoEstatico {
-    private float anchoBox2d = 3;
-    private float altoBox2d = 0.25f;
+    private float anchoPaloBox2d = 3;
+    private float altoPaloBox2d = 0.1f;
     private float xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
     private Body body;
@@ -31,8 +31,8 @@ public class Trampolin extends ObjetoEstatico {
     public Trampolin(float xEsquinaInfIzq, float yEsquinaInfIzq, float angulo) {
         super();
         // Trasladamos las coordenadas al sistema de Box2D donde los objetos tipo Box se definen respecto al centro del cuerpo
-        xCentroBox2d = xEsquinaInfIzq + anchoBox2d / 2;
-        yCentroBox2d = yEsquinaInfIzq + anchoBox2d / 2;
+        xCentroBox2d = xEsquinaInfIzq + anchoPaloBox2d / 2;
+        yCentroBox2d = yEsquinaInfIzq + anchoPaloBox2d / 2;
         // Adaptamos el tamaño a Box2D, donde el ancho y el alto de los rectángulos se define como la mitad del que realmente tienen
         this.angulo = angulo;
         //TODO: Los bloques deberían poder compartir textura
@@ -48,21 +48,34 @@ public class Trampolin extends ObjetoEstatico {
         body = world.createBody(bdef);
         body.setUserData(this);
 
-        //palanca
+        //parte arriba palanca
         PolygonShape polygonShape = new PolygonShape();
-        final float floor_density = 1; // TODO: Revisar si esta es la densidad que queremos para este tipo de objeto
-        polygonShape.setAsBox(anchoBox2d, altoBox2d, new Vector2(0f,0f),angulo* MathUtils.degreesToRadians);
-        fixture = body.createFixture(polygonShape, floor_density);
+        final float density = 0.2f;
+        polygonShape.setAsBox(anchoPaloBox2d, altoPaloBox2d /2, new Vector2(0f,0.5f+ altoPaloBox2d),angulo* MathUtils.degreesToRadians);
+        fixture = body.createFixture(polygonShape, density);
+
+        fixture.setFriction(0.5f);
+        fixture.setRestitution(1.5f);
+        fixture.setUserData(this);
+
+        //parte abajo palanco
+
+        PolygonShape polygonShape1 = new PolygonShape();
+        final float density1 = 0.2f;
+        polygonShape1.setAsBox(anchoPaloBox2d, altoPaloBox2d /2, new Vector2(0f,0.5f+ altoPaloBox2d /2),angulo* MathUtils.degreesToRadians);
+        fixture = body.createFixture(polygonShape1, density1);
+        fixture.setFriction(2);
+        fixture.setRestitution(0);
         fixture.setUserData(this);
 
         //soporte
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(1f);
+        circleShape.setRadius(0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         //fixtureDef.restitution = 0.1f;
-        fixtureDef.restitution = 0;
-        fixtureDef.density = 1;
-        fixtureDef.friction = 1f;
+        fixtureDef.restitution = 0f;
+        fixtureDef.density = 100;
+        fixtureDef.friction = 10;
         fixtureDef.shape = circleShape;
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
@@ -77,7 +90,7 @@ public class Trampolin extends ObjetoEstatico {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // FIXME: Aquí deberíamos dibujar el bloque a partir de un bitmap
-        //anchoBox2d,altoBox2d
-        batch.draw(textura, body.getWorldCenter().x - anchoBox2d, body.getWorldCenter().y - altoBox2d, anchoBox2d, altoBox2d, anchoBox2d * 2, altoBox2d * 2, 1, 1, body.getAngle()*100, 0, 0, 1, 1, false, false);
+        //anchoPaloBox2d,altoPaloBox2d
+        //batch.draw(textura, body.getWorldCenter().x - anchoPaloBox2d, body.getWorldCenter().y - altoPaloBox2d, anchoPaloBox2d, altoPaloBox2d, anchoPaloBox2d * 2, altoPaloBox2d * 2, 1, 1, body.getAngle()*100, 0, 0, 1, 1, false, false);
     }
 }
