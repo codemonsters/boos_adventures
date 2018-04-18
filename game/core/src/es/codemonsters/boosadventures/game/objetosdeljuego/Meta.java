@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 
-public class Meta extends ObjetoEstatico {
+public class Meta extends ObjetoDelJuego {
     Texture textura;
     TextureRegion texturaRegion;
     private Body body;

@@ -86,9 +86,9 @@
       "instakill": false
     },
     {
-      "clase": "trampolin",
+      "clase": "canon",
       "x": "15",
-      "y": "2",
+      "y": "1",
       "angulo": "0",
       "regiontextura": "1"
     }

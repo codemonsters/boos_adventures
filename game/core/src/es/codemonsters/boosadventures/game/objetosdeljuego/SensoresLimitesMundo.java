@@ -1,21 +1,16 @@
 package es.codemonsters.boosadventures.game.objetosdeljuego;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Polyline;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
-public class SensoresLimitesMundo extends ObjetoEstatico {
+public class SensoresLimitesMundo extends ObjetoDelJuego {
     private static final float MARGEN = 10;
     public SensoresLimitesMundo() {
         super();
@@ -54,11 +49,6 @@ public class SensoresLimitesMundo extends ObjetoEstatico {
     @Override
     public void dispose() {
         // FIXME: Añadir código para eliminar este objeto
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        // FIXME: Aquí deberíamos dibujar los límites del nivel a partir de un bitmap
     }
 
 }

@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import es.codemonsters.boosadventures.game.Utiles;
 
-public class Bloque extends ObjetoEstatico {
+public class Bloque extends ObjetoDelJuego {
 
     private float anchoBox2d, altoBox2d, xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
@@ -61,6 +61,7 @@ public class Bloque extends ObjetoEstatico {
         PolygonShape polygonShape = new PolygonShape();
         final float floor_density = 10; // TODO: Revisar si esta es la densidad que queremos para este tipo de objeto
         polygonShape.setAsBox(anchoBox2d, altoBox2d, new Vector2(0f,0f),angulo* MathUtils.degreesToRadians);
+
         fixture = body.createFixture(polygonShape, floor_density);
         fixture.setUserData(this);
     }

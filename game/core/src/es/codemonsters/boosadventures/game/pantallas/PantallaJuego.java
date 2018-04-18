@@ -42,6 +42,7 @@ public class PantallaJuego extends Pantalla {
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
     private Array<ObjetoDelJuego> objetosDelJuego;
+
     private boolean queremosResetearNivel = false;
 
     private Stage stage;
@@ -90,6 +91,7 @@ public class PantallaJuego extends Pantalla {
         Nivel nivel = new Nivel("001.json");
 
         objetosDelJuego = nivel.getObjetosDelJuego();
+
         for (ObjetoDelJuego objeto : objetosDelJuego){
             objeto.definirCuerpo(world);
             stage.addActor(objeto);
@@ -286,6 +288,5 @@ public class PantallaJuego extends Pantalla {
     public void alLiberarCancelar(Jugador jugador) {
         // Ignoramos el evento porque ya hemos atendido esto en el método alPresionarCancelar
     }
-
 
 }

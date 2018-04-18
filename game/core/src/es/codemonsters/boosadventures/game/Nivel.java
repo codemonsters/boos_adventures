@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import java.util.ArrayList;
 
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Trampolin;
@@ -42,6 +43,9 @@ public class Nivel {
             if (clase.equals("bloque")) {
                 Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"),objeto.getBoolean("instakill"));
                 objetosDelJuegos.add(bloque);
+            } else if (clase.equals("canon")) {
+                Canon canon = new Canon(objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
+                objetosDelJuegos.add(canon);
             } else if (clase.equals("trampolin")) {
                 Trampolin trampolin = new Trampolin(objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
                 objetosDelJuegos.add(trampolin);

@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
-public class ObjetoJugador extends ObjetoDinamico {
+public class ObjetoJugador extends ObjetoDelJuego {
 
     private static final float IMPULSO_MOVIMIENTO = 8000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
     private static final float IMPULSO_MOVIMIENTO_EN_EL_AIRE = 3000; // Impulso aplicado al jugador cuando se quiere mover (en newtons por segundo)
