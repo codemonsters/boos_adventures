@@ -50,7 +50,6 @@ public class Canon extends ObjetoDelJuego{
         body.setUserData(this);
 
         //pared derecha
-
         PolygonShape polygonShape = new PolygonShape();
         final float density = 0.2f;
         polygonShape.setAsBox(anchoPaloBox2d, altoPaloBox2d /2, new Vector2(1.1f,2.2f/2+ altoPaloBox2d /2),0);
@@ -61,7 +60,6 @@ public class Canon extends ObjetoDelJuego{
         fixture.setUserData(this);
 
         //pared izquierda
-
         PolygonShape polygonShape1 = new PolygonShape();
         final float density1 = 0.2f;
         polygonShape1.setAsBox(anchoPaloBox2d, altoPaloBox2d /2, new Vector2(-1.1f,2.2f/2+ altoPaloBox2d /2),0);
@@ -78,6 +76,7 @@ public class Canon extends ObjetoDelJuego{
         fixture.setFriction(0);
         fixture.setRestitution(0);
         fixture.setUserData(this);
+
         //soporte
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(1.1f);
@@ -85,10 +84,11 @@ public class Canon extends ObjetoDelJuego{
         //fixtureDef.restitution = 0.1f;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 100;
-        fixtureDef.friction = 10;
+        fixtureDef.friction = 0;
         fixtureDef.shape = circleShape;
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
+
     }
 
     @Override

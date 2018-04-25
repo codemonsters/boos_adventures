@@ -55,7 +55,7 @@ public class Trampolin extends ObjetoDelJuego {
         fixture = body.createFixture(polygonShape, density);
 
         fixture.setFriction(0.5f);
-        fixture.setRestitution(1.5f);
+        fixture.setRestitution(1.1f);
         fixture.setUserData(this);
 
         //parte abajo palanco

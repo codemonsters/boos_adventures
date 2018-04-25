@@ -57,7 +57,7 @@
     },
     {
       "clase": "bloque",
-      "x": "7",
+      "x": "27",
       "y": "2",
       "ancho": "1",
       "alto": "1",
@@ -67,7 +67,7 @@
     },
     {
       "clase": "bloque",
-      "x": "10",
+      "x": "30",
       "y": "4",
       "ancho": "1",
       "alto": "1",
@@ -77,13 +77,20 @@
     },
     {
       "clase": "bloque",
-      "x": "13",
+      "x": "33",
       "y": "6",
       "ancho": "1",
       "alto": "1",
       "angulo": "0",
       "regiontextura": "1",
       "instakill": false
+    },
+
+    {
+      "clase": "palanca",
+      "x": "5",
+      "y": "1",
+      "regiontextura": "1"
     },
     {
       "clase": "canon",
