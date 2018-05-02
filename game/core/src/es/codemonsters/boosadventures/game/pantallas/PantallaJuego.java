@@ -16,6 +16,7 @@ import es.codemonsters.boosadventures.game.ContactListenerJuego;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
@@ -88,7 +89,7 @@ public class PantallaJuego extends Pantalla {
         }
         world = new World(new Vector2(0, -9.81f), true);
 
-        Nivel nivel = new Nivel("001.json");
+        Nivel nivel = new Nivel("001.json",this);
 
         objetosDelJuego = nivel.getObjetosDelJuego();
 
@@ -134,7 +135,20 @@ public class PantallaJuego extends Pantalla {
     public void show() {
         // TODO Auto-generated method stub
     }
-
+    public void giraCanones(boolean sentidoHorario) {
+        for (ObjetoDelJuego oj : objetosDelJuego){
+            if (oj instanceof Canon){
+                ((Canon) oj).gira(sentidoHorario);
+            }
+        }
+    }
+    public void detenerCanones() {
+        for (ObjetoDelJuego oj : objetosDelJuego){
+            if (oj instanceof Canon){
+                ((Canon) oj).detenGiro();
+            }
+        }
+    }
     @Override
     public void render(float dt) {
         if (queremosResetearNivel) {

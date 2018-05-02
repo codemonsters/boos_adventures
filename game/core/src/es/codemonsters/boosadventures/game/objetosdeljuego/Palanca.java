@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
@@ -16,9 +19,8 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
-/**
- * Created by codemonsters on 4/25/18.
- */
+import es.codemonsters.boosadventures.game.MyGdxGame;
+import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
 public class Palanca extends ObjetoDelJuego{
     /*
@@ -30,6 +32,7 @@ public class Palanca extends ObjetoDelJuego{
     private Texture textura;
     private Body bodyPalanca;
     private Body bodyBase;
+    private PantallaJuego pantallaJuego;
 
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:
@@ -40,9 +43,10 @@ public class Palanca extends ObjetoDelJuego{
     // * Poder crearse expresando las cosas e internamente tendremos que traducir esto por ejemplo antes de usar Box2D
     // * Tener los getters y setters que sean necesarios para poder leer y escribir las posiciones y dimensiones "traducidas"
 
-    public Palanca(float xEsquinaInfIzq, float yEsquinaInfIzq) {
+    public Palanca(float xEsquinaInfIzq, float yEsquinaInfIzq, PantallaJuego pantallaJuego) {
         super();
         // Trasladamos las coordenadas al sistema de Box2D donde los objetos tipo Box se definen respecto al centro del cuerpo
+        this.pantallaJuego = pantallaJuego;
         this.anchoBox2d = 0.2f / 2;
         this.altoBox2d = 1.75f / 2;
         xCentroBox2d = xEsquinaInfIzq + anchoBox2d / 2;
@@ -61,7 +65,6 @@ public class Palanca extends ObjetoDelJuego{
         bdef.position.set(xCentroBox2d, yCentroBox2d);
         bodyPalanca = world.createBody(bdef);
 
-        //body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
         bodyPalanca.setUserData(this);
         PolygonShape polygonShape3 = new PolygonShape();
         final float density3 = 0.2f;
@@ -110,6 +113,35 @@ public class Palanca extends ObjetoDelJuego{
         def.length = 0;
         world.createJoint(def);
 
+        FixtureDef fixtureDef = new FixtureDef();
+
+
+        //sensor palanca derecha
+
+        bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.position.set(xCentroBox2d, yCentroBox2d);
+        bodyBase = world.createBody(bdef);
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(altoBox2d/2, anchoBox2d), new Vector2(altoBox2d/2, -altoBox2d/2));
+        fixtureDef.shape = feet;
+        fixtureDef.isSensor = true;
+        fixture = bodyBase.createFixture(fixtureDef);
+        fixture.setUserData("sensorPalancaIzq");
+
+        //sensor palanca izquierda
+        feet.set(new Vector2(-altoBox2d/2, anchoBox2d), new Vector2(-altoBox2d/2, -altoBox2d/2));
+        fixtureDef.shape = feet;
+        fixtureDef.isSensor = true;
+        fixture = bodyBase.createFixture(fixtureDef);
+        fixture.setUserData("sensorPalancaDer");
+    }
+
+    public void giraCanones(boolean sentidoHorario) {
+        pantallaJuego.giraCanones(sentidoHorario);
+    }
+    public void detenerGiroCanones() {
+        pantallaJuego.detenerCanones();
     }
 
     @Override

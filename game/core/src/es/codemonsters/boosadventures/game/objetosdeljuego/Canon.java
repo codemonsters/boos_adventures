@@ -8,12 +8,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Canon extends ObjetoDelJuego{
     private float altoPaloBox2d = 2;
+    private float velocidadGiro = 0;
     private float anchoPaloBox2d = 0.1f;
     private float anchoInterior = 2f;
     private float xCentroBox2d, yCentroBox2d, angulo;
@@ -71,7 +73,7 @@ public class Canon extends ObjetoDelJuego{
         //fondo cañón
         PolygonShape polygonShape2 = new PolygonShape();
         final float density2 = 0.2f;
-        polygonShape2.setAsBox(2.2f/2, 0.1f/2, new Vector2(0,2.2f /2),0);
+        polygonShape2.setAsBox(2.2f/2+anchoPaloBox2d, (1.1f+anchoPaloBox2d)/2, new Vector2(0,1.1f/2),0);
         fixture = body.createFixture(polygonShape2, density2);
         fixture.setFriction(0);
         fixture.setRestitution(0);
@@ -79,7 +81,7 @@ public class Canon extends ObjetoDelJuego{
 
         //soporte
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(1.1f);
+        circleShape.setRadius(1.1f+anchoPaloBox2d);
         FixtureDef fixtureDef = new FixtureDef();
         //fixtureDef.restitution = 0.1f;
         fixtureDef.restitution = 0f;
@@ -89,6 +91,13 @@ public class Canon extends ObjetoDelJuego{
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
 
+        //sensor cañon
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-1.1f, 1.1f+anchoPaloBox2d*2), new Vector2(1.1f, 1.1f+anchoPaloBox2d*2));
+        fixtureDef.shape = feet;
+        fixtureDef.isSensor = true;
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData("sensorCanon");
     }
 
     @Override
@@ -96,10 +105,19 @@ public class Canon extends ObjetoDelJuego{
         // FIXME: Añadir código para eliminar este objeto
         textura.dispose();
     }
-
+    public void gira(boolean sentidoHorario){
+        if (sentidoHorario) {
+            velocidadGiro = 30;
+        } else {
+            velocidadGiro = -30;
+        }
+    }
+    public void detenGiro(){
+        velocidadGiro = 0;
+    }
     @Override
     public void act(float dt){
-        angulo += dt*30;
+        angulo += dt*velocidadGiro;
         body.setTransform(body.getPosition(),angulo* MathUtils.degreesToRadians);
 
     }

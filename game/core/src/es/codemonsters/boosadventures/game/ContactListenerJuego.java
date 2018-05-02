@@ -12,6 +12,7 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 
 public class ContactListenerJuego implements ContactListener {
@@ -49,6 +50,24 @@ public class ContactListenerJuego implements ContactListener {
                 objetoJugador.onMetaBeginContact();
             }
             //Gdx.app.debug("ContactListnerJuego", "El ObjetoJugador ha tocado algo");
+        }
+        else if (fixA.getUserData() instanceof Palanca || fixB.getUserData() instanceof Palanca){
+            Palanca palanca;
+            Fixture otro;
+            if (fixA.getUserData() instanceof Palanca) {
+                palanca = (Palanca)fixA.getUserData();
+                otro = fixB;
+            } else {
+                palanca = (Palanca)fixB.getUserData();
+                otro = fixA;
+            }
+            if (otro.getUserData() == "sensorPalancaIzq") {
+                // Giramos los cañones en sentido antihorario
+                palanca.giraCanones(false);
+            } else if (otro.getUserData() == "sensorPalancaDer") {
+                // Giramos los cañones en sentido horario
+                palanca.giraCanones(true);
+            }
         } else {
             Gdx.app.debug("ContactListnerJuego", "Algo a tocado con algo (" + fixA.getUserData() + ", " + fixB.getUserData() + ")");
         }
@@ -63,7 +82,21 @@ public class ContactListenerJuego implements ContactListener {
             Fixture feet = fixA.getUserData() == "piesJugador" ? fixA : fixB;
             ((ObjetoJugador)feet.getBody().getUserData()).onFeetEndContact();
         }
-
+        else if (fixA.getUserData() instanceof Palanca || fixB.getUserData() instanceof Palanca){
+            Palanca palanca;
+            Fixture otro;
+            if (fixA.getUserData() instanceof Palanca) {
+                palanca = (Palanca)fixA.getUserData();
+                otro = fixB;
+            } else {
+                palanca = (Palanca)fixB.getUserData();
+                otro = fixA;
+            }
+            if (otro.getUserData() == "sensorPalancaIzq" || otro.getUserData() == "sensorPalancaDer") {
+                // Detenemos el giro de los cañones
+                palanca.detenerGiroCanones();
+            }
+        }
         /*
         // Otro código genérico de ejemplo: Comprobamos si un enemigo ha contactado con cualquier tipo de cuerpo estático
         if (Enemy.class.isAssignableFrom(fixA.getUserData().getClass())) {

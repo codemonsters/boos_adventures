@@ -15,12 +15,15 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Trampolin;
+import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Nivel {
+    private PantallaJuego pantallaJuego;
     private JsonValue valoresJsonNivel;
     private String archivo;
-    public Nivel(String archivo) {
+    public Nivel(String archivo, PantallaJuego pantallaJuego) {
+        this.pantallaJuego = pantallaJuego;
         this.archivo = archivo;
         JsonReader jsonRe = new JsonReader();
         valoresJsonNivel = jsonRe.parse(Gdx.files.internal("niveles/" + archivo));
@@ -45,7 +48,7 @@ public class Nivel {
                 Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"),objeto.getBoolean("instakill"));
                 objetosDelJuegos.add(bloque);
             } else if (clase.equals("palanca")) {
-                Palanca palanca = new Palanca(objeto.getFloat("x"),objeto.getFloat("y"));
+                Palanca palanca = new Palanca(objeto.getFloat("x"),objeto.getFloat("y"),pantallaJuego);
                 objetosDelJuegos.add(palanca);
             } else if (clase.equals("canon")) {
                 Canon canon = new Canon(objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
