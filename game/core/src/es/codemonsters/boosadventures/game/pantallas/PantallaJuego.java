@@ -79,12 +79,12 @@ public class PantallaJuego extends Pantalla {
     public void resetearNivel() {
         nivelEnCurso = false;
         estado = Estados.NACIENDO;
-        if (stage!=null){
+        if (stage!=null) {
             stage.dispose();
         }
         stage = new Stage(new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO));
 
-        if (world!=null){
+        if (world!=null) {
             world.dispose();
         }
         world = new World(new Vector2(0, -9.81f), false);
@@ -113,13 +113,13 @@ public class PantallaJuego extends Pantalla {
             jugador.getObjetoJugador().body.applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
             stage.addActor(jugador.getObjetoJugador());
         }
-        world.setContactListener(new ContactListenerJuego());
+        world.setContactListener(new ContactListenerJuego(this));
 
         nivelEnCurso = true;
     }
 
 
-    public  void haMuerto(ObjetoJugador objetoJugador){
+    public  void haMuerto(ObjetoJugador objetoJugador) {
         for (Jugador jugador : game.getJugadores()){
             if (jugador.getObjetoJugador() == objetoJugador){
                 Gdx.app.log("PantallaJuego","Jugador " + jugador.getNombre() + " ha muerto");
@@ -136,16 +136,24 @@ public class PantallaJuego extends Pantalla {
         // TODO Auto-generated method stub
     }
     public void giraCanones(boolean sentidoHorario) {
-        for (ObjetoDelJuego oj : objetosDelJuego){
+        for (ObjetoDelJuego oj : objetosDelJuego) {
             if (oj instanceof Canon){
                 ((Canon) oj).gira(sentidoHorario);
             }
         }
     }
     public void detenerCanones() {
-        for (ObjetoDelJuego oj : objetosDelJuego){
+        for (ObjetoDelJuego oj : objetosDelJuego) {
             if (oj instanceof Canon){
                 ((Canon) oj).detenGiro();
+            }
+        }
+    }
+
+    public void dispararCanones() {
+        for (ObjetoDelJuego oj : objetosDelJuego) {
+            if (oj instanceof Canon){
+                ((Canon) oj).disparar();
             }
         }
     }

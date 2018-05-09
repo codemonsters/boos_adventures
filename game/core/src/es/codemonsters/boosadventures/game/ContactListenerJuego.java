@@ -9,13 +9,19 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 
+import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
+import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
 public class ContactListenerJuego implements ContactListener {
+    PantallaJuego pantallaJuego;
+    public ContactListenerJuego(PantallaJuego pantallaJuego){
+        this.pantallaJuego = pantallaJuego;
+    }
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -43,11 +49,20 @@ public class ContactListenerJuego implements ContactListener {
                 objetoJugador = (ObjetoJugador) fixB.getUserData();
                 otro = fixA;
             }
+
             if (otro.getUserData() instanceof Bloque){
                 objetoJugador.onBloqueBeginContact((Bloque)otro.getUserData());
             } else if (otro.getUserData() instanceof Meta) {
                 // Un jugador ha llegado a la meta
                 objetoJugador.onMetaBeginContact();
+            } else if (otro.getUserData().equals("sensorPalancaBoton")){
+                pantallaJuego.dispararCanones();
+            } else if (otro.getUserData() instanceof Array) {
+                Array<Object> arrayOtro = (Array<Object>)otro.getUserData();
+                if (arrayOtro.get(0).equals("sensorCanon")) {
+                    ((Canon)arrayOtro.get(1)).añadirPersona(objetoJugador);
+
+                }
             }
             //Gdx.app.debug("ContactListnerJuego", "El ObjetoJugador ha tocado algo");
         }
@@ -95,6 +110,25 @@ public class ContactListenerJuego implements ContactListener {
             if (otro.getUserData() == "sensorPalancaIzq" || otro.getUserData() == "sensorPalancaDer") {
                 // Detenemos el giro de los cañones
                 palanca.detenerGiroCanones();
+            }
+        } else if (fixA.getUserData() instanceof ObjetoJugador || fixB.getUserData() instanceof ObjetoJugador) {
+            // El cuerpo del jugador ha tocado con algo
+            ObjetoJugador objetoJugador;
+            Fixture otro;
+            if (fixA.getUserData() instanceof ObjetoJugador) {
+                objetoJugador = (ObjetoJugador) fixA.getUserData();
+                otro = fixB;
+            } else {
+                objetoJugador = (ObjetoJugador) fixB.getUserData();
+                otro = fixA;
+            }
+
+            if (otro.getUserData() instanceof Array) {
+                Array<Object> arrayOtro = (Array<Object>)otro.getUserData();
+                if (arrayOtro.get(0).equals("sensorCanon")) {
+                    ((Canon)arrayOtro.get(1)).quitarPersona(objetoJugador);
+
+                }
             }
         }
         /*

@@ -60,6 +60,7 @@ public class Palanca extends ObjetoDelJuego{
     @Override
     public void definirCuerpo(World world) {
         //palanca
+
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(xCentroBox2d, yCentroBox2d);
@@ -72,6 +73,20 @@ public class Palanca extends ObjetoDelJuego{
         fixture = bodyPalanca.createFixture(polygonShape3, density3);
         fixture.setFriction(0);
         fixture.setUserData(this);
+
+        //sensor botón
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        bdef.type = BodyDef.BodyType.StaticBody;
+        bdef.position.set(xCentroBox2d, yCentroBox2d);
+        bodyBase = world.createBody(bdef);
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-anchoBox2d, altoBox2d+anchoBox2d*2), new Vector2(anchoBox2d, altoBox2d+anchoBox2d*2));
+        fixtureDef.shape = feet;
+        fixtureDef.isSensor = true;
+        fixture = bodyPalanca.createFixture(fixtureDef);
+        fixture.setUserData("sensorPalancaBoton");
 
         //base
         bdef = new BodyDef();
@@ -113,7 +128,6 @@ public class Palanca extends ObjetoDelJuego{
         def.length = 0;
         world.createJoint(def);
 
-        FixtureDef fixtureDef = new FixtureDef();
 
 
         //sensor palanca derecha
@@ -122,7 +136,7 @@ public class Palanca extends ObjetoDelJuego{
         bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xCentroBox2d, yCentroBox2d);
         bodyBase = world.createBody(bdef);
-        EdgeShape feet = new EdgeShape();
+        feet = new EdgeShape();
         feet.set(new Vector2(altoBox2d/2, anchoBox2d), new Vector2(altoBox2d/2, -altoBox2d/2));
         fixtureDef.shape = feet;
         fixtureDef.isSensor = true;

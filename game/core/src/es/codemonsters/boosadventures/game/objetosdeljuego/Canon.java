@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 public class Canon extends ObjetoDelJuego{
     private float altoPaloBox2d = 2;
@@ -21,6 +22,7 @@ public class Canon extends ObjetoDelJuego{
     private float xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
     private Body body;
+    private Array<ObjetoJugador> jugadoresCanon;
 
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:
@@ -40,6 +42,7 @@ public class Canon extends ObjetoDelJuego{
         this.angulo = angulo;
         //TODO: Los bloques deberían poder compartir textura
         textura = new Texture(Gdx.files.internal("Bloque/0.png"));
+        jugadoresCanon = new Array<ObjetoJugador>();
     }
 
 
@@ -97,7 +100,10 @@ public class Canon extends ObjetoDelJuego{
         fixtureDef.shape = feet;
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
-        fixture.setUserData("sensorCanon");
+        Array<Object> datos = new Array<Object>();
+        datos.add("sensorCanon");
+        datos.add(this);
+        fixture.setUserData(datos);
     }
 
     @Override
@@ -114,6 +120,23 @@ public class Canon extends ObjetoDelJuego{
     }
     public void detenGiro(){
         velocidadGiro = 0;
+    }
+
+    public void disparar(){
+        for (ObjetoJugador oj : jugadoresCanon) {
+            //oj.body.applyLinearImpulse(new Vector2(MathUtils.sin(body.getAngle()*MathUtils.degreesToRadians)*99999, MathUtils.cos(body.getAngle()*MathUtils.degreesToRadians)), body.getLocalCenter(), true);
+            Vector2 vectorImpulso = (new Vector2(0, 1)).setLength(300);
+            vectorImpulso.rotateRad(body.getAngle());
+            oj.body.applyLinearImpulse(vectorImpulso, body.getLocalCenter(), true);
+        }
+    }
+
+    public void añadirPersona(ObjetoJugador jugador) {
+        jugadoresCanon.add(jugador);
+    }
+
+    public void quitarPersona(ObjetoJugador jugador) {
+        jugadoresCanon.removeValue(jugador,true);
     }
     @Override
     public void act(float dt){
