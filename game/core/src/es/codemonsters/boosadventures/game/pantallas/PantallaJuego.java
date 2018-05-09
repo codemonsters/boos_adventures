@@ -87,7 +87,7 @@ public class PantallaJuego extends Pantalla {
         if (world!=null){
             world.dispose();
         }
-        world = new World(new Vector2(0, -9.81f), true);
+        world = new World(new Vector2(0, -9.81f), false);
 
         Nivel nivel = new Nivel("001.json",this);
 
