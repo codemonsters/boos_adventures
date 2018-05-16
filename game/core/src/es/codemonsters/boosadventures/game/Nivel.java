@@ -14,6 +14,7 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Piedra;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Trampolin;
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -59,6 +60,9 @@ public class Nivel {
             }else if (clase.equals("meta")) {
                 Meta meta = new Meta(objeto.getFloat("x"),objeto.getFloat("y"));
                 objetosDelJuegos.add(meta);
+            }else if (clase.equals("piedra")) {
+                Piedra piedra = new Piedra(objeto.getFloat("radio"),objeto.getFloat("x"),objeto.getFloat("y"));
+                objetosDelJuegos.add(piedra);
             }else {
                 Gdx.app.log("Nivel","Tipo de objeto desconocido encontrado en " + archivo + ": " + clase);
             }

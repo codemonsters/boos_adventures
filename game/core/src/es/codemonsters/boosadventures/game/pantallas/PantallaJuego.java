@@ -106,11 +106,11 @@ public class PantallaJuego extends Pantalla {
             jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this, jugador));
 
             jugador.getObjetoJugador().definirCuerpo(world);
-            spawnPos.x = jugador.getObjetoJugador().body.getPosition().x;
-            spawnPos.y = jugador.getObjetoJugador().body.getPosition().y;
-            jugador.getObjetoJugador().body.setAngularVelocity(0);
-            jugador.getObjetoJugador().body.setLinearVelocity(new Vector2(0,0));
-            jugador.getObjetoJugador().body.applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
+            spawnPos.x = jugador.getObjetoJugador().getBody().getPosition().x;
+            spawnPos.y = jugador.getObjetoJugador().getBody().getPosition().y;
+            jugador.getObjetoJugador().getBody().setAngularVelocity(0);
+            jugador.getObjetoJugador().getBody().setLinearVelocity(new Vector2(0,0));
+            jugador.getObjetoJugador().getBody().applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
             stage.addActor(jugador.getObjetoJugador());
         }
         world.setContactListener(new ContactListenerJuego(this));

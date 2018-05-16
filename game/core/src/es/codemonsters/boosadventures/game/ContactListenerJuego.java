@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.utils.Array;
+
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 
 import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
@@ -57,16 +57,9 @@ public class ContactListenerJuego implements ContactListener {
                 objetoJugador.onMetaBeginContact();
             } else if (otro.getUserData().equals("sensorPalancaBoton")){
                 pantallaJuego.dispararCanones();
-            } else if (otro.getUserData() instanceof Array) {
-                Array<Object> arrayOtro = (Array<Object>)otro.getUserData();
-                if (arrayOtro.get(0).equals("sensorCanon")) {
-                    ((Canon)arrayOtro.get(1)).añadirPersona(objetoJugador);
-
-                }
             }
             //Gdx.app.debug("ContactListnerJuego", "El ObjetoJugador ha tocado algo");
-        }
-        else if (fixA.getUserData() instanceof Palanca || fixB.getUserData() instanceof Palanca){
+        } else if (fixA.getUserData() instanceof Palanca || fixB.getUserData() instanceof Palanca) {
             Palanca palanca;
             Fixture otro;
             if (fixA.getUserData() instanceof Palanca) {
@@ -85,6 +78,21 @@ public class ContactListenerJuego implements ContactListener {
             }
         } else {
             Gdx.app.debug("ContactListnerJuego", "Algo a tocado con algo (" + fixA.getUserData() + ", " + fixB.getUserData() + ")");
+        }
+        // TODO: Sería genial modificar esto para que el if del cañon sea un else if de lo anterior
+        if (fixA.getUserData() instanceof UserDataBundle || fixB.getUserData() instanceof UserDataBundle) {
+            UserDataBundle userDataBundle;
+            ObjetoDelJuego otro;
+            if (fixA.getUserData() instanceof UserDataBundle) {
+                userDataBundle = (UserDataBundle) fixA.getUserData();
+                otro = (ObjetoDelJuego)fixB.getUserData();
+            } else {
+                userDataBundle = (UserDataBundle) fixB.getUserData();
+                otro = (ObjetoDelJuego)fixA.getUserData();
+            }
+            if (userDataBundle.texto.equals("sensorCanon")) {
+                ((Canon)userDataBundle.objetoDelJuego).añadirObjetoDelJuego(otro);
+            }
         }
     }
 
@@ -122,13 +130,20 @@ public class ContactListenerJuego implements ContactListener {
                 objetoJugador = (ObjetoJugador) fixB.getUserData();
                 otro = fixA;
             }
+        }
 
-            if (otro.getUserData() instanceof Array) {
-                Array<Object> arrayOtro = (Array<Object>)otro.getUserData();
-                if (arrayOtro.get(0).equals("sensorCanon")) {
-                    ((Canon)arrayOtro.get(1)).quitarPersona(objetoJugador);
-
-                }
+        if (fixA.getUserData() instanceof UserDataBundle || fixB.getUserData() instanceof UserDataBundle) {
+            UserDataBundle userDataBundle;
+            ObjetoDelJuego otro;
+            if (fixA.getUserData() instanceof UserDataBundle) {
+                userDataBundle = (UserDataBundle) fixA.getUserData();
+                otro = (ObjetoDelJuego)fixB.getUserData();
+            } else {
+                userDataBundle = (UserDataBundle) fixB.getUserData();
+                otro = (ObjetoDelJuego)fixA.getUserData();
+            }
+            if (userDataBundle.texto.equals("sensorCanon")) {
+                ((Canon)userDataBundle.objetoDelJuego).quitarObjetoDelJuego(otro);
             }
         }
         /*

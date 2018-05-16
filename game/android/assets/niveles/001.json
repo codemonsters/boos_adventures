@@ -98,6 +98,12 @@
       "y": "1",
       "angulo": "0",
       "regiontextura": "1"
+    },
+    {
+      "clase": "piedra",
+      "radio": "2",
+      "x": "20",
+      "y": "10"
     }
   ]
 }

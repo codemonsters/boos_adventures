@@ -17,7 +17,6 @@ public class Trampolin extends ObjetoDelJuego {
     private float altoPaloBox2d = 0.1f;
     private float xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
-    private Body body;
 
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:

@@ -14,6 +14,8 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import es.codemonsters.boosadventures.game.UserDataBundle;
+
 public class Canon extends ObjetoDelJuego{
     private float altoPaloBox2d = 2;
     private float velocidadGiro = 0;
@@ -22,7 +24,7 @@ public class Canon extends ObjetoDelJuego{
     private float xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
     private Body body;
-    private Array<ObjetoJugador> jugadoresCanon;
+    private Array<ObjetoDelJuego> objetosCanon;
 
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:
@@ -42,7 +44,7 @@ public class Canon extends ObjetoDelJuego{
         this.angulo = angulo;
         //TODO: Los bloques deberían poder compartir textura
         textura = new Texture(Gdx.files.internal("Bloque/0.png"));
-        jugadoresCanon = new Array<ObjetoJugador>();
+        objetosCanon = new Array<ObjetoDelJuego>();
     }
 
 
@@ -100,10 +102,7 @@ public class Canon extends ObjetoDelJuego{
         fixtureDef.shape = feet;
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
-        Array<Object> datos = new Array<Object>();
-        datos.add("sensorCanon");
-        datos.add(this);
-        fixture.setUserData(datos);
+        fixture.setUserData(new UserDataBundle("sensorCanon",this));
     }
 
     @Override
@@ -123,20 +122,20 @@ public class Canon extends ObjetoDelJuego{
     }
 
     public void disparar(){
-        for (ObjetoJugador oj : jugadoresCanon) {
+        for (ObjetoDelJuego oj : objetosCanon) {
             //oj.body.applyLinearImpulse(new Vector2(MathUtils.sin(body.getAngle()*MathUtils.degreesToRadians)*99999, MathUtils.cos(body.getAngle()*MathUtils.degreesToRadians)), body.getLocalCenter(), true);
             Vector2 vectorImpulso = (new Vector2(0, 1)).setLength(300);
             vectorImpulso.rotateRad(body.getAngle());
-            oj.body.applyLinearImpulse(vectorImpulso, body.getLocalCenter(), true);
+            oj.getBody().applyLinearImpulse(vectorImpulso, body.getLocalCenter(), true);
         }
     }
 
-    public void añadirPersona(ObjetoJugador jugador) {
-        jugadoresCanon.add(jugador);
+    public void añadirObjetoDelJuego(ObjetoDelJuego objetoDelJuego) {
+        objetosCanon.add(objetoDelJuego);
     }
 
-    public void quitarPersona(ObjetoJugador jugador) {
-        jugadoresCanon.removeValue(jugador,true);
+    public void quitarObjetoDelJuego(ObjetoDelJuego objetoDelJuego) {
+        objetosCanon.removeValue(objetoDelJuego,true);
     }
     @Override
     public void act(float dt){

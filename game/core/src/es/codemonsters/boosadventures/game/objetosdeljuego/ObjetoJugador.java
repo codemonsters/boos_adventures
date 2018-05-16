@@ -24,7 +24,6 @@ public class ObjetoJugador extends ObjetoDelJuego {
     private Jugador jugador;
     private float xCentro, yCentro;
     private PantallaJuego pantallaJuego;
-    public Body body;   // FIXME: Poner un getter? Revisar esto
     private boolean presionandoDerecha, presionandoIzquierda, presionandoArriba, presionandoAbajo, presionandoBoton1 = false;
     private int numApoyosEnPies = 0;
     private boolean saltarEnSiguienteUpdate = false;
