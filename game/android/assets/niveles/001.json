@@ -6,8 +6,8 @@
   "objetos": [
     {
       "clase": "spawn",
-      "x": "5",
-      "y": "5"
+      "x": "9",
+      "y": "1.5"
     },
     {
       "clase": "meta",
@@ -57,7 +57,7 @@
     },
     {
       "clase": "bloque",
-      "x": "27",
+      "x": "23",
       "y": "2",
       "ancho": "1",
       "alto": "1",
@@ -67,7 +67,7 @@
     },
     {
       "clase": "bloque",
-      "x": "30",
+      "x": "26",
       "y": "4",
       "ancho": "1",
       "alto": "1",
@@ -77,7 +77,7 @@
     },
     {
       "clase": "bloque",
-      "x": "33",
+      "x": "29",
       "y": "6",
       "ancho": "1",
       "alto": "1",
@@ -93,16 +93,35 @@
       "regiontextura": "1"
     },
     {
-      "clase": "canon",
+      "clase": "trampolin",
       "x": "15",
       "y": "1",
       "angulo": "0",
       "regiontextura": "1"
     },
     {
+      "clase": "rebotador",
+      "x": "10",
+      "y": "1",
+      "ancho": "2",
+      "alto": "1",
+      "angulo": "0",
+      "regiontextura": "1"
+    },
+    {
+      "clase": "bloque",
+      "x": "12",
+      "y": "6",
+      "ancho": "3",
+      "alto": "1",
+      "angulo": "0",
+      "regiontextura": "1",
+      "instakill": false
+    },
+    {
       "clase": "piedra",
       "radio": "2",
-      "x": "20",
+      "x": "14",
       "y": "10"
     }
   ]

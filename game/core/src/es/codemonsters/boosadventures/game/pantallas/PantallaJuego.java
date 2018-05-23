@@ -20,6 +20,7 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Spawn;
 
 
 public class PantallaJuego extends Pantalla {
@@ -30,6 +31,7 @@ public class PantallaJuego extends Pantalla {
         MURIENDO,
         GANANDO,
     }
+    public static final double VELOCIDAD_MAXIMA_OBJETO_JUEGO = 1;
     private Estados estado = Estados.NACIENDO;
     public static final int ANCHO_DEL_MUNDO = 44;   // Ancho del mundo (en metros)
     public static final int ALTO_DEL_MUNDO = 27;    // Alto del mundo (en metros)
@@ -38,7 +40,6 @@ public class PantallaJuego extends Pantalla {
     private Array<Nivel> todosLosNiveles;
     private boolean nivelEnCurso;
 
-    private Vector2 spawnPos = new Vector2();
     Sprite sprite;
     private World world;
     private Box2DDebugRenderer box2DDebugRendered;
@@ -93,8 +94,13 @@ public class PantallaJuego extends Pantalla {
 
         objetosDelJuego = nivel.getObjetosDelJuego();
 
-        for (ObjetoDelJuego objeto : objetosDelJuego){
+         Vector2 spawnPos = new Vector2();
+
+        for (ObjetoDelJuego objeto : objetosDelJuego) {
             objeto.definirCuerpo(world);
+            if (objeto instanceof Spawn) {
+                spawnPos = ((Spawn)objeto).getPosicion();
+            }
             stage.addActor(objeto);
         }
 
@@ -103,11 +109,11 @@ public class PantallaJuego extends Pantalla {
         sensoresLimitesMundo.definirCuerpo(world);
 
         for (Jugador jugador : game.getJugadores()) {
-            jugador.setObjetoJugador(new ObjetoJugador(9, 1.5f, this, jugador));
+            jugador.setObjetoJugador(new ObjetoJugador(spawnPos.x, spawnPos.y, this, jugador));
 
             jugador.getObjetoJugador().definirCuerpo(world);
-            spawnPos.x = jugador.getObjetoJugador().getBody().getPosition().x;
-            spawnPos.y = jugador.getObjetoJugador().getBody().getPosition().y;
+            //spawnPos.x = jugador.getObjetoJugador().getBody().getPosition().x;
+            //spawnPos.y = jugador.getObjetoJugador().getBody().getPosition().y;
             jugador.getObjetoJugador().getBody().setAngularVelocity(0);
             jugador.getObjetoJugador().getBody().setLinearVelocity(new Vector2(0,0));
             jugador.getObjetoJugador().getBody().applyForceToCenter(new Vector2(MathUtils.random(500f,-500f), MathUtils.random(1000f,500f)), true);
@@ -118,6 +124,9 @@ public class PantallaJuego extends Pantalla {
         nivelEnCurso = true;
     }
 
+    public void setSpawnPosition(Vector2 posicion) {
+
+    }
 
     public  void haMuerto(ObjetoJugador objetoJugador) {
         for (Jugador jugador : game.getJugadores()){

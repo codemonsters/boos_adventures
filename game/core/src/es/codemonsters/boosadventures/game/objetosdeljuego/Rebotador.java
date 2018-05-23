@@ -7,16 +7,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Trampolin extends ObjetoDelJuego {
-    private float anchoPaloBox2d = 3;
-    private float altoPaloBox2d = 0.1f;
-    private float xCentroBox2d, yCentroBox2d, angulo;
+public class Rebotador extends ObjetoDelJuego {
+
+    private float anchoBox2d, altoBox2d, xCentroBox2d, yCentroBox2d, angulo;
     private Texture textura;
+    private Body body;
 
     // Todo será más fácil si definimos todo con el mismo sistema de coordenadas (tanto lo relativo a box2d como a las texturas)
     // Por ejemplo:
@@ -27,57 +25,41 @@ public class Trampolin extends ObjetoDelJuego {
     // * Poder crearse expresando las cosas e internamente tendremos que traducir esto por ejemplo antes de usar Box2D
     // * Tener los getters y setters que sean necesarios para poder leer y escribir las posiciones y dimensiones "traducidas"
 
-    public Trampolin(float xEsquinaInfIzq, float yEsquinaInfIzq, float angulo) {
+    public Rebotador(float ancho, float alto, float xEsquinaInfIzq, float yEsquinaInfIzq, float angulo) {
         super();
         // Trasladamos las coordenadas al sistema de Box2D donde los objetos tipo Box se definen respecto al centro del cuerpo
-        xCentroBox2d = xEsquinaInfIzq + anchoPaloBox2d / 2;
-        yCentroBox2d = yEsquinaInfIzq + anchoPaloBox2d / 2;
+        xCentroBox2d = xEsquinaInfIzq + ancho / 2;
+        yCentroBox2d = yEsquinaInfIzq + alto / 2;
         // Adaptamos el tamaño a Box2D, donde el ancho y el alto de los rectángulos se define como la mitad del que realmente tienen
+        this.anchoBox2d = ancho / 2;
+        this.altoBox2d = alto / 2;
         this.angulo = angulo;
         //TODO: Los bloques deberían poder compartir textura
-            textura = new Texture(Gdx.files.internal("Bloque/0.png"));
+        textura = new Texture(Gdx.files.internal("rebotador/0.png"));
     }
-
 
     @Override
     public void definirCuerpo(World world) {
         BodyDef bdef = new BodyDef();
-        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.type = BodyDef.BodyType.StaticBody;
         bdef.position.set(xCentroBox2d, yCentroBox2d);
         body = world.createBody(bdef);
+        //body.setTransform(body.getWorldCenter(), Utiles.gradosSexagesimalesARadianes(angulo));
+
         body.setUserData(this);
-
-        //parte arriba palanca
         PolygonShape polygonShape = new PolygonShape();
-        final float density = 0.2f;
-        polygonShape.setAsBox(anchoPaloBox2d, altoPaloBox2d /2, new Vector2(0f,0.5f+ altoPaloBox2d),angulo* MathUtils.degreesToRadians);
-        fixture = body.createFixture(polygonShape, density);
+        final float floor_density = 10; // TODO: Revisar si esta es la densidad que queremos para este tipo de objeto
+        polygonShape.setAsBox(anchoBox2d, (altoBox2d*0.9f), new Vector2(0f, -(altoBox2d*0.1f)),angulo* MathUtils.degreesToRadians);
 
-        fixture.setFriction(0.5f);
-        fixture.setRestitution(1f);
-        fixture.setUserData(this);
+        fixture = body.createFixture(polygonShape, floor_density);
 
-        //parte abajo palanco
+        fixture.setUserData("rebotador.base");
 
-        PolygonShape polygonShape1 = new PolygonShape();
-        final float density1 = 0.2f;
-        polygonShape1.setAsBox(anchoPaloBox2d, altoPaloBox2d /2, new Vector2(0f,0.5f+ altoPaloBox2d /2),angulo* MathUtils.degreesToRadians);
-        fixture = body.createFixture(polygonShape1, density1);
-        fixture.setFriction(2);
-        fixture.setRestitution(0);
-        fixture.setUserData(this);
+        polygonShape.setAsBox(anchoBox2d, (altoBox2d*0.1f), new Vector2(0f, (altoBox2d*0.9f)),angulo* MathUtils.degreesToRadians);
 
-        //soporte
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(0.5f);
-        FixtureDef fixtureDef = new FixtureDef();
-        //fixtureDef.restitution = 0.1f;
-        fixtureDef.restitution = 0f;
-        fixtureDef.density = 100;
-        fixtureDef.friction = 10;
-        fixtureDef.shape = circleShape;
-        fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
+        fixture = body.createFixture(polygonShape, floor_density);
+        fixture.setRestitution(1.5f);
+        fixture.setUserData("rebotador.elastico");
     }
 
     @Override
@@ -89,7 +71,7 @@ public class Trampolin extends ObjetoDelJuego {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // FIXME: Aquí deberíamos dibujar el bloque a partir de un bitmap
-        //anchoPaloBox2d,altoPaloBox2d
-        //batch.draw(textura, body.getWorldCenter().x - anchoPaloBox2d, body.getWorldCenter().y - altoPaloBox2d, anchoPaloBox2d, altoPaloBox2d, anchoPaloBox2d * 2, altoPaloBox2d * 2, 1, 1, body.getAngle()*100, 0, 0, 1, 1, false, false);
+        //anchoBox2d,altoBox2d
+        //batch.draw(textura, body.getWorldCenter().x - anchoBox2d, body.getWorldCenter().y - altoBox2d, anchoBox2d, altoBox2d, anchoBox2d * 2, altoBox2d * 2, 1, 1, angulo, 0, 0, 1, 1, false, false);
     }
 }

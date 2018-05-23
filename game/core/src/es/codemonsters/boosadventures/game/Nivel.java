@@ -15,6 +15,8 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Piedra;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Rebotador;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Spawn;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Trampolin;
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -28,6 +30,7 @@ public class Nivel {
         this.archivo = archivo;
         JsonReader jsonRe = new JsonReader();
         valoresJsonNivel = jsonRe.parse(Gdx.files.internal("niveles/" + archivo));
+
     }
 
     public String getNombre() {
@@ -48,7 +51,10 @@ public class Nivel {
             if (clase.equals("bloque")) {
                 Bloque bloque = new Bloque(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"),objeto.getBoolean("instakill"));
                 objetosDelJuegos.add(bloque);
-            } else if (clase.equals("palanca")) {
+            } else if (clase.equals("rebotador")) {
+                Rebotador rebotador = new Rebotador(objeto.getFloat("ancho"),objeto.getFloat("alto"),objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
+                objetosDelJuegos.add(rebotador);
+            }  else if (clase.equals("palanca")) {
                 Palanca palanca = new Palanca(objeto.getFloat("x"),objeto.getFloat("y"),pantallaJuego);
                 objetosDelJuegos.add(palanca);
             } else if (clase.equals("canon")) {
@@ -57,13 +63,16 @@ public class Nivel {
             } else if (clase.equals("trampolin")) {
                 Trampolin trampolin = new Trampolin(objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
                 objetosDelJuegos.add(trampolin);
-            }else if (clase.equals("meta")) {
+            } else if (clase.equals("meta")) {
                 Meta meta = new Meta(objeto.getFloat("x"),objeto.getFloat("y"));
                 objetosDelJuegos.add(meta);
-            }else if (clase.equals("piedra")) {
+            } else if (clase.equals("piedra")) {
                 Piedra piedra = new Piedra(objeto.getFloat("radio"),objeto.getFloat("x"),objeto.getFloat("y"));
                 objetosDelJuegos.add(piedra);
-            }else {
+            } else if (clase.equals("spawn")) {
+                Spawn spawn = new Spawn(objeto.getFloat("x"),objeto.getFloat("y"));
+                objetosDelJuegos.add(spawn);
+            } else {
                 Gdx.app.log("Nivel","Tipo de objeto desconocido encontrado en " + archivo + ": " + clase);
             }
         }

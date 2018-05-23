@@ -14,6 +14,7 @@ import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Rebotador;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
@@ -80,6 +81,8 @@ public class ContactListenerJuego implements ContactListener {
             Gdx.app.debug("ContactListnerJuego", "Algo a tocado con algo (" + fixA.getUserData() + ", " + fixB.getUserData() + ")");
         }
         // TODO: Sería genial modificar esto para que el if del cañon sea un else if de lo anterior
+
+
         if (fixA.getUserData() instanceof UserDataBundle || fixB.getUserData() instanceof UserDataBundle) {
             UserDataBundle userDataBundle;
             ObjetoDelJuego otro;
@@ -144,6 +147,23 @@ public class ContactListenerJuego implements ContactListener {
             }
             if (userDataBundle.texto.equals("sensorCanon")) {
                 ((Canon)userDataBundle.objetoDelJuego).quitarObjetoDelJuego(otro);
+            }
+        }
+        if (fixA.getUserData().equals("rebotador.elastico") || fixB.getUserData().equals("rebotador.elastico")) {
+            ObjetoDelJuego otro = null;
+
+            if (fixA.getUserData().equals("rebotador.elastico")) {
+                if (fixB.getUserData() instanceof ObjetoDelJuego)
+                   otro = (ObjetoDelJuego)fixB.getUserData();
+            } else {
+                if (fixA.getUserData() instanceof ObjetoDelJuego)
+                    otro = (ObjetoDelJuego)fixA.getUserData();
+            }
+            if (otro != null){
+                if (otro.getBody().getLinearVelocity().len()>10){
+                    otro.getBody().setLinearVelocity(otro.getBody().getLinearVelocity().limit(10));
+                    Gdx.app.debug("CLJ", otro.getBody().getLinearVelocity().len()+"");
+                }
             }
         }
         /*
