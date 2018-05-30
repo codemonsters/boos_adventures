@@ -94,7 +94,7 @@
     },
     {
       "clase": "trampolin",
-      "x": "15",
+      "x": "17",
       "y": "1",
       "angulo": "0",
       "regiontextura": "1"
@@ -112,7 +112,7 @@
       "clase": "bloque",
       "x": "12",
       "y": "6",
-      "ancho": "3",
+      "ancho": "2.5",
       "alto": "1",
       "angulo": "0",
       "regiontextura": "1",
@@ -120,9 +120,15 @@
     },
     {
       "clase": "piedra",
-      "radio": "2",
+      "radio": "1.5",
       "x": "14",
       "y": "10"
+    },
+    {
+      "clase": "cuerda",
+      "longitud": "1.125",
+      "x": "16",
+      "y": "12"
     }
   ]
 }

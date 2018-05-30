@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Cuerda;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Palanca;
@@ -63,6 +64,9 @@ public class Nivel {
             } else if (clase.equals("trampolin")) {
                 Trampolin trampolin = new Trampolin(objeto.getFloat("x"),objeto.getFloat("y"),objeto.getFloat("angulo"));
                 objetosDelJuegos.add(trampolin);
+            } else if (clase.equals("cuerda")) {
+                Cuerda cuerda = new Cuerda(objeto.getFloat("longitud"),objeto.getFloat("x"),objeto.getFloat("y"));
+                objetosDelJuegos.add(cuerda);
             } else if (clase.equals("meta")) {
                 Meta meta = new Meta(objeto.getFloat("x"),objeto.getFloat("y"));
                 objetosDelJuegos.add(meta);
