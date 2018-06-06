@@ -4,15 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.utils.Array;
 
 import es.codemonsters.boosadventures.game.Jugador;
+import es.codemonsters.boosadventures.game.UserDataBundle;
 import es.codemonsters.boosadventures.game.pantallas.PantallaJuego;
 
 public class ObjetoJugador extends ObjetoDelJuego {
@@ -28,8 +32,14 @@ public class ObjetoJugador extends ObjetoDelJuego {
     private int numApoyosEnPies = 0;
     private boolean saltarEnSiguienteUpdate = false;
     private boolean yaEstaSaltando = false;
+    private Joint jointAgarrado = null;
+    RevoluteJointDef jointDef;
+    private boolean agarrateEnSiguienteUpdate = false;
+    private boolean agarrado = false;
     float deltaTime = 0;    // FIXME: Renombrar a algo más significativo
     int frame = 0;
+
+    World world;
     private Array<Texture> texturas;
     private Texture texturaActual;
 
@@ -50,6 +60,7 @@ public class ObjetoJugador extends ObjetoDelJuego {
         // El jugador es un cuerpo circular de 1,5 metros de diámetro
 
         // Body
+        this.world = world;
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
         //bdef.position.set(9, 8.5f);
@@ -87,6 +98,14 @@ public class ObjetoJugador extends ObjetoDelJuego {
         fixtureDef.isSensor = true;
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData("piesJugador");
+
+        // Sensor de la cabeza
+        EdgeShape cabeza = new EdgeShape();
+        cabeza.set(new Vector2(-0.50f/2, RADIO_DEL_CUERPO), new Vector2(0.50f/2, RADIO_DEL_CUERPO));
+        fixtureDef.shape = cabeza;
+        fixtureDef.isSensor = true;
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(new UserDataBundle("cabezaJugador",this));
     }
 
     @Override
@@ -156,7 +175,26 @@ public class ObjetoJugador extends ObjetoDelJuego {
             frame ++;
             texturaActual = texturas.get(frame);
         }
+        if (agarrado && !presionandoBoton1) {
+            // Nos soltamos
+            world.destroyJoint(jointAgarrado);
+            jointAgarrado = null;
+            agarrado = false;
+        }
+        else if (agarrateEnSiguienteUpdate && !agarrado) {
+            // Nos agarramos
+            agarrateEnSiguienteUpdate = false;
+            agarrado = true;
+            jointAgarrado = world.createJoint(jointDef);
+        }
+    }
 
+    public void agarrateA(Fixture pivote){
+        if (presionandoBoton1) {
+            jointDef = new RevoluteJointDef();
+            jointDef.initialize(body, pivote.getBody(), pivote.getBody().getPosition());
+            agarrateEnSiguienteUpdate = true;
+        }
     }
 
     public void setPresionandoDerecha(boolean presionandoDerecha) {

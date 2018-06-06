@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Bloque;
 
 import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
+import es.codemonsters.boosadventures.game.objetosdeljuego.Cuerda;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Meta;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoJugador;
@@ -61,6 +62,7 @@ public class ContactListenerJuego implements ContactListener {
             }
             //Gdx.app.debug("ContactListnerJuego", "El ObjetoJugador ha tocado algo");
         } else if (fixA.getUserData() instanceof Palanca || fixB.getUserData() instanceof Palanca) {
+            // Palanca
             Palanca palanca;
             Fixture otro;
             if (fixA.getUserData() instanceof Palanca) {
@@ -85,16 +87,30 @@ public class ContactListenerJuego implements ContactListener {
 
         if (fixA.getUserData() instanceof UserDataBundle || fixB.getUserData() instanceof UserDataBundle) {
             UserDataBundle userDataBundle;
-            ObjetoDelJuego otro;
+            Fixture otro;
+
+            //ObjetoDelJuego otro;
+            //Fixture fixOtro;
+
             if (fixA.getUserData() instanceof UserDataBundle) {
                 userDataBundle = (UserDataBundle) fixA.getUserData();
-                otro = (ObjetoDelJuego)fixB.getUserData();
+                otro = fixB;
             } else {
                 userDataBundle = (UserDataBundle) fixB.getUserData();
-                otro = (ObjetoDelJuego)fixA.getUserData();
+                otro = fixA;
             }
+
             if (userDataBundle.texto.equals("sensorCanon")) {
-                ((Canon)userDataBundle.objetoDelJuego).añadirObjetoDelJuego(otro);
+                // El sensor cañon ha tocado algo
+                ((Canon)userDataBundle.objetoDelJuego).añadirObjetoDelJuego((ObjetoDelJuego)otro.getUserData());
+            } else if (userDataBundle.texto.equals("cabezaJugador")) {
+                // La cabeza ha tocado algo
+                if (otro.getUserData() instanceof Cuerda) {
+                    // Una cabeza ha tocado una cuerda
+                    ((ObjetoJugador) userDataBundle.objetoDelJuego).agarrateA(otro);
+                }
+            } else {
+                //Gdx.app.log("ContactListenerJuego", "Un UserDataBundle ha tocado algo");
             }
         }
     }
