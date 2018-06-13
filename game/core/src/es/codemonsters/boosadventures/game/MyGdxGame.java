@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.Array;
 
+import es.codemonsters.boosadventures.game.ConexionBluetooth.ServicioBluetooth;
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoDeJuego;
 import es.codemonsters.boosadventures.game.dispositivosdejuego.DispositivoTeclado;
 import es.codemonsters.boosadventures.game.dispositivosdejuego.GestorDispositivosDeJuego;
@@ -22,6 +23,7 @@ public class MyGdxGame extends Game {
 	public static final String nombreDelJuego = "Boo's Adventures";
 	public static final String versionDelJuego = "0.1a";
 
+	private ServicioBluetooth ib;
 	private SpriteBatch batch;
 	private FreeTypeFontGenerator fontGenerator;
 	private FreeTypeFontParameter fontGeneratorDefaultParameters;
@@ -44,6 +46,11 @@ public class MyGdxGame extends Game {
 
 	private float ppm = 0;
     public InputMultiplexer getInputMultiplexer() { return inputMultiplexer; }
+
+    public MyGdxGame(ServicioBluetooth ib){
+    	this.ib = ib;
+    	ib.iniciarServicio();
+	}
 
 	public void setPantalla(Pantalla pantalla) {
         Pantalla pantallaAnterior = getPantalla();

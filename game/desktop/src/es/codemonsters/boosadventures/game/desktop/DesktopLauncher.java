@@ -11,6 +11,6 @@ public class DesktopLauncher {
 		config.height = 720;
 		config.title = MyGdxGame.nombreDelJuego;
 		//config.fullscreen = true;
-		new LwjglApplication(new MyGdxGame(), config);
+		new LwjglApplication(new MyGdxGame(new ServicioBluetoothDesktop()), config);
 	}
 }
