@@ -8,7 +8,6 @@ public class ServicioBluetoothDesktop implements ServicioBluetooth {
     @Override
     public void iniciarServicio() {
         
-
     }
 
     @Override
