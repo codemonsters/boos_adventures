@@ -78,31 +78,15 @@ public class Cuerda extends ObjetoDelJuego {
             Vector2 anchorJoint;
 
             // El cuerpo de cada tramo
-            float altoUltimo = longitud - altoTramo * i;
-            if (i == numTramos - 1) {
-                Gdx.app.debug("Cuerda", "Alto último tramo: " + altoUltimo);
-                // Estamos creando el último tramo de la cuerda
-                // FIXME: Estamos calculando mal el último tramo de la cuerda
-                bdef.position.set(xCentroSoporte, yCentroSoporte-(altoTramo*2)*(i-1) - altoUltimo * 3f);
+            bdef.position.set(xCentroSoporte, yCentroSoporte-(altoTramo*2)*i);
 
-                newBody = world.createBody(bdef);
-                polygonShape = new PolygonShape();
+            newBody = world.createBody(bdef);
+            polygonShape = new PolygonShape();
 
-                polygonShape.setAsBox(anchoTramo, altoUltimo, new Vector2(0f, 0f), 0);
+            polygonShape.setAsBox(anchoTramo, altoTramo, new Vector2(0f, 0f), 0);
 
-                anchorJoint = new Vector2(xCentroSoporte, (yCentroSoporte-(altoTramo*2)*i)+altoUltimo/2);
+            anchorJoint = new Vector2(xCentroSoporte, (yCentroSoporte-(altoTramo*2)*i)+altoTramo/2);
 
-            } else {
-                bdef.position.set(xCentroSoporte, yCentroSoporte-(altoTramo*2)*i);
-
-                newBody = world.createBody(bdef);
-                polygonShape = new PolygonShape();
-
-                polygonShape.setAsBox(anchoTramo, altoTramo, new Vector2(0f, 0f), 0);
-
-                anchorJoint = new Vector2(xCentroSoporte, (yCentroSoporte-(altoTramo*2)*i)+altoTramo/2);
-
-            }
 
             fixtureDef.shape = polygonShape;
             fixtureDef.isSensor = true;
@@ -113,6 +97,8 @@ public class Cuerda extends ObjetoDelJuego {
             // El joint entre este tramo y el anterior
 
             RevoluteJointDef jd = new RevoluteJointDef();
+            jd.enableLimit = true;
+            jd.collideConnected = false;
             jd.initialize(prevBody, newBody, anchorJoint);
             world.createJoint(jd);
             prevBody = newBody;

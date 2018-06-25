@@ -1,7 +1,7 @@
 {
   "cabecera": {
-    "nombre": "El comienzo",
-    "sugerencia": "Todos deben llegar a la meta"
+    "nombre": "Nivel 0",
+    "sugerencia": "Debug"
   },
   "objetos": [
     {

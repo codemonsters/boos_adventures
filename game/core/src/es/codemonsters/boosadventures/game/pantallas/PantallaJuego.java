@@ -8,7 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -16,6 +18,7 @@ import es.codemonsters.boosadventures.game.ContactListenerJuego;
 import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
+import es.codemonsters.boosadventures.game.Terminal;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
@@ -32,6 +35,7 @@ public class PantallaJuego extends Pantalla {
         GANANDO,
     }
     public static final double VELOCIDAD_MAXIMA_OBJETO_JUEGO = 1;
+    private int numNivel = 1;
     private Estados estado = Estados.NACIENDO;
     public static final int ANCHO_DEL_MUNDO = 44;   // Ancho del mundo (en metros)
     public static final int ALTO_DEL_MUNDO = 27;    // Alto del mundo (en metros)
@@ -39,6 +43,7 @@ public class PantallaJuego extends Pantalla {
     //private OrthographicCamera camera;
     private Array<Nivel> todosLosNiveles;
     private boolean nivelEnCurso;
+    private Terminal terminal;
 
     Sprite sprite;
     private World world;
@@ -48,6 +53,7 @@ public class PantallaJuego extends Pantalla {
     private boolean queremosResetearNivel = false;
 
     private Stage stage;
+    private Stage stage2;
     private Table table;
 
     //private Hud hud;
@@ -84,17 +90,31 @@ public class PantallaJuego extends Pantalla {
             stage.dispose();
         }
         stage = new Stage(new FitViewport(ANCHO_DEL_MUNDO, ALTO_DEL_MUNDO));
+        //creo otro stage para poder meter el texto, si lo metemos en la anterior es demasiado grande
+        stage2 = new Stage(new FitViewport(ANCHO_DEL_MUNDO*6, ALTO_DEL_MUNDO*6));
+
+        Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        uiSkin.getFont("commodore-64").getData().setScale(0.5f);
+        terminal = new Terminal(uiSkin);
+
+        terminal.setPosition(20 ,-10);
+        terminal.setSize(ANCHO_DEL_MUNDO*6, ALTO_DEL_MUNDO*6);
+        terminal.setAlignment(Align.bottomLeft);
 
         if (world!=null) {
             world.dispose();
         }
         world = new World(new Vector2(0, -9.81f), false);
 
-        Nivel nivel = new Nivel("001.json",this);
+        Nivel nivel = new Nivel("00"+numNivel+".json",this);
 
         objetosDelJuego = nivel.getObjetosDelJuego();
 
          Vector2 spawnPos = new Vector2();
+
+        stage2.addActor(terminal);
+        terminal.agregarLinea(nivel.getNombre());
+        terminal.agregarLinea(nivel.getSugerencia());
 
         for (ObjetoDelJuego objeto : objetosDelJuego) {
             objeto.definirCuerpo(world);
@@ -103,6 +123,7 @@ public class PantallaJuego extends Pantalla {
             }
             stage.addActor(objeto);
         }
+
 
         // Añadimos sensores fuera de los límites del mundo
         SensoresLimitesMundo sensoresLimitesMundo = new SensoresLimitesMundo();
@@ -126,6 +147,12 @@ public class PantallaJuego extends Pantalla {
 
     public void setSpawnPosition(Vector2 posicion) {
 
+    }
+
+    public void siguienteNivel(ObjetoJugador objetoJugador){
+        numNivel++;
+        Gdx.app.debug("PantallaJuego","Cargando nivel "+numNivel);
+        resetearNivel();
     }
 
     public  void haMuerto(ObjetoJugador objetoJugador) {
@@ -201,6 +228,8 @@ public class PantallaJuego extends Pantalla {
 
             stage.act(dt);
             stage.draw();
+            stage2.act(dt);
+            stage2.draw();
         }
     }
 

@@ -57,6 +57,7 @@ public class ContactListenerJuego implements ContactListener {
             } else if (otro.getUserData() instanceof Meta) {
                 // Un jugador ha llegado a la meta
                 objetoJugador.onMetaBeginContact();
+                return;
             } else if (otro.getUserData().equals("sensorPalancaBoton")){
                 pantallaJuego.dispararCanones();
             }
@@ -80,7 +81,7 @@ public class ContactListenerJuego implements ContactListener {
                 palanca.giraCanones(true);
             }
         } else {
-            Gdx.app.debug("ContactListnerJuego", "Algo a tocado con algo (" + fixA.getUserData() + ", " + fixB.getUserData() + ")");
+            //Gdx.app.debug("ContactListnerJuego", "Algo a tocado con algo (" + fixA.getUserData() + ", " + fixB.getUserData() + ")");
         }
         // TODO: Sería genial modificar esto para que el if del cañon sea un else if de lo anterior
 

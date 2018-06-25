@@ -244,7 +244,7 @@ public class ObjetoJugador extends ObjetoDelJuego {
 
     public void onMetaBeginContact() {
         Gdx.app.log("ObjetoJugador", "El jugador '" + jugador + " ha llegado a la meta!");
-        pantallaJuego.haMuerto(this);
+        pantallaJuego.siguienteNivel(this);
     }
 
 }

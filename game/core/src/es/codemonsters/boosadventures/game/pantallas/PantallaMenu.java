@@ -33,9 +33,6 @@ public class PantallaMenu extends Pantalla {
 
         Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         uiSkin.getFont("commodore-64").getData().setScale(1f);
-        table = new Table(uiSkin);
-        table.setFillParent(true);
-        table.background("dialog");
 
         /*
         TextArea textArea = new TextArea("HOLA", uiSkin);

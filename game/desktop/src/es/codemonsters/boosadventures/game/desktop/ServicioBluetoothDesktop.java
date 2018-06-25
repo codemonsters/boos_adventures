@@ -7,7 +7,7 @@ import es.codemonsters.boosadventures.game.ConexionBluetooth.ServicioBluetooth;
 public class ServicioBluetoothDesktop implements ServicioBluetooth {
     @Override
     public void iniciarServicio() {
-        
+
     }
 
     @Override
