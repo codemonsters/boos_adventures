@@ -36,14 +36,10 @@
       "instakill": false
     },
     {
-      "clase": "bloque",
+      "clase": "canon",
       "x": "30",
       "y": "3",
-      "ancho": "3",
-      "alto": "2",
-      "angulo": "15",
-      "regiontextura": "1",
-      "instakill": true
+      "angulo": "0"
     },
     {
       "clase": "bloque",

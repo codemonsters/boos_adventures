@@ -1,0 +1,24 @@
+{
+  "cabecera": {
+    "nombre": "El final",
+    "sugerencia": "No hay escapatoria"
+  },
+  "objetos": [
+    {
+      "clase": "spawn",
+      "x": "9",
+      "y": "1.5"
+    },
+    {
+      //El suelo
+      "clase": "bloque",
+      "x": "0",
+      "y": "0",
+      "ancho": "50",
+      "alto": "1",
+      "angulo": "0",
+      "regiontextura": "1",
+      "instakill": false
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import es.codemonsters.boosadventures.game.Jugador;
 import es.codemonsters.boosadventures.game.MyGdxGame;
 import es.codemonsters.boosadventures.game.Nivel;
 import es.codemonsters.boosadventures.game.Terminal;
+import es.codemonsters.boosadventures.game.objetosdeljuego.CabeceraNivel;
 import es.codemonsters.boosadventures.game.objetosdeljuego.Canon;
 import es.codemonsters.boosadventures.game.objetosdeljuego.SensoresLimitesMundo;
 import es.codemonsters.boosadventures.game.objetosdeljuego.ObjetoDelJuego;
@@ -43,7 +44,7 @@ public class PantallaJuego extends Pantalla {
     //private OrthographicCamera camera;
     private Array<Nivel> todosLosNiveles;
     private boolean nivelEnCurso;
-    private Terminal terminal;
+    private CabeceraNivel cabecera;
 
     Sprite sprite;
     private World world;
@@ -55,6 +56,7 @@ public class PantallaJuego extends Pantalla {
     private Stage stage;
     private Stage stage2;
     private Table table;
+    private Skin uiSkin;
 
     //private Hud hud;
 
@@ -67,6 +69,8 @@ public class PantallaJuego extends Pantalla {
         table.setDebug(true);
         */
 
+        uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        uiSkin.getFont("commodore-64").getData().setScale(0.5f);
         nivelEnCurso = false;
         this.game = game;
         //camera = new OrthographicCamera();
@@ -83,6 +87,11 @@ public class PantallaJuego extends Pantalla {
     /**
      * Reiniciamos el nivel, comenzando de nuevo con todos los jugadores (incluyendo tanto a los activos como a los que estaban en espera)
      */
+
+    public Skin getUiSkin(){
+        return uiSkin;
+    }
+
     public void resetearNivel() {
         nivelEnCurso = false;
         estado = Estados.NACIENDO;
@@ -93,28 +102,27 @@ public class PantallaJuego extends Pantalla {
         //creo otro stage para poder meter el texto, si lo metemos en la anterior es demasiado grande
         stage2 = new Stage(new FitViewport(ANCHO_DEL_MUNDO*6, ALTO_DEL_MUNDO*6));
 
-        Skin uiSkin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        uiSkin.getFont("commodore-64").getData().setScale(0.5f);
-        terminal = new Terminal(uiSkin);
 
-        terminal.setPosition(20 ,-10);
-        terminal.setSize(ANCHO_DEL_MUNDO*6, ALTO_DEL_MUNDO*6);
-        terminal.setAlignment(Align.bottomLeft);
 
         if (world!=null) {
             world.dispose();
         }
         world = new World(new Vector2(0, -9.81f), false);
 
-        Nivel nivel = new Nivel("00"+numNivel+".json",this);
-
+        Nivel nivel;
+        String nombreFicheroNivel = "niveles/" + String.format("%03d", numNivel) + ".json";
+        if (Gdx.files.internal(nombreFicheroNivel).exists()) {
+            nivel = new Nivel(nombreFicheroNivel, this);
+        } else {
+            nivel = new Nivel("niveles/end.json", this);
+        }
         objetosDelJuego = nivel.getObjetosDelJuego();
 
-         Vector2 spawnPos = new Vector2();
+        Vector2 spawnPos = new Vector2();
+        cabecera = new CabeceraNivel(nivel.getNombre()+"\n"+nivel.getSugerencia(),this);
 
-        stage2.addActor(terminal);
-        terminal.agregarLinea(nivel.getNombre());
-        terminal.agregarLinea(nivel.getSugerencia());
+
+        stage2.addActor(cabecera);
 
         for (ObjetoDelJuego objeto : objetosDelJuego) {
             objeto.definirCuerpo(world);
@@ -152,7 +160,8 @@ public class PantallaJuego extends Pantalla {
     public void siguienteNivel(ObjetoJugador objetoJugador){
         numNivel++;
         Gdx.app.debug("PantallaJuego","Cargando nivel "+numNivel);
-        resetearNivel();
+        queremosResetearNivel = true;
+        //resetearNivel();
     }
 
     public  void haMuerto(ObjetoJugador objetoJugador) {

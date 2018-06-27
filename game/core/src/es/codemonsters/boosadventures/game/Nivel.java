@@ -30,7 +30,7 @@ public class Nivel {
         this.pantallaJuego = pantallaJuego;
         this.archivo = archivo;
         JsonReader jsonRe = new JsonReader();
-        valoresJsonNivel = jsonRe.parse(Gdx.files.internal("niveles/" + archivo));
+        valoresJsonNivel = jsonRe.parse(Gdx.files.internal(archivo));
 
     }
 
